@@ -37,9 +37,7 @@ public class Logica {
             this.dt[i]=9999;
         }
     }
- 
-    
-            
+        
     public void correr_simulacion(){
         while(this.tm<this.simulacion){
             if(this.at<valor_menor_dt()){  //compara AT con el valor menor de DT
@@ -48,14 +46,13 @@ public class Logica {
                 this.tipo_evento="llegada";
                 this.cliente=this.cliente+1;
                 
-                int p=hallar_servidor_vacio();
-                if(p!=9999){
+                int n_servidor_vacio=hallar_servidor_vacio();
+                if(n_servidor_vacio!=9999){
                     //EXISTEN SERVIDORES VACIOS
-                    this.servidores[p]=1;                     //SE OCUPA EL SERVIDOR
-                    this.n_ts= (int)(Math. random()*100+1);   //SE GENERA UN NUMERO ALEATORIO DE TS
-                    this.ts=calcular_ts();                   //SE CALCULA EL TS
+                    this.servidores[n_servidor_vacio]=1;                     //SE OCUPA EL SERVIDOR
+                    generar_ts();                 //SE CALCULA EL TS
                     int valor = this.tm+this.ts;
-                    this.dt[p]=valor;                        //ASIGNAMOS EL TS AL CLIENTE QUE ENTRO EN EL SERVIDOR VACIO
+                    this.dt[n_servidor_vacio]=valor;                        //ASIGNAMOS EL TS AL CLIENTE QUE ENTRO EN EL SERVIDOR VACIO
                 }else{
                     //NO EXISTEN SERVIDORES VACIOS
                     this.wl.add(this.cliente);
@@ -66,12 +63,19 @@ public class Logica {
             }else{
                 //SALIDA
                 this.tm=this.dt[hallar_menor_dt()]; //TM=DT
-                if(this.wl.isEmpty()){
+                if(!this.wl.isEmpty()){
+                    //CUANDO HAY COLA
                     this.wl.remove(0); //SE REMUEVE EL PRIMERO EN COLA
-                    
+                    generar_ts();
+                    int valor = this.tm+this.ts;
+                    this.dt[hallar_menor_dt()]=valor;  
+                }else{
+                    //CUANDO NO HAY COLA
+                    int menor =hallar_menor_dt();
+                    this.dt[menor]=9999;
+                    this.servidores[menor]=0;
                 }
             }
-            
         }
     }
    
@@ -115,5 +119,10 @@ public class Logica {
     
     public int calcular_tell(){
         return 0;
+    }
+    
+    private void generar_ts(){
+        this.n_ts= (int)(Math. random()*100+1);   //SE GENERA UN NUMERO ALEATORIO DE TS
+        this.ts=calcular_ts();  
     }
 }
