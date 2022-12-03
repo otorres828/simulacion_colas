@@ -1,7 +1,6 @@
 
 package vistas;
 
-import clases.Logica;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
@@ -33,7 +32,8 @@ public class Estadisticas extends javax.swing.JPanel {
         initComponents();
         String[] titulo = new String[]{"Nº Evento","Tipo Evento","NºCliente","TM","SERVIDOR 1", "WL","AT","DT 1", "NºAleatorio p/TELL","TELL","NºAleatorio p/TS","TS"};
         tabla_eventos.setColumnIdentifiers(titulo);
-        table_model.setBounds(0, 0, 500, 5);
+        table_model.setBounds(0, 0, 1020, 5);
+
         table_model.setModel(tabla_eventos);
          
         llamada_simulacion(10,2); //INICIAR LA SIMULACION
@@ -50,7 +50,9 @@ public class Estadisticas extends javax.swing.JPanel {
             this.servidores[i]=0;
             this.dt[i]=9999;
         }
+        
         correr_simulacion(); //CORREMOS LA SIMULACION
+     
     }
     
     private void correr_simulacion(){
@@ -92,6 +94,9 @@ public class Estadisticas extends javax.swing.JPanel {
                     this.servidores[menor]=0;
                 }
             }
+             tabla_eventos.addRow(new Object[]{
+                1,"llegada",1,0,1,0,5,6,15,62,45,26
+            });  
         }
     }
    
@@ -128,7 +133,7 @@ public class Estadisticas extends javax.swing.JPanel {
     }
     
     private int calcular_tell(){
-        return 0;
+         return ((int)(Math. random()*10+1));
     }
     
     private void generar_ts(){
@@ -137,7 +142,7 @@ public class Estadisticas extends javax.swing.JPanel {
     }
     
     private int calcular_ts(){
-        return 0;
+        return ((int)(Math. random()*10+1));
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
