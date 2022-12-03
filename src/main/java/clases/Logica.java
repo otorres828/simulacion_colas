@@ -2,6 +2,7 @@
 package clases;
 
 import java.util.ArrayList;
+import vistas.Estadisticas;
 
 public class Logica {
     
@@ -38,6 +39,7 @@ public class Logica {
     }
         
     public void correr_simulacion(){
+      
         while(this.tm<this.simulacion){
             if(this.at<valor_menor_dt()){  //compara AT con el valor menor de DT
                 //LLEGADA

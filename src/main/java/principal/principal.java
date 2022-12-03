@@ -2,11 +2,13 @@ package principal;
 
 import vistas.Menu;
 import clases.Ventana;
+import vistas.Estadisticas;
 
 public class principal {
 
     Ventana ventana = new Ventana();
     Menu menu = new Menu();
+    Estadisticas estadisticas = new Estadisticas();
     static public principal principal;
 
     public static void main(String[] args) {       
@@ -25,6 +27,12 @@ public class principal {
         ventana.dispose();
     }
 
-
+    public void estadisticas(){
+        menu.setVisible(false);
+        menu.setEnabled(false);
+        ventana.add(estadisticas);
+        estadisticas.setVisible(true); 
+        ventana.validate();
+    }
     
 }
