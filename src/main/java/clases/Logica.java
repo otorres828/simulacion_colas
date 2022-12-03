@@ -2,13 +2,12 @@
 package clases;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Logica {
     
     public  int at=0;
     
-    public ArrayList<Integer> wl = new ArrayList<Integer>(); 
+    public ArrayList<Integer> wl = new ArrayList<>(); 
     //TIEMPO ENTRE LLEGADAS
     
     public  int n_tell=0;
@@ -92,8 +91,7 @@ public class Logica {
     private int valor_menor_dt(){
         int  menor;
         menor=this.dt[0];
-        for (int i = 0; i < this.dt.length; i++) {
-             
+        for (int i = 0; i < this.dt.length; i++) {         
             if(this.dt[i]<menor) {
                 menor = this.dt[i];
             }
@@ -113,16 +111,16 @@ public class Logica {
         return posicion;
     }
     
-    private int calcular_ts(){
-        return 0;
-    }
-    
-    public int calcular_tell(){
+    private int calcular_tell(){
         return 0;
     }
     
     private void generar_ts(){
         this.n_ts= (int)(Math. random()*100+1);   //SE GENERA UN NUMERO ALEATORIO DE TS
         this.ts=calcular_ts();  
+    }
+    
+    private int calcular_ts(){
+        return 0;
     }
 }
