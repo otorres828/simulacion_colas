@@ -26,17 +26,17 @@ public class Estadisticas extends javax.swing.JPanel {
     
     public  int[] servidores;
     public int dt[];
-    
+    public int n_evento=0;
     
     public Estadisticas() {
         initComponents();
-        String[] titulo = new String[]{"Nº Evento","Tipo Evento","NºCliente","TM","SERVIDOR 1", "WL","AT","DT 1", "NºAleatorio p/TELL","TELL","NºAleatorio p/TS","TS"};
+        
+        String[] titulo = new String[]{"Nº Evento","Tipo Evento","NºCliente","TM","S1", "WL","AT","DT 1", "NºAleatorio p/TELL","TELL","NºAleatorio p/TS","TS"};
         tabla_eventos.setColumnIdentifiers(titulo);
         table_model.setBounds(0, 0, 1020, 5);
 
         table_model.setModel(tabla_eventos);
-         
-        llamada_simulacion(10,2); //INICIAR LA SIMULACION
+        llamada_simulacion(10,1); //INICIAR LA SIMULACION
     }  
     
     //INICIALIZAR SIMULACION
@@ -52,12 +52,15 @@ public class Estadisticas extends javax.swing.JPanel {
         }
         
         correr_simulacion(); //CORREMOS LA SIMULACION
-     
     }
     
     private void correr_simulacion(){
+        tabla_eventos.addRow(new Object[]{
+                0,"-",0,0,0,0,0,dt[0],"","","",""
+         }); 
         //MIENTRAS TM SEA MENOR AL TIEMPO DE SIMULACION
         while(this.tm<this.simulacion){
+            n_evento++;
             if(this.at<valor_menor_dt()){  //compara AT con el valor menor de DT
                 //LLEGADA
                 this.tm=this.at;
@@ -80,6 +83,7 @@ public class Estadisticas extends javax.swing.JPanel {
                 this.at=this.tm+this.tell;   
             }else{
                 //SALIDA
+                this.tipo_evento="salida";
                 this.tm=this.dt[hallar_menor_dt()]; //TM=DT
                 if(!this.wl.isEmpty()){
                     //CUANDO HAY COLA
@@ -95,7 +99,7 @@ public class Estadisticas extends javax.swing.JPanel {
                 }
             }
              tabla_eventos.addRow(new Object[]{
-                1,"llegada",1,0,1,0,5,6,15,62,45,26
+                n_evento,tipo_evento,cliente,tm,servidores[0],wl.size(),at,dt[0],n_tell,tell,n_ts,ts
             });  
         }
     }
