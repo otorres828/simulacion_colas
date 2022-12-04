@@ -34,6 +34,8 @@ public class Estadisticas extends javax.swing.JPanel {
     public Estadisticas() {
         initComponents();
         //LLAMAR CLASE ESTATICA Y RECUPERAR CANTIDAD DE SERVIDORES,TM DE SIMULACION Y CARGAR ARRAYLIST DE LAS PROBABILIDADES
+        cargar_probabilidades();
+        
         String[] titulos = new String[10+(2*cantidad_servidores)];
         titulos[0]="Nº Evento";
         titulos[1]="Tipo Evento";
@@ -59,6 +61,23 @@ public class Estadisticas extends javax.swing.JPanel {
         table_model.setModel(tabla_eventos);
         llamada_simulacion(100,cantidad_servidores); //INICIAR LA SIMULACION
     }  
+    
+    private void cargar_probabilidades(){
+        Estaticas.asignar_tell(1, 30);
+        Estaticas.asignar_tell(2, 20);
+        Estaticas.asignar_tell(3, 15);
+        Estaticas.asignar_tell(5, 15);
+        Estaticas.asignar_tell(6, 10);
+        Estaticas.asignar_tell(8, 10);
+        Estaticas.asignar_ts(1, 15);
+        Estaticas.asignar_ts(2, 5);
+        Estaticas.asignar_ts(3, 10);
+        Estaticas.asignar_ts(4, 20);
+        Estaticas.asignar_ts(5, 15);
+        Estaticas.asignar_ts(6, 15);
+        Estaticas.asignar_ts(7, 10);
+        Estaticas.asignar_ts(9, 10);
+    }
     
     //INICIALIZAR SIMULACION
     public final void llamada_simulacion(int simulacion,int servidores) {
@@ -98,7 +117,7 @@ public class Estadisticas extends javax.swing.JPanel {
                     //NO EXISTEN SERVIDORES VACIOS
                     this.wl.add(this.cant_cliente);
                 }
-                this.n_tell= (int)(Math. random()*100+1);   //SE GENERA UN NUMERO ALEATORIO DE TS
+                this.n_tell= (int)(Math. random()*100);   //SE GENERA UN NUMERO ALEATORIO DE TS
                 this.tell=calcular_tell();                   //SE CALCULA EL TS
                 this.at=this.tm+this.tell;   
                 
@@ -207,24 +226,27 @@ public class Estadisticas extends javax.swing.JPanel {
     }
     
     private int calcular_tell(){
-        //for (int i = 0; i < Estaticas.probabilidades_tell.size(); i++) 
-        //   if(n_tell>=Estaticas.probabilidades_tell.get(i).rango_desde && n_tell<Estaticas.probabilidades_tell.get(i).rango_hasta )
-        //       return Estaticas.probabilidades_tell.get(i).tiempo;
+        for (int i = 0; i < Estaticas.probabilidades_tell.size(); i++) 
+           if(n_tell>=Estaticas.probabilidades_tell.get(i).rango_desde && n_tell<Estaticas.probabilidades_tell.get(i).rango_hasta )
+               return Estaticas.probabilidades_tell.get(i).tiempo;
            
          return ((int)(Math. random()*10+1)); //GENERA CUALQUIER NUMERO ALEATORIO EN CASO DE FALLA
     }
     
+    private int calcular_ts(){
+        for (int i = 0; i < Estaticas.probabilidades_ts.size(); i++) 
+          if(n_ts>=Estaticas.probabilidades_ts.get(i).rango_desde && n_ts<Estaticas.probabilidades_ts.get(i).rango_hasta )
+               return Estaticas.probabilidades_ts.get(i).tiempo;
+         return ((int)(Math. random()*10+1)); //GENERA CUALQUIER NUMERO ALEATORIO EN CASO DE FALLA
+    }
+    
     private void generar_ts(){
-        this.n_ts= (int)(Math. random()*100+1);   //SE GENERA UN NUMERO ALEATORIO DE TS
+        this.n_ts= (int)(Math. random()*100);   //SE GENERA UN NUMERO ALEATORIO DE TS
         this.ts=calcular_ts();  
     }
     
-    private int calcular_ts(){
-        //for (int i = 0; i < Estaticas.probabilidades_ts.size(); i++) 
-        //   if(n_ts>=Estaticas.probabilidades_ts.get(i).rango_desde && n_ts<Estaticas.probabilidades_ts.get(i).rango_hasta )
-        //       return Estaticas.probabilidades_ts.get(i).tiempo;
-         return ((int)(Math. random()*10+1)); //GENERA CUALQUIER NUMERO ALEATORIO EN CASO DE FALLA
-    }
+    
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
