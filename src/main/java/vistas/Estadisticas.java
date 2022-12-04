@@ -31,8 +31,7 @@ public class Estadisticas extends javax.swing.JPanel {
     
     public Estadisticas() {
         initComponents();
-        
-        
+        //LLAMAR CLASE ESTATICA Y RECUPERAR CANTIDAD DE SERVIDORES,TM DE SIMULACION Y CARGAR ARRAYLIST DE LAS PROBABILIDADES
         int cantidad_servidores=2;
         String[] titulos = new String[10+(2*cantidad_servidores)];
         titulos[0]="Nº Evento";
@@ -48,7 +47,7 @@ public class Estadisticas extends javax.swing.JPanel {
         for (int i = 0; i < cantidad_servidores; i++) {
             titulos[index=index+1]="DT"+(i+1);
         }
-        titulos[index=index+1]="N p/TELL";
+        titulos[index=index+1]="Np/TELL";
         titulos[index=index+1]="TELL";
         titulos[index=index+1]="Np/TS";
         titulos[index=index+1]="TS";
