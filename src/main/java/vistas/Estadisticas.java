@@ -144,8 +144,8 @@ public class Estadisticas extends javax.swing.JPanel {
                     this.wl.remove(0);                                            //SE REMUEVE EL PRIMERO EN COLA
                     generar_ts();                                                 //SE GENERA EL TS
                     int valor = this.tm+this.ts;                                  //SE OBTIENE TM+TS
-                    this.dt[hallar_menor_dt()].valor=valor;                       //ASIGNAMOS EL VALOR A LA SALIDA DEL QUE SALE DE LA COLA
                     this.dt[hallar_menor_dt()].id=id_cliente_servidor;
+                    this.dt[hallar_menor_dt()].valor=valor;                       //ASIGNAMOS EL VALOR A LA SALIDA DEL QUE SALE DE LA COLA
                 }else{
                     //CUANDO NO HAY COLA
                     int menor =hallar_menor_dt();
