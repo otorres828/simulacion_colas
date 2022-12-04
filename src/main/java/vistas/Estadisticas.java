@@ -31,15 +31,18 @@ public class Estadisticas extends javax.swing.JPanel {
 
     public Cliente dt[];
     public int n_evento=0;
+    
+    /*VARIABLES QUE CONTROLAN LA CANTIDAD DE SERVIDORES Y EL TIEMPO DE SIMULACION*/
     public int cantidad_servidores=2;
-
+    public int cantidad_simulacion =100;
+    
     public Estadisticas() {
         initComponents();
         //LLAMAR CLASE ESTATICA Y RECUPERAR CANTIDAD DE SERVIDORES,TM DE SIMULACION Y CARGAR ARRAYLIST DE LAS PROBABILIDADES
         cargar_probabilidades();
         
         cargar_cabecera_tabla();
-        llamada_simulacion(20,cantidad_servidores); //INICIAR LA SIMULACION
+        llamada_simulacion(cantidad_simulacion,cantidad_servidores); //INICIAR LA SIMULACION
     }  
     
     private void cargar_cabecera_tabla() {
@@ -137,11 +140,12 @@ public class Estadisticas extends javax.swing.JPanel {
                 this.tm=this.dt[hallar_menor_dt()].valor; //TM=DT
                 if(!this.wl.isEmpty()){
                     //CUANDO HAY COLA
+                    int id_cliente_servidor=this.wl.get(0);
                     this.wl.remove(0);                                            //SE REMUEVE EL PRIMERO EN COLA
                     generar_ts();                                                 //SE GENERA EL TS
                     int valor = this.tm+this.ts;                                  //SE OBTIENE TM+TS
                     this.dt[hallar_menor_dt()].valor=valor;                       //ASIGNAMOS EL VALOR A LA SALIDA DEL QUE SALE DE LA COLA
-                    
+                    this.dt[hallar_menor_dt()].id=id_cliente_servidor;
                 }else{
                     //CUANDO NO HAY COLA
                     int menor =hallar_menor_dt();
@@ -200,7 +204,7 @@ public class Estadisticas extends javax.swing.JPanel {
         
         objeto[index=index+1]=at;
         for (int i = 0; i < cantidad_servidores; i++) {
-            objeto[index=index+1]=dt[i].valor;
+            objeto[index=index+1]=dt[i].valor+"("+dt[i].id+")";
         }
         objeto[index=index+1]=n_tell;
         objeto[index=index+1]=tell;
