@@ -3,6 +3,7 @@ package principal;
 import vistas.Menu;
 import clases.Ventana;
 import vistas.Estadisticas;
+import clases.Estaticas;
 
 public class principal {
 
