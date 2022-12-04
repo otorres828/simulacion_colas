@@ -227,7 +227,7 @@ public class Estadisticas extends javax.swing.JPanel {
     
     private int calcular_tell(){
         for (int i = 0; i < Estaticas.probabilidades_tell.size(); i++) 
-           if(n_tell>=Estaticas.probabilidades_tell.get(i).rango_desde && n_tell<Estaticas.probabilidades_tell.get(i).rango_hasta )
+           if(n_tell>=Estaticas.probabilidades_tell.get(i).rango_desde && n_tell<=Estaticas.probabilidades_tell.get(i).rango_hasta )
                return Estaticas.probabilidades_tell.get(i).tiempo;
            
          return ((int)(Math. random()*10+1)); //GENERA CUALQUIER NUMERO ALEATORIO EN CASO DE FALLA
@@ -235,7 +235,7 @@ public class Estadisticas extends javax.swing.JPanel {
     
     private int calcular_ts(){
         for (int i = 0; i < Estaticas.probabilidades_ts.size(); i++) 
-          if(n_ts>=Estaticas.probabilidades_ts.get(i).rango_desde && n_ts<Estaticas.probabilidades_ts.get(i).rango_hasta )
+          if(n_ts>=Estaticas.probabilidades_ts.get(i).rango_desde && n_ts<=Estaticas.probabilidades_ts.get(i).rango_hasta )
                return Estaticas.probabilidades_ts.get(i).tiempo;
          return ((int)(Math. random()*10+1)); //GENERA CUALQUIER NUMERO ALEATORIO EN CASO DE FALLA
     }
