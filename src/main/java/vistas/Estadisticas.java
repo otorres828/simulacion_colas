@@ -54,8 +54,8 @@ public class Estadisticas extends javax.swing.JPanel {
         
         //String[] titulo = new String[]{"NºEvento","Tipo Evento","IdCliente","TM","S1", "WL","AT","DT1", "NºAleatorio p/TELL","TELL","NºAleatorio p/TS","TS"};
         tabla_eventos.setColumnIdentifiers(titulos);
-        table_model.setBounds(0, 0, 1020, 5);
-
+        table_model.setBounds(0, 0, 1020, 1020);
+        
         table_model.setModel(tabla_eventos);
         llamada_simulacion(100,2); //INICIAR LA SIMULACION
     }  
