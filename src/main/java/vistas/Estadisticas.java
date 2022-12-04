@@ -28,11 +28,11 @@ public class Estadisticas extends javax.swing.JPanel {
     public  int[] servidores;
     public int dt[];
     public int n_evento=0;
-    
+    public int cantidad_servidores=2;
+
     public Estadisticas() {
         initComponents();
         //LLAMAR CLASE ESTATICA Y RECUPERAR CANTIDAD DE SERVIDORES,TM DE SIMULACION Y CARGAR ARRAYLIST DE LAS PROBABILIDADES
-        int cantidad_servidores=2;
         String[] titulos = new String[10+(2*cantidad_servidores)];
         titulos[0]="Nº Evento";
         titulos[1]="Tipo Evento";
@@ -54,10 +54,9 @@ public class Estadisticas extends javax.swing.JPanel {
         
         //String[] titulo = new String[]{"NºEvento","Tipo Evento","IdCliente","TM","S1", "WL","AT","DT1", "NºAleatorio p/TELL","TELL","NºAleatorio p/TS","TS"};
         tabla_eventos.setColumnIdentifiers(titulos);
-        table_model.setBounds(0, 0, 1020, 1020);
-        
+
         table_model.setModel(tabla_eventos);
-        llamada_simulacion(100,2); //INICIAR LA SIMULACION
+        llamada_simulacion(100,cantidad_servidores); //INICIAR LA SIMULACION
     }  
     
     //INICIALIZAR SIMULACION
@@ -76,9 +75,7 @@ public class Estadisticas extends javax.swing.JPanel {
     }
     
     private void correr_simulacion(){
-        tabla_eventos.addRow(new Object[]{
-                0,"-",0,0,0,0,0,dt[0],"","","",""
-         }); 
+        tabla_eventos.addRow((Object[]) obtener_objeto_llegada()); 
         //MIENTRAS TM SEA MENOR AL TIEMPO DE SIMULACION
         while(this.tm<this.simulacion){
             n_evento++;
@@ -104,13 +101,8 @@ public class Estadisticas extends javax.swing.JPanel {
                 this.tell=calcular_tell();                   //SE CALCULA EL TS
                 this.at=this.tm+this.tell;   
                 
-                tabla_eventos.addRow(new Object[]{
-                    n_evento,tipo_evento,cant_cliente,tm,
-                    servidores[0],servidores[1],
-                    wl.size(),at,
-                    dt[0],dt[1],
-                    n_tell,tell,n_ts,ts
-               });
+                tabla_eventos.addRow((Object[]) obtener_objeto_llegada());
+                //tabla_eventos.addRow(new Object[]{n_evento,tipo_evento,cant_cliente,tm,servidores[0],servidores[1],wl.size(),at,dt[0],dt[1],n_tell,tell,n_ts,ts});
             }else{
                 //SALIDA
                 this.tipo_evento="salida";
@@ -127,18 +119,60 @@ public class Estadisticas extends javax.swing.JPanel {
                     this.dt[menor]=9999;
                     this.servidores[menor]=0;
                 }
-                tabla_eventos.addRow(new Object[]{
-                    n_evento,tipo_evento,id_cliente.get(0),tm,
-                    servidores[0],servidores[1],wl.size(),at,
-                    dt[0],dt[1]
-                    ,n_tell,tell,n_ts,ts
-               });
+                tabla_eventos.addRow((Object[]) obtener_objeto_salida());
                 id_cliente.remove(0);
+                //tabla_eventos.addRow(new Object[]{n_evento,tipo_evento,id_cliente.get(0),tm, servidores[0],servidores[1],wl.size(),at, dt[0],dt[1],n_tell,tell,n_ts,ts});
             }
            
         }
     }
-   
+    
+    private Object obtener_objeto_llegada(){
+        Object[] objeto = new Object[10+(2*cantidad_servidores)];
+        objeto[0]=n_evento;
+        objeto[1]=tipo_evento;
+        objeto[2]=cant_cliente;
+        objeto[3]=tm;
+        int index=3;
+        for (int i = 0; i < cantidad_servidores; i++) {
+            objeto[index=index+1]=servidores[i];
+        }
+        objeto[index=index+1]=wl.size();
+        objeto[index=index+1]=at;
+        for (int i = 0; i < cantidad_servidores; i++) {
+            objeto[index=index+1]=dt[i];
+        }
+        objeto[index=index+1]=n_tell;
+        objeto[index=index+1]=tell;
+        objeto[index=index+1]=n_ts;
+        objeto[index=index+1]=ts;
+        
+        return objeto;
+    }
+        
+    private Object obtener_objeto_salida(){
+        Object[] objeto = new Object[10+(2*cantidad_servidores)];
+        objeto[0]=n_evento;
+        objeto[1]=tipo_evento;
+        objeto[2]=id_cliente.get(0);
+        objeto[3]=tm;
+        int index=3;
+        for (int i = 0; i < cantidad_servidores; i++) {
+            objeto[index=index+1]=servidores[i];
+        }
+        objeto[index=index+1]=wl.size();
+        objeto[index=index+1]=at;
+        for (int i = 0; i < cantidad_servidores; i++) {
+            objeto[index=index+1]=dt[i];
+        }
+        objeto[index=index+1]=n_tell;
+        objeto[index=index+1]=tell;
+        objeto[index=index+1]=n_ts;
+        objeto[index=index+1]=ts;
+        
+        return objeto;
+    }
+    
     private int hallar_servidor_vacio(){
         for (int i = 0; i < this.servidores.length; i++) {
             if(this.servidores[i]==0){
@@ -233,9 +267,7 @@ public class Estadisticas extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(guardar)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
@@ -243,7 +275,11 @@ public class Estadisticas extends javax.swing.JPanel {
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addGap(54, 54, 54))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(90, 90, 90)
+                .addComponent(guardar)
+                .addContainerGap(231, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -260,10 +296,10 @@ public class Estadisticas extends javax.swing.JPanel {
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel6))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(guardar)
-                .addGap(27, 27, 27))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
