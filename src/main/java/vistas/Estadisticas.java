@@ -34,7 +34,7 @@ public class Estadisticas extends javax.swing.JPanel {
     
     /*VARIABLES QUE CONTROLAN LA CANTIDAD DE SERVIDORES Y EL TIEMPO DE SIMULACION*/
     public int cantidad_servidores=2;
-    public int cantidad_simulacion =100;
+    public int cantidad_simulacion =30;
     
     public Estadisticas() {
         initComponents();
@@ -204,7 +204,10 @@ public class Estadisticas extends javax.swing.JPanel {
         
         objeto[index=index+1]=at;
         for (int i = 0; i < cantidad_servidores; i++) {
-            objeto[index=index+1]=dt[i].valor+"("+dt[i].id+")";
+            if(dt[i].valor!=999)
+                objeto[index=index+1]=dt[i].valor+"("+dt[i].id+")";
+            else
+                objeto[index=index+1]=dt[i].valor;
         }
         objeto[index=index+1]=n_tell;
         objeto[index=index+1]=tell;
