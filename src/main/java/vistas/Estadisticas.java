@@ -10,6 +10,7 @@ public class Estadisticas extends javax.swing.JPanel {
     public  int at=0;
     
     public ArrayList<Integer> wl = new ArrayList<>(); 
+    public ArrayList<Integer> id_cliente = new ArrayList<>(); 
     //TIEMPO ENTRE LLEGADAS
     
     public  int n_tell=0;
@@ -22,7 +23,7 @@ public class Estadisticas extends javax.swing.JPanel {
     public int tm=0;
     public int simulacion=0;
     public String tipo_evento="";
-    public int cliente=0;
+    public int cant_cliente=0;
     
     public  int[] servidores;
     public int dt[];
@@ -31,12 +32,33 @@ public class Estadisticas extends javax.swing.JPanel {
     public Estadisticas() {
         initComponents();
         
-        String[] titulo = new String[]{"Nº Evento","Tipo Evento","NºCliente","TM","S1", "WL","AT","DT 1", "NºAleatorio p/TELL","TELL","NºAleatorio p/TS","TS"};
-        tabla_eventos.setColumnIdentifiers(titulo);
+        
+        int cantidad_servidores=2;
+        String[] titulos = new String[10+(2*cantidad_servidores)];
+        titulos[0]="Nº Evento";
+        titulos[1]="Tipo Evento";
+        titulos[2]="Id Cliente";
+        titulos[3]="TM";
+        int index=3;
+        for (int i = 0; i < cantidad_servidores; i++) {
+            titulos[index=index+1]="S"+(i+1);
+        }
+        titulos[index=index+1]="WL";
+        titulos[index=index+1]="AT";
+        for (int i = 0; i < cantidad_servidores; i++) {
+            titulos[index=index+1]="DT"+(i+1);
+        }
+        titulos[index=index+1]="N p/TELL";
+        titulos[index=index+1]="TELL";
+        titulos[index=index+1]="Np/TS";
+        titulos[index=index+1]="TS";
+        
+        //String[] titulo = new String[]{"NºEvento","Tipo Evento","IdCliente","TM","S1", "WL","AT","DT1", "NºAleatorio p/TELL","TELL","NºAleatorio p/TS","TS"};
+        tabla_eventos.setColumnIdentifiers(titulos);
         table_model.setBounds(0, 0, 1020, 5);
 
         table_model.setModel(tabla_eventos);
-        llamada_simulacion(10,1); //INICIAR LA SIMULACION
+        llamada_simulacion(100,2); //INICIAR LA SIMULACION
     }  
     
     //INICIALIZAR SIMULACION
@@ -65,7 +87,8 @@ public class Estadisticas extends javax.swing.JPanel {
                 //LLEGADA
                 this.tm=this.at;
                 this.tipo_evento="llegada";
-                this.cliente=this.cliente+1;
+                this.cant_cliente=this.cant_cliente+1;
+                this.id_cliente.add(cant_cliente);
                 
                 int n_servidor_vacio=hallar_servidor_vacio();
                 if(n_servidor_vacio!=9999){
@@ -76,11 +99,19 @@ public class Estadisticas extends javax.swing.JPanel {
                     this.dt[n_servidor_vacio]=valor;                        //ASIGNAMOS EL TS AL CLIENTE QUE ENTRO EN EL SERVIDOR VACIO
                 }else{
                     //NO EXISTEN SERVIDORES VACIOS
-                    this.wl.add(this.cliente);
+                    this.wl.add(this.cant_cliente);
                 }
                 this.n_tell= (int)(Math. random()*100+1);   //SE GENERA UN NUMERO ALEATORIO DE TS
                 this.tell=calcular_tell();                   //SE CALCULA EL TS
                 this.at=this.tm+this.tell;   
+                
+                tabla_eventos.addRow(new Object[]{
+                    n_evento,tipo_evento,cant_cliente,tm,
+                    servidores[0],servidores[1],
+                    wl.size(),at,
+                    dt[0],dt[1],
+                    n_tell,tell,n_ts,ts
+               });
             }else{
                 //SALIDA
                 this.tipo_evento="salida";
@@ -97,10 +128,15 @@ public class Estadisticas extends javax.swing.JPanel {
                     this.dt[menor]=9999;
                     this.servidores[menor]=0;
                 }
+                tabla_eventos.addRow(new Object[]{
+                    n_evento,tipo_evento,id_cliente.get(0),tm,
+                    servidores[0],servidores[1],wl.size(),at,
+                    dt[0],dt[1]
+                    ,n_tell,tell,n_ts,ts
+               });
+                id_cliente.remove(0);
             }
-             tabla_eventos.addRow(new Object[]{
-                n_evento,tipo_evento,cliente,tm,servidores[0],wl.size(),at,dt[0],n_tell,tell,n_ts,ts
-            });  
+           
         }
     }
    
