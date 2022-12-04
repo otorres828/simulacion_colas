@@ -35,6 +35,7 @@ public class Estadisticas extends javax.swing.JPanel {
     /*VARIABLES QUE CONTROLAN LA CANTIDAD DE SERVIDORES Y EL TIEMPO DE SIMULACION*/
     public int cantidad_servidores=2;
     public int cantidad_simulacion =30;
+    public int cliente_salida=0;
     
     public Estadisticas() {
         initComponents();
@@ -144,17 +145,24 @@ public class Estadisticas extends javax.swing.JPanel {
                     this.wl.remove(0);                                            //SE REMUEVE EL PRIMERO EN COLA
                     generar_ts();                                                 //SE GENERA EL TS
                     int valor = this.tm+this.ts;                                  //SE OBTIENE TM+TS
-                    this.dt[hallar_menor_dt()].id=id_cliente_servidor;
+                    this.cliente_salida=this.dt[hallar_menor_dt()].id;            //SE OBTIENE EL ID DEL CLIENTE QUE VA A SALIR
+                    this.dt[hallar_menor_dt()].id=id_cliente_servidor;            //ASIGNAMOS EL ID DEL CLIENTE QUE SE LE ASIGNARA EL DT
                     this.dt[hallar_menor_dt()].valor=valor;                       //ASIGNAMOS EL VALOR A LA SALIDA DEL QUE SALE DE LA COLA
+                    
                 }else{
                     //CUANDO NO HAY COLA
                     int menor =hallar_menor_dt();
                     this.dt[menor].valor=999;
                     this.servidores[menor]=0;
+                    
+                    this.cliente_salida=9999;                                     //BANDERA, CUANDO HAY COLA
+                    
                 }
-                tabla_eventos.addRow((Object[]) obtener_objeto_salida());
-                id_cliente.remove(0);
-                //tabla_eventos.addRow(new Object[]{n_evento,tipo_evento,id_cliente.get(0),tm, servidores[0],servidores[1],wl.size(),at, dt[0],dt[1],n_tell,tell,n_ts,ts});
+                tabla_eventos.addRow((Object[]) obtener_objeto_salida(cliente_salida));
+                if(this.cliente_salida==9999)                                    
+                    id_cliente.remove(0);                                         //REMOVER EL CLIENTE SI NO HAY COLA
+                else
+                    id_cliente.remove(id_cliente.indexOf(this.cliente_salida));
             }
            
         }
@@ -186,11 +194,14 @@ public class Estadisticas extends javax.swing.JPanel {
         return objeto;
     }
         
-    private Object obtener_objeto_salida(){
+    private Object obtener_objeto_salida(int cliente_salida){
         Object[] objeto = new Object[10+(2*cantidad_servidores)];
         objeto[0]=n_evento;
         objeto[1]=tipo_evento;
-        objeto[2]=id_cliente.get(0);
+        if(cliente_salida!=9999)
+            objeto[2]=this.cliente_salida;                                        //CUANDO HAY COLA
+        else
+            objeto[2]=this.id_cliente.get(0);
         objeto[3]=tm;
         int index=3;
         for (int i = 0; i < cantidad_servidores; i++) {
