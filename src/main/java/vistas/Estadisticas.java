@@ -205,9 +205,9 @@ public class Estadisticas extends javax.swing.JPanel {
         objeto[index=index+1]=at;
         for (int i = 0; i < cantidad_servidores; i++) {
             if(dt[i].valor!=999)
-                objeto[index=index+1]=dt[i].valor+"("+dt[i].id+")";
+                objeto[index=index+1]=dt[i].valor+"("+dt[i].id+")";                //OBTIENE EL VALOR DE DT CON EL CLIENTE (AQUI ALGUIEN DEL A COLA ENTRO A UN SERVIDOR)
             else
-                objeto[index=index+1]=dt[i].valor;
+                objeto[index=index+1]=dt[i].valor;                                 //OBTIENE 999 PORQUE HUBO UNA SALIDA Y EL SERVIDOR QUEDO VACIO 
         }
         objeto[index=index+1]=n_tell;
         objeto[index=index+1]=tell;
