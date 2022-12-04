@@ -36,32 +36,36 @@ public class Estadisticas extends javax.swing.JPanel {
         //LLAMAR CLASE ESTATICA Y RECUPERAR CANTIDAD DE SERVIDORES,TM DE SIMULACION Y CARGAR ARRAYLIST DE LAS PROBABILIDADES
         cargar_probabilidades();
         
-        String[] titulos = new String[10+(2*cantidad_servidores)];
-        titulos[0]="Nº Evento";
-        titulos[1]="Tipo Evento";
-        titulos[2]="Id Cliente";
-        titulos[3]="TM";
-        int index=3;
+        cargar_cabecera_tabla();
+        llamada_simulacion(100,cantidad_servidores); //INICIAR LA SIMULACION
+    }  
+    
+    private void cargar_cabecera_tabla() {
+        String[] titulos = new String[10 + (2 * cantidad_servidores)];
+        titulos[0] = "Nº Evento";
+        titulos[1] = "Tipo Evento";
+        titulos[2] = "Id Cliente";
+        titulos[3] = "TM";
+        int index = 3;
         for (int i = 0; i < cantidad_servidores; i++) {
-            titulos[index=index+1]="S"+(i+1);
+            titulos[index = index + 1] = "S" + (i + 1);
         }
-        titulos[index=index+1]="WL";
-        titulos[index=index+1]="AT";
+        titulos[index = index + 1] = "WL";
+        titulos[index = index + 1] = "AT";
         for (int i = 0; i < cantidad_servidores; i++) {
-            titulos[index=index+1]="DT"+(i+1);
+            titulos[index = index + 1] = "DT" + (i + 1);
         }
-        titulos[index=index+1]="Np/TELL";
-        titulos[index=index+1]="TELL";
-        titulos[index=index+1]="Np/TS";
-        titulos[index=index+1]="TS";
-        
+        titulos[index = index + 1] = "Np/TELL";
+        titulos[index = index + 1] = "TELL";
+        titulos[index = index + 1] = "Np/TS";
+        titulos[index = index + 1] = "TS";
+
         //String[] titulo = new String[]{"NºEvento","Tipo Evento","IdCliente","TM","S1", "WL","AT","DT1", "NºAleatorio p/TELL","TELL","NºAleatorio p/TS","TS"};
         tabla_eventos.setColumnIdentifiers(titulos);
 
         table_model.setModel(tabla_eventos);
-        llamada_simulacion(100,cantidad_servidores); //INICIAR LA SIMULACION
-    }  
-    
+    }
+
     private void cargar_probabilidades(){
         Estaticas.asignar_tell(1, 30);
         Estaticas.asignar_tell(2, 20);
@@ -245,8 +249,6 @@ public class Estadisticas extends javax.swing.JPanel {
         this.ts=calcular_ts();  
     }
     
-    
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -333,7 +335,6 @@ public class Estadisticas extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton guardar;
     private javax.swing.JLabel jLabel1;
@@ -344,4 +345,5 @@ public class Estadisticas extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JTable table_model;
     // End of variables declaration//GEN-END:variables
+
 }
