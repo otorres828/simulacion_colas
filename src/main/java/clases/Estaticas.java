@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 
 public class Estaticas {
-    static public ArrayList<TELL> probabilidades_tell = new ArrayList<TELL>(); 
-    static public ArrayList<TS> probabilidades_ts = new ArrayList<TS>(); 
+    static public ArrayList<TELL> probabilidades_tell = new ArrayList<>(); 
+    static public ArrayList<TS> probabilidades_ts = new ArrayList<>(); 
     static public int cantidad_servidores=0; 
     static public int TM_simulacion=0; 
     static public int probabilidad_acumulada_tell=0; 

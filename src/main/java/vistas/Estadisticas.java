@@ -1,6 +1,7 @@
 
 package vistas;
 
+import clases.Cliente;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import clases.Estaticas;
@@ -27,7 +28,8 @@ public class Estadisticas extends javax.swing.JPanel {
     public int cant_cliente=0;
     
     public  int[] servidores;
-    public int dt[];
+
+    public Cliente dt[];
     public int n_evento=0;
     public int cantidad_servidores=2;
 
@@ -37,7 +39,7 @@ public class Estadisticas extends javax.swing.JPanel {
         cargar_probabilidades();
         
         cargar_cabecera_tabla();
-        llamada_simulacion(100,cantidad_servidores); //INICIAR LA SIMULACION
+        llamada_simulacion(20,cantidad_servidores); //INICIAR LA SIMULACION
     }  
     
     private void cargar_cabecera_tabla() {
@@ -87,12 +89,13 @@ public class Estadisticas extends javax.swing.JPanel {
     public final void llamada_simulacion(int simulacion,int servidores) {
         this.simulacion=simulacion;
         this.servidores = new int[servidores];
-        this.dt = new int[servidores];
+        this.dt = new Cliente[servidores];
         
         //INICIALIZAMOS LOS SERVIDORES EN 0
         for (int i = 0; i < this.servidores.length; i++) {
             this.servidores[i]=0;
-            this.dt[i]=9999;
+            Cliente c = new Cliente(0, 999);
+            this.dt[i]=c;
         }
         
         correr_simulacion(); //CORREMOS LA SIMULACION
@@ -111,18 +114,19 @@ public class Estadisticas extends javax.swing.JPanel {
                 this.id_cliente.add(cant_cliente);
                 
                 int n_servidor_vacio=hallar_servidor_vacio();
-                if(n_servidor_vacio!=9999){
+                if(n_servidor_vacio!=9999){                                        //CUANDO HAY COLA
                     //EXISTEN SERVIDORES VACIOS
-                    this.servidores[n_servidor_vacio]=1;                     //SE OCUPA EL SERVIDOR
-                    generar_ts();                 //SE CALCULA EL TS
+                    this.servidores[n_servidor_vacio]=1;                          //SE OCUPA EL SERVIDOR
+                    generar_ts();                                                 //SE CALCULA EL TS
                     int valor = this.tm+this.ts;
-                    this.dt[n_servidor_vacio]=valor;                        //ASIGNAMOS EL TS AL CLIENTE QUE ENTRO EN EL SERVIDOR VACIO
+                    this.dt[n_servidor_vacio].valor=valor;                        //ASIGNAMOS EL TS AL CLIENTE QUE ENTRO EN EL SERVIDOR VACIO
+                    this.dt[n_servidor_vacio].id=cant_cliente;
                 }else{
                     //NO EXISTEN SERVIDORES VACIOS
                     this.wl.add(this.cant_cliente);
                 }
-                this.n_tell= (int)(Math. random()*100);   //SE GENERA UN NUMERO ALEATORIO DE TS
-                this.tell=calcular_tell();                   //SE CALCULA EL TS
+                this.n_tell= (int)(Math. random()*100);                           //SE GENERA UN NUMERO ALEATORIO DE TS
+                this.tell=calcular_tell();                                        //SE CALCULA EL TS
                 this.at=this.tm+this.tell;   
                 
                 tabla_eventos.addRow((Object[]) obtener_objeto_llegada());
@@ -130,17 +134,18 @@ public class Estadisticas extends javax.swing.JPanel {
             }else{
                 //SALIDA
                 this.tipo_evento="salida";
-                this.tm=this.dt[hallar_menor_dt()]; //TM=DT
+                this.tm=this.dt[hallar_menor_dt()].valor; //TM=DT
                 if(!this.wl.isEmpty()){
                     //CUANDO HAY COLA
-                    this.wl.remove(0); //SE REMUEVE EL PRIMERO EN COLA
-                    generar_ts();
-                    int valor = this.tm+this.ts;
-                    this.dt[hallar_menor_dt()]=valor;  
+                    this.wl.remove(0);                                            //SE REMUEVE EL PRIMERO EN COLA
+                    generar_ts();                                                 //SE GENERA EL TS
+                    int valor = this.tm+this.ts;                                  //SE OBTIENE TM+TS
+                    this.dt[hallar_menor_dt()].valor=valor;                       //ASIGNAMOS EL VALOR A LA SALIDA DEL QUE SALE DE LA COLA
+                    
                 }else{
                     //CUANDO NO HAY COLA
                     int menor =hallar_menor_dt();
-                    this.dt[menor]=9999;
+                    this.dt[menor].valor=999;
                     this.servidores[menor]=0;
                 }
                 tabla_eventos.addRow((Object[]) obtener_objeto_salida());
@@ -161,10 +166,13 @@ public class Estadisticas extends javax.swing.JPanel {
         for (int i = 0; i < cantidad_servidores; i++) {
             objeto[index=index+1]=servidores[i];
         }
-        objeto[index=index+1]=wl.size();
+        if(!wl.isEmpty())
+            objeto[index=index+1]=wl.size()+""+wl;
+        else
+            objeto[index=index+1]="";//wl.size();
         objeto[index=index+1]=at;
         for (int i = 0; i < cantidad_servidores; i++) {
-            objeto[index=index+1]=dt[i];
+            objeto[index=index+1]=dt[i].valor+"("+dt[i].id+")";
         }
         objeto[index=index+1]=n_tell;
         objeto[index=index+1]=tell;
@@ -184,10 +192,15 @@ public class Estadisticas extends javax.swing.JPanel {
         for (int i = 0; i < cantidad_servidores; i++) {
             objeto[index=index+1]=servidores[i];
         }
-        objeto[index=index+1]=wl.size();
+        /*IMPRIMIR CLIENTES EN COLA*/
+        if(!wl.isEmpty())
+            objeto[index=index+1]=wl.size()+""+wl;
+        else
+            objeto[index=index+1]=""; //wl.size()
+        
         objeto[index=index+1]=at;
         for (int i = 0; i < cantidad_servidores; i++) {
-            objeto[index=index+1]=dt[i];
+            objeto[index=index+1]=dt[i].valor;
         }
         objeto[index=index+1]=n_tell;
         objeto[index=index+1]=tell;
@@ -203,15 +216,15 @@ public class Estadisticas extends javax.swing.JPanel {
                 return i; //RETORNA LA POSICION SI ENCUENTRA UN SERVIDOR VACIO
             }
         }
-        return 9999;
+        return 9999; //RETORNA SI NO HAY SERVIDOR VACIO
     }
     
     private int valor_menor_dt(){
         int  menor;
-        menor=this.dt[0];
+        menor=this.dt[0].valor;
         for (int i = 0; i < this.dt.length; i++) {         
-            if(this.dt[i]<menor) {
-                menor = this.dt[i];
+            if(this.dt[i].valor<menor) {
+                menor = this.dt[i].valor;
             }
         }
         return menor;
@@ -219,10 +232,10 @@ public class Estadisticas extends javax.swing.JPanel {
 
     private int hallar_menor_dt(){
         int menor,posicion=0;
-        menor=this.dt[0];
+        menor=this.dt[0].valor;
         for (int i = 0; i < this.dt.length; i++) {
-            if(this.dt[i]<menor) {
-                menor = this.dt[i];
+            if(this.dt[i].valor<menor) {
+                menor = this.dt[i].valor;
                 posicion=i;
             }
         }
