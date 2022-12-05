@@ -39,18 +39,29 @@ public class Estadisticas extends javax.swing.JPanel {
     public int cliente_salida_cola=0;
     public int cliente_salida_no_cola=0;
     
+   
     public Estadisticas() {
         initComponents();
-        //LLAMAR CLASE ESTATICA Y RECUPERAR CANTIDAD DE SERVIDORES,TM DE SIMULACION Y CARGAR ARRAYLIST DE LAS PROBABILIDADES
         //cargar_probabilidades();
+    }  
+    
+    public void inicializar_datos(){
+        Estaticas.probabilidades_tell.clear();
+        Estaticas.probabilidades_ts.clear();
+        
         this.label_servidores.setText(Integer.toString(Estaticas.cantidad_servidores));
         this.label_simulacion.setText(Integer.toString(Estaticas.TM_simulacion));
         
-        cargar_cabecera_tabla();
         this.cantidad_servidores=Estaticas.cantidad_servidores;
-        llamada_simulacion(Estaticas.TM_simulacion,cantidad_servidores); //INICIAR LA SIMULACION
-    }  
-
+        this.simulacion=Estaticas.TM_simulacion;
+        
+        cargar_cabecera_tabla();                                                 //CARGAR CABECERA DE LA TABLA DE EVENTOS
+        llamada_simulacion(cantidad_servidores);                                 //INICIAR LA SIMULACION
+        
+        for (Object objeto : Estaticas.probabilidades_tell) {
+            System.out.println(objeto);
+        }
+    }
     private void cargar_cabecera_tabla() {
         String[] titulos = new String[10 + (2 * cantidad_servidores)];
         titulos[0] = "Nº Evento";
@@ -71,9 +82,7 @@ public class Estadisticas extends javax.swing.JPanel {
         titulos[index = index + 1] = "Np/TS";
         titulos[index = index + 1] = "TS";
 
-        //String[] titulo = new String[]{"NºEvento","Tipo Evento","IdCliente","TM","S1", "WL","AT","DT1", "NºAleatorio p/TELL","TELL","NºAleatorio p/TS","TS"};
         tabla_eventos.setColumnIdentifiers(titulos);
-
         table_modelo.setModel(tabla_eventos);
     }
 
@@ -92,12 +101,10 @@ public class Estadisticas extends javax.swing.JPanel {
         Estaticas.asignar_ts(6, 15);
         Estaticas.asignar_ts(7, 10);
         Estaticas.asignar_ts(9, 10);
-        
     }
     
     //INICIALIZAR SIMULACION
-    public final void llamada_simulacion(int simulacion,int servidores) {
-        this.simulacion=simulacion;
+    public final void llamada_simulacion(int servidores) {
         this.servidores = new int[servidores];
         this.dt = new Cliente[servidores];
         

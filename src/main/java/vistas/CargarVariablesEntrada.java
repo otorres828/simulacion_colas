@@ -346,10 +346,6 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void CalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CalcularActionPerformed
-        Estaticas.setCantidad_servidores(15);
-        Estaticas.setTM_simulacion(25);
-        principal.principal.estadisticas();
-
         if(this.cantidad_simulacion.getText().isEmpty()   
                 || this.cantidad_tell.getText().isEmpty()
                 || this.cantidad_servidores.getText().isEmpty() 
@@ -357,10 +353,10 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
                 || Estaticas.probabilidades_tell.isEmpty()
                 || Estaticas.probabilidades_ts.isEmpty()
            ){
-            //message("Debes de llenar todos los campos para continuar. Esto incluye la configuracion de las probabilidades", 3);
+            message("Debes de llenar todos los campos para continuar. Esto incluye la configuracion de las probabilidades", 3);
         }else{
-            Estaticas.TM_simulacion=Integer.parseInt(this.cantidad_simulacion.getText());
-            Estaticas.cantidad_servidores=Integer.parseInt(this.cantidad_servidores.getText());
+            Estaticas.TM_simulacion = Integer.parseInt(this.cantidad_simulacion.getText());
+            Estaticas.cantidad_servidores = Integer.parseInt(this.cantidad_servidores.getText());
             principal.principal.estadisticas();
         }
     }//GEN-LAST:event_CalcularActionPerformed
@@ -407,7 +403,7 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
     }//GEN-LAST:event_costo_tiempo_clienteActionPerformed
 
     private void limpiar_todo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiar_todo1ActionPerformed
-         this.unidad_tiempo.setSelectedIndex(0);
+        this.unidad_tiempo.setSelectedIndex(0);
         this.presentar_tabla_eventos.setSelectedIndex(0);
         this.costo_servicio.setText("");
         this.costo_servidor.setText("");
