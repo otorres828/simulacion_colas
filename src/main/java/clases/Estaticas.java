@@ -13,6 +13,7 @@ public class Estaticas {
     static public int probabilidad_acumulada_ts=0; 
     
     static public int cantidad_tell=0;
+    static public int cantidad_ts=0;
     
     static public TELL asignar_tell(int tiempo,int probabilidad){
         TELL objeto = new TELL(tiempo,probabilidad);
@@ -20,9 +21,10 @@ public class Estaticas {
         return objeto;
     }
     
-    static public void asignar_ts(int tiempo,int probabilidad){
+    static public TS asignar_ts(int tiempo,int probabilidad){
         TS objeto = new TS(tiempo,probabilidad);
         probabilidades_ts.add(objeto);
+        return objeto;
     }
     
     

@@ -373,8 +373,10 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
     private void valores_tsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_valores_tsActionPerformed
        if(this.cantidad_ts.getText().isEmpty()  || Integer.parseInt(this.cantidad_ts.getText())<4)
             message("Debes de ingresar una cantidad de tiempo de servicio superior a 4", 3);
-        else
-        ;
+       else{
+            Estaticas.cantidad_ts=Integer.parseInt(this.cantidad_ts.getText());
+            principal.principal.configurar_ts();
+       }
     }//GEN-LAST:event_valores_tsActionPerformed
 
     private void cantidad_tellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cantidad_tellActionPerformed
