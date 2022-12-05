@@ -2,6 +2,7 @@
 package vistas;
 
 import clases.Estaticas;
+import clases.TELL;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import  principal.principal;
@@ -22,11 +23,11 @@ public class Configurar_tell extends javax.swing.JPanel {
         tabla_tell = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        txtProbability = new javax.swing.JFormattedTextField();
+        probabilidad = new javax.swing.JFormattedTextField();
         jLabel7 = new javax.swing.JLabel();
-        txtTimeArrived = new javax.swing.JFormattedTextField();
+        tiempo = new javax.swing.JFormattedTextField();
         jPanel4 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
+        ingresar_probabilidad = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
@@ -52,12 +53,12 @@ public class Configurar_tell extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("Probabilidad: ");
 
-        txtProbability.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        probabilidad.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel7.setText("Tiempo de Llegada: ");
 
-        txtTimeArrived.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        tiempo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -69,11 +70,11 @@ public class Configurar_tell extends javax.swing.JPanel {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtProbability, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(probabilidad, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 119, Short.MAX_VALUE)
-                        .addComponent(txtTimeArrived, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(tiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -82,20 +83,20 @@ public class Configurar_tell extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(txtTimeArrived, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
-                    .addComponent(txtProbability, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(probabilidad, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(107, 107, 107))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Opciones de la tabla"));
 
-        jButton2.setText("Ingresar Probabilidad");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        ingresar_probabilidad.setText("Ingresar Probabilidad");
+        ingresar_probabilidad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                ingresar_probabilidadActionPerformed(evt);
             }
         });
 
@@ -133,7 +134,7 @@ public class Configurar_tell extends javax.swing.JPanel {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton2)
+                .addComponent(ingresar_probabilidad)
                 .addGap(18, 18, 18)
                 .addComponent(jButton3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -151,7 +152,7 @@ public class Configurar_tell extends javax.swing.JPanel {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
+                    .addComponent(ingresar_probabilidad)
                     .addComponent(jButton3)
                     .addComponent(jButton4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -243,23 +244,27 @@ public class Configurar_tell extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        this.txtTimeArrived.setText("");
-        this.txtProbability.setText("");
+        this.tiempo.setText("");
+        this.probabilidad.setText("");
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         principal.principal.cargar();
     }//GEN-LAST:event_jButton8ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        String timeArrived = this.txtTimeArrived.getText();
-        String probability = this.txtProbability.getText();
-        if (!timeArrived.isEmpty() && !probability.isEmpty()) {
-            if (this.validateData(Integer.parseInt(timeArrived.trim()), Integer.parseInt(probability)) && this.tabla_tell.getRowCount()<Estaticas.cantidad_tell) {
-
+    private void ingresar_probabilidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ingresar_probabilidadActionPerformed
+        String tiempo = this.tiempo.getText();
+        String probabilidadt = this.probabilidad.getText();
+        if (!tiempo.isEmpty() && !probabilidadt.isEmpty()) {
+            if (this.validateData(Integer.parseInt(tiempo.trim()), Integer.parseInt(probabilidadt)) && this.tabla_tell.getRowCount()<Estaticas.cantidad_tell) {
+                TELL objeto=Estaticas.asignar_tell(Integer.parseInt(tiempo), Integer.parseInt(probabilidadt));
+               
                 this.modelArrive.addRow(new Object[]{
-                    timeArrived,
-                    probability
+                    objeto.tiempo,
+                    objeto.probabilidad,
+                    objeto.probabilidad_acumulada,
+                    objeto.rango_desde,
+                    objeto.rango_hasta
                 });
             } else {
                 JOptionPane.showMessageDialog(null, "Revise los datos o verifique que la probabilidad no sea mayor a 100, los registros pueden ser superiores a la cantidad ingresada");
@@ -267,7 +272,7 @@ public class Configurar_tell extends javax.swing.JPanel {
         } else {
             JOptionPane.showMessageDialog(null, "No ingreso algun dato para la fila nueva");
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_ingresar_probabilidadActionPerformed
 
 
     private String convert() {
@@ -314,8 +319,8 @@ public class Configurar_tell extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ingresar_probabilidad;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
@@ -326,8 +331,8 @@ public class Configurar_tell extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JFormattedTextField probabilidad;
     private javax.swing.JTable tabla_tell;
-    private javax.swing.JFormattedTextField txtProbability;
-    private javax.swing.JFormattedTextField txtTimeArrived;
+    private javax.swing.JFormattedTextField tiempo;
     // End of variables declaration//GEN-END:variables
 }

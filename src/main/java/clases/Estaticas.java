@@ -14,9 +14,10 @@ public class Estaticas {
     
     static public int cantidad_tell=0;
     
-    static public void asignar_tell(int tiempo,int probabilidad){
+    static public TELL asignar_tell(int tiempo,int probabilidad){
         TELL objeto = new TELL(tiempo,probabilidad);
         probabilidades_tell.add(objeto);
+        return objeto;
     }
     
     static public void asignar_ts(int tiempo,int probabilidad){
