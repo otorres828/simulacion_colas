@@ -48,6 +48,21 @@ public class principal {
          ventana.validate();
     }
     
+    public void cargar_resetear(){
+         configurar_tell.resetear();                                              //RESETEAR VALORES DE TELL
+         configurar_ts.resetear();                                                //RESETEAR VAKIRES DE TS
+         Estaticas.probabilidades_tell.clear();                                   //LIMPIAMOS EL ARRAY DE TELL
+         Estaticas.probabilidades_ts.clear();                                      //LIMPIAMOS EL ARRAY DE TS
+         
+         configurar_ts.setVisible(false); configurar_ts.setEnabled(false);
+         menu.setVisible(false); menu.setEnabled(false);
+         estadisticas.setVisible(false); estadisticas.setEnabled(false);
+         configurar_tell.setVisible(false); configurar_tell.setEnabled(false);
+         ventana.add(cargarvariablesentrada);
+         cargarvariablesentrada.setVisible(true);
+         ventana.validate();
+    }
+    
     public void estadisticas(){
         estadisticas.inicializar_datos();                                        //CARGAR LOS DATOS
         configurar_ts.setVisible(false); configurar_ts.setEnabled(false);

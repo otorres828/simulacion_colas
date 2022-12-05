@@ -17,6 +17,10 @@ public class Configurar_tell extends javax.swing.JPanel {
         this.tabla_tell.setModel(tabla_nueva);
     }
    
+    public void resetear(){
+        deleteAll();
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -291,6 +295,8 @@ public class Configurar_tell extends javax.swing.JPanel {
         this.tabla_tell.setModel(tabla_nueva);
         Estaticas.probabilidades_tell.clear();
         Estaticas.probabilidad_acumulada_tell=0;
+        this.tiempo.setText("");
+        this.probabilidad.setText("");
     }
 
     private boolean validateData(int timeArrived, int probability) {

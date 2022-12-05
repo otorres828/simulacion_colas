@@ -16,7 +16,11 @@ public class Configurar_ts extends javax.swing.JPanel {
         deleteAll();
         this.tabla_ts.setModel(tabla_nueva);
     }
-   
+    
+    public void resetear(){
+        deleteAll();
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -290,6 +294,8 @@ public class Configurar_ts extends javax.swing.JPanel {
         this.tabla_ts.setModel(tabla_nueva);
         Estaticas.probabilidades_ts.clear();
         Estaticas.probabilidad_acumulada_ts=0;
+        this.tiempo.setText("");
+        this.probabilidad.setText("");
     }
 
     private boolean validateData(int timeArrived, int probability) {

@@ -3,6 +3,7 @@ package vistas;
 
 import clases.Estaticas;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import principal.principal;
 
@@ -24,6 +25,7 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
         Calcular = new javax.swing.JButton();
         limpiar_todo = new javax.swing.JButton();
         limpiar_todo1 = new javax.swing.JButton();
+        cargar_archivo = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -78,6 +80,13 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
             }
         });
 
+        cargar_archivo.setText("Cargar Archivo");
+        cargar_archivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cargar_archivoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout OpcionesLayout = new javax.swing.GroupLayout(Opciones);
         Opciones.setLayout(OpcionesLayout);
         OpcionesLayout.setHorizontalGroup(
@@ -85,11 +94,13 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
             .addGroup(OpcionesLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(Calcular, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(limpiar_todo, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                .addGap(26, 26, 26)
+                .addComponent(cargar_archivo, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
                 .addComponent(limpiar_todo1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         OpcionesLayout.setVerticalGroup(
             OpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -98,7 +109,8 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
                 .addGroup(OpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Calcular)
                     .addComponent(limpiar_todo)
-                    .addComponent(limpiar_todo1))
+                    .addComponent(limpiar_todo1)
+                    .addComponent(cargar_archivo))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
@@ -285,11 +297,11 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
                     .addComponent(jLabel13)
                     .addComponent(jLabel12))
                 .addGap(42, 42, 42)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(costo_servicio, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
-                    .addComponent(costo_servidor, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
-                    .addComponent(costo_tiempo_cliente, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE))
-                .addGap(23, 23, 23))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(costo_tiempo_cliente, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
+                    .addComponent(costo_servicio, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(costo_servidor))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -318,7 +330,7 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(447, 447, 447)
                 .addComponent(jLabel8)
@@ -326,7 +338,7 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(Opciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(338, 338, 338))
+                .addGap(253, 253, 253))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -476,6 +488,15 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
 
     }//GEN-LAST:event_cantidad_tsKeyTyped
 
+    private void cargar_archivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargar_archivoActionPerformed
+        JFileChooser archivo = new JFileChooser();
+        int open = archivo.showOpenDialog(this);
+        String ruta="";
+        if (open == JFileChooser.APPROVE_OPTION) {
+            ruta=archivo.getSelectedFile().getAbsolutePath();
+        }
+    }//GEN-LAST:event_cargar_archivoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Calcular;
@@ -484,6 +505,7 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
     private javax.swing.JTextField cantidad_simulacion;
     private javax.swing.JTextField cantidad_tell;
     private javax.swing.JTextField cantidad_ts;
+    private javax.swing.JButton cargar_archivo;
     private javax.swing.JTextField costo_servicio;
     private javax.swing.JTextField costo_servidor;
     private javax.swing.JTextField costo_tiempo_cliente;
