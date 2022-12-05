@@ -34,9 +34,9 @@ public class Estadisticas extends javax.swing.JPanel {
     
     /*VARIABLES QUE CONTROLAN LA CANTIDAD DE SERVIDORES Y EL TIEMPO DE SIMULACION*/
     public int cantidad_servidores=2;
-    public int cantidad_simulacion =5000;
-    public int cliente_salida=0;
-    
+    public int cantidad_simulacion =20000;
+    public int cliente_salida_cola=0;
+    public int cliente_salida_no_cola=0;
     public Estadisticas() {
         initComponents();
         //LLAMAR CLASE ESTATICA Y RECUPERAR CANTIDAD DE SERVIDORES,TM DE SIMULACION Y CARGAR ARRAYLIST DE LAS PROBABILIDADES
@@ -139,30 +139,31 @@ public class Estadisticas extends javax.swing.JPanel {
                 //SALIDA
                 this.tipo_evento="salida";
                 this.tm=this.dt[hallar_menor_dt()].valor;                          //TM=DT
-                if(this.wl.size()>0){
+                if(!this.wl.isEmpty()){
                     //CUANDO HAY COLA
                     int id_cliente_servidor=this.wl.get(0);
                     this.wl.remove(0);                                            //SE REMUEVE EL PRIMERO EN COLA
                     generar_ts();                                                 //SE GENERA EL TS
                     int valor = this.tm+this.ts;                                  //SE OBTIENE TM+TS
-                    this.cliente_salida=this.dt[hallar_menor_dt()].id;            //SE OBTIENE EL ID DEL CLIENTE QUE VA A SALIR
+                    this.cliente_salida_cola=this.dt[hallar_menor_dt()].id;            //SE OBTIENE EL ID DEL CLIENTE QUE VA A SALIR
                     this.dt[hallar_menor_dt()].id=id_cliente_servidor;            //ASIGNAMOS EL ID DEL CLIENTE QUE SE LE ASIGNARA EL DT QUE VIENE DE LA COLA
                     this.dt[hallar_menor_dt()].valor=valor;                       //ASIGNAMOS EL VALOR A LA SALIDA DEL QUE VIENE DE LA COLA
                     
                 }else{
                     //CUANDO NO HAY COLA
-                    int menor =hallar_menor_dt();
+                    int menor=hallar_menor_dt();
                     this.dt[menor].valor=999999;
+                    this.cliente_salida_no_cola=this.dt[menor].id;                         //OBTENEMOS LA POSICION DEL CLIENTE QUE SALDRA
                     this.dt[menor].id=0;
                     this.servidores[menor]=0;
                     
-                    this.cliente_salida=0;                                         //BANDERA, CUANDO HAY COLA
+                    this.cliente_salida_cola=0;                                             //BANDERA, CUANDO NO HAY HAY COLA
                 }
-                tabla_eventos.addRow((Object[]) obtener_objeto_salida(cliente_salida));
-                //if(this.cliente_salida==0)                                    
-                this.id_cliente.remove(0);                                         //REMOVER EL CLIENTE SI NO HAY COLA
-                //else
-                   // id_cliente.remove(id_cliente.indexOf(this.cliente_salida));
+                tabla_eventos.addRow((Object[]) obtener_objeto_salida());
+                if(this.cliente_salida_cola==0)                                    
+                    this.id_cliente.remove(id_cliente.indexOf(cliente_salida_no_cola));                                         //REMOVER EL CLIENTE SI NO HAY COLA
+                else
+                   this.id_cliente.remove(id_cliente.indexOf(this.cliente_salida_cola));
             }
            
         }
@@ -197,14 +198,16 @@ public class Estadisticas extends javax.swing.JPanel {
         return objeto;
     }
         
-    private Object obtener_objeto_salida(int cliente_salida){
+    private Object obtener_objeto_salida(){
         Object[] objeto = new Object[10+(2*cantidad_servidores)];
         objeto[0]=n_evento;
         objeto[1]=tipo_evento;
-        //if(cliente_salida!=0)
-          //  objeto[2]=this.cliente_salida;                                        //CUANDO HAY COLA SE LE ASIGNA EL CLIENTE QUE ESTA SALIENDO DE LA COLA
-        //else
-        objeto[2]=this.id_cliente.get(0);                                           //CUANDO NO HAY COLA SE LE ASIGNA EL CLIENTE 0 EN EL ARRAY LIST
+        
+        if(cliente_salida_cola!=0)
+            objeto[2]=this.cliente_salida_cola;                                        //CUANDO HAY COLA SE LE ASIGNA EL CLIENTE QUE ESTA SALIENDO DE LA COLA
+        else
+        objeto[2]=this.id_cliente.get(id_cliente.indexOf(cliente_salida_no_cola));                                           //CUANDO NO HAY COLA SE LE ASIGNA EL CLIENTE 0 EN EL ARRAY LIST
+        
         objeto[3]=tm;
         int index=3;
         for (int i = 0; i < cantidad_servidores; i++) {
