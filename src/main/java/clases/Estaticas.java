@@ -12,6 +12,8 @@ public class Estaticas {
     static public int probabilidad_acumulada_tell=0; 
     static public int probabilidad_acumulada_ts=0; 
     
+    static public int cantidad_tell=0;
+    
     static public void asignar_tell(int tiempo,int probabilidad){
         TELL objeto = new TELL(tiempo,probabilidad);
         probabilidades_tell.add(objeto);

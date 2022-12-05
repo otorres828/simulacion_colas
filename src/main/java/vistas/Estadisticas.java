@@ -37,6 +37,7 @@ public class Estadisticas extends javax.swing.JPanel {
     public int cantidad_simulacion =20000;
     public int cliente_salida_cola=0;
     public int cliente_salida_no_cola=0;
+    
     public Estadisticas() {
         initComponents();
         //LLAMAR CLASE ESTATICA Y RECUPERAR CANTIDAD DE SERVIDORES,TM DE SIMULACION Y CARGAR ARRAYLIST DE LAS PROBABILIDADES
