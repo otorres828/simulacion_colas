@@ -5,6 +5,7 @@ clases\Logica.class
 clases\TS.class
 vistas\Menu.class
 principal\principal.class
+clases\Cliente.class
 vistas\Menu$2.class
 vistas\Menu$1.class
 clases\Estaticas.class

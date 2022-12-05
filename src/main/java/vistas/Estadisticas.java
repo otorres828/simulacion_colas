@@ -34,7 +34,7 @@ public class Estadisticas extends javax.swing.JPanel {
     
     /*VARIABLES QUE CONTROLAN LA CANTIDAD DE SERVIDORES Y EL TIEMPO DE SIMULACION*/
     public int cantidad_servidores=2;
-    public int cantidad_simulacion =30;
+    public int cantidad_simulacion =5000;
     public int cliente_salida=0;
     
     public Estadisticas() {
@@ -98,7 +98,7 @@ public class Estadisticas extends javax.swing.JPanel {
         //INICIALIZAMOS LOS SERVIDORES EN 0
         for (int i = 0; i < this.servidores.length; i++) {
             this.servidores[i]=0;
-            Cliente c = new Cliente(0, 999);
+            Cliente c = new Cliente(0, 999999);
             this.dt[i]=c;
         }
         
@@ -118,7 +118,7 @@ public class Estadisticas extends javax.swing.JPanel {
                 this.id_cliente.add(cant_cliente);
                 
                 int n_servidor_vacio=hallar_servidor_vacio();
-                if(n_servidor_vacio!=9999){                                        //CUANDO HAY COLA
+                if(n_servidor_vacio!=999999){                                        //CUANDO HAY COLA
                     //EXISTEN SERVIDORES VACIOS
                     this.servidores[n_servidor_vacio]=1;                          //SE OCUPA EL SERVIDOR
                     generar_ts();                                                 //SE CALCULA EL TS
@@ -138,31 +138,31 @@ public class Estadisticas extends javax.swing.JPanel {
             }else{
                 //SALIDA
                 this.tipo_evento="salida";
-                this.tm=this.dt[hallar_menor_dt()].valor; //TM=DT
-                if(!this.wl.isEmpty()){
+                this.tm=this.dt[hallar_menor_dt()].valor;                          //TM=DT
+                if(this.wl.size()>0){
                     //CUANDO HAY COLA
                     int id_cliente_servidor=this.wl.get(0);
                     this.wl.remove(0);                                            //SE REMUEVE EL PRIMERO EN COLA
                     generar_ts();                                                 //SE GENERA EL TS
                     int valor = this.tm+this.ts;                                  //SE OBTIENE TM+TS
                     this.cliente_salida=this.dt[hallar_menor_dt()].id;            //SE OBTIENE EL ID DEL CLIENTE QUE VA A SALIR
-                    this.dt[hallar_menor_dt()].id=id_cliente_servidor;            //ASIGNAMOS EL ID DEL CLIENTE QUE SE LE ASIGNARA EL DT
-                    this.dt[hallar_menor_dt()].valor=valor;                       //ASIGNAMOS EL VALOR A LA SALIDA DEL QUE SALE DE LA COLA
+                    this.dt[hallar_menor_dt()].id=id_cliente_servidor;            //ASIGNAMOS EL ID DEL CLIENTE QUE SE LE ASIGNARA EL DT QUE VIENE DE LA COLA
+                    this.dt[hallar_menor_dt()].valor=valor;                       //ASIGNAMOS EL VALOR A LA SALIDA DEL QUE VIENE DE LA COLA
                     
                 }else{
                     //CUANDO NO HAY COLA
                     int menor =hallar_menor_dt();
-                    this.dt[menor].valor=999;
+                    this.dt[menor].valor=999999;
+                    this.dt[menor].id=0;
                     this.servidores[menor]=0;
                     
-                    this.cliente_salida=9999;                                     //BANDERA, CUANDO HAY COLA
-                    
+                    this.cliente_salida=0;                                         //BANDERA, CUANDO HAY COLA
                 }
                 tabla_eventos.addRow((Object[]) obtener_objeto_salida(cliente_salida));
-                if(this.cliente_salida==9999)                                    
-                    id_cliente.remove(0);                                         //REMOVER EL CLIENTE SI NO HAY COLA
-                else
-                    id_cliente.remove(id_cliente.indexOf(this.cliente_salida));
+                //if(this.cliente_salida==0)                                    
+                this.id_cliente.remove(0);                                         //REMOVER EL CLIENTE SI NO HAY COLA
+                //else
+                   // id_cliente.remove(id_cliente.indexOf(this.cliente_salida));
             }
            
         }
@@ -184,7 +184,10 @@ public class Estadisticas extends javax.swing.JPanel {
             objeto[index=index+1]="";//wl.size();
         objeto[index=index+1]=at;
         for (int i = 0; i < cantidad_servidores; i++) {
-            objeto[index=index+1]=dt[i].valor+"("+dt[i].id+")";
+            if(dt[i].valor!=999999)
+                objeto[index=index+1]=dt[i].valor+"("+dt[i].id+")";
+            else
+                objeto[index=index+1]="XXX";
         }
         objeto[index=index+1]=n_tell;
         objeto[index=index+1]=tell;
@@ -198,10 +201,10 @@ public class Estadisticas extends javax.swing.JPanel {
         Object[] objeto = new Object[10+(2*cantidad_servidores)];
         objeto[0]=n_evento;
         objeto[1]=tipo_evento;
-        if(cliente_salida!=9999)
-            objeto[2]=this.cliente_salida;                                        //CUANDO HAY COLA
-        else
-            objeto[2]=this.id_cliente.get(0);
+        //if(cliente_salida!=0)
+          //  objeto[2]=this.cliente_salida;                                        //CUANDO HAY COLA SE LE ASIGNA EL CLIENTE QUE ESTA SALIENDO DE LA COLA
+        //else
+        objeto[2]=this.id_cliente.get(0);                                           //CUANDO NO HAY COLA SE LE ASIGNA EL CLIENTE 0 EN EL ARRAY LIST
         objeto[3]=tm;
         int index=3;
         for (int i = 0; i < cantidad_servidores; i++) {
@@ -215,10 +218,10 @@ public class Estadisticas extends javax.swing.JPanel {
         
         objeto[index=index+1]=at;
         for (int i = 0; i < cantidad_servidores; i++) {
-            if(dt[i].valor!=999)
+            if(dt[i].valor!=999999)
                 objeto[index=index+1]=dt[i].valor+"("+dt[i].id+")";                //OBTIENE EL VALOR DE DT CON EL CLIENTE (AQUI ALGUIEN DEL A COLA ENTRO A UN SERVIDOR)
             else
-                objeto[index=index+1]=dt[i].valor;                                 //OBTIENE 999 PORQUE HUBO UNA SALIDA Y EL SERVIDOR QUEDO VACIO 
+                objeto[index=index+1]="XXX";                                 //OBTIENE 999 PORQUE HUBO UNA SALIDA Y EL SERVIDOR QUEDO VACIO 
         }
         objeto[index=index+1]=n_tell;
         objeto[index=index+1]=tell;
@@ -234,7 +237,7 @@ public class Estadisticas extends javax.swing.JPanel {
                 return i; //RETORNA LA POSICION SI ENCUENTRA UN SERVIDOR VACIO
             }
         }
-        return 9999; //RETORNA SI NO HAY SERVIDOR VACIO
+        return 999999; //RETORNA SI NO HAY SERVIDOR VACIO
     }
     
     private int valor_menor_dt(){
