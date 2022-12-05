@@ -34,8 +34,7 @@ public class Estadisticas extends javax.swing.JPanel {
     public int n_evento=0;
     
     /*VARIABLES QUE CONTROLAN LA CANTIDAD DE SERVIDORES Y EL TIEMPO DE SIMULACION*/
-    public int cantidad_servidores=2;
-    public int cantidad_simulacion =20000;
+    public int cantidad_servidores;
     public int cliente_salida_cola=0;
     public int cliente_salida_no_cola=0;
     
@@ -45,7 +44,8 @@ public class Estadisticas extends javax.swing.JPanel {
         //cargar_probabilidades();
         
         cargar_cabecera_tabla();
-        llamada_simulacion(cantidad_simulacion,cantidad_servidores); //INICIAR LA SIMULACION
+        this.cantidad_servidores=Estaticas.cantidad_servidores;
+        llamada_simulacion(Estaticas.TM_simulacion,cantidad_servidores); //INICIAR LA SIMULACION
     }  
    
    
@@ -304,6 +304,8 @@ public class Estadisticas extends javax.swing.JPanel {
         pro = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         table_modelo = new javax.swing.JTable();
+
+        setBackground(new java.awt.Color(102, 204, 255));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel1.setText("ESTADISTICAS");

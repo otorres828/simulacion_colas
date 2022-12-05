@@ -216,9 +216,8 @@ public class Configurar_tell extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
         JOptionPane.showMessageDialog(null, "Los datos han sido registrados satisfactoriamente","Operacion realizada",JOptionPane.INFORMATION_MESSAGE);
-        this.setVisible(false);
+        principal.principal.estadisticas();
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -274,7 +273,6 @@ public class Configurar_tell extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_ingresar_probabilidadActionPerformed
 
-
     private String convert() {
         String text = "";
         for (int i = 0; i < this.tabla_tell.getRowCount(); i++) {
@@ -289,7 +287,8 @@ public class Configurar_tell extends javax.swing.JPanel {
         String[] titles = {"Tiempo de llegada", "Probabilidad","Probabilidad Acumulada","Rango Desde","Rango Hasta"};
         modelArrive = new DefaultTableModel(null, titles);
         this.tabla_tell.setModel(modelArrive);
-
+        Estaticas.probabilidades_tell.clear();
+        Estaticas.probabilidad_acumulada_tell=0;
     }
 
     private boolean validateData(int timeArrived, int probability) {

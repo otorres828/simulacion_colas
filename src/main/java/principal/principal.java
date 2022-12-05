@@ -45,9 +45,9 @@ public class principal {
     }
     
     public void estadisticas(){
-        menu.setVisible(false);
-        menu.setEnabled(false);
-        ventana.add(estadisticas);
+        menu.setVisible(false); menu.setEnabled(false);
+        cargarvariablesentrada.setVisible(false); cargarvariablesentrada.setEnabled(false);
+        configurar_tell.setVisible(false); configurar_tell.setEnabled(false);        ventana.add(estadisticas);
         estadisticas.setVisible(true); 
         ventana.validate();
     }

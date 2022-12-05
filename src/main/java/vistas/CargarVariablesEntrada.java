@@ -9,7 +9,7 @@ import principal.principal;
 public class CargarVariablesEntrada extends javax.swing.JPanel {
     
     //CONFIGURACION DE VARIABLES ALEATORIAS
-    public Configurar_tells configurar_tell = null;
+    public Configurar_tell configurar_tell = null;
     
     public CargarVariablesEntrada() {
         initComponents();
@@ -344,7 +344,8 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-
+        Estaticas.TM_simulacion=Integer.parseInt(this.cantidad_simulacion.getText());
+        Estaticas.cantidad_servidores=Integer.parseInt(this.cantidad_servidores.getText());
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void limpiar_todoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiar_todoActionPerformed
@@ -359,6 +360,10 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
         this.cantidad_servidores.setText("");
         this.cantidad_simulacion.setText("");
         this.cantidad_ts.setText("");
+        
+        //COLOCAR EN CERO LAS VARIABLES ESTATICAS
+        Estaticas.TM_simulacion=0;
+        Estaticas.cantidad_servidores=0;
         }      
 
     }//GEN-LAST:event_limpiar_todoActionPerformed
