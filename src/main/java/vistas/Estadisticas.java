@@ -46,9 +46,7 @@ public class Estadisticas extends javax.swing.JPanel {
     }  
     
     public void inicializar_datos(){
-        Estaticas.probabilidades_tell.clear();
-        Estaticas.probabilidades_ts.clear();
-        
+              
         this.label_servidores.setText(Integer.toString(Estaticas.cantidad_servidores));
         this.label_simulacion.setText(Integer.toString(Estaticas.TM_simulacion));
         
@@ -58,9 +56,6 @@ public class Estadisticas extends javax.swing.JPanel {
         cargar_cabecera_tabla();                                                 //CARGAR CABECERA DE LA TABLA DE EVENTOS
         llamada_simulacion(cantidad_servidores);                                 //INICIAR LA SIMULACION
         
-        for (Object objeto : Estaticas.probabilidades_tell) {
-            System.out.println(objeto);
-        }
     }
     private void cargar_cabecera_tabla() {
         String[] titulos = new String[10 + (2 * cantidad_servidores)];
@@ -82,7 +77,7 @@ public class Estadisticas extends javax.swing.JPanel {
         titulos[index = index + 1] = "Np/TS";
         titulos[index = index + 1] = "TS";
 
-        tabla_eventos.setColumnIdentifiers(titulos);
+        tabla_eventos = new DefaultTableModel(null, titulos);
         table_modelo.setModel(tabla_eventos);
     }
 
@@ -114,11 +109,11 @@ public class Estadisticas extends javax.swing.JPanel {
             Cliente c = new Cliente(0, 999999);
             this.dt[i]=c;
         }
-        
         correr_simulacion(); //CORREMOS LA SIMULACION
     }
     
     private void correr_simulacion(){
+        limpiar();
         tabla_eventos.addRow((Object[]) obtener_objeto_llegada()); 
         //MIENTRAS TM SEA MENOR AL TIEMPO DE SIMULACION
         while(this.tm<this.simulacion){
@@ -299,6 +294,20 @@ public class Estadisticas extends javax.swing.JPanel {
         this.ts=calcular_ts();  
     }
     
+    private void limpiar(){
+        
+        id_cliente.clear();                                                      //LIMPIAMOS EL ARRAY QUE GUARDA EL ID DEL CLIENTE
+        wl.clear();                                                              //LIMPIAMOS EL ARRAY QUE GUARDA LA COLA
+        this.tm=0;
+        this.at=0;
+        this.tipo_evento="";
+        this.cant_cliente=0;
+        this.n_evento=0;
+        this.n_tell=0;
+        this.n_ts=0;
+        this.tell=0;
+        this.ts=0;
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

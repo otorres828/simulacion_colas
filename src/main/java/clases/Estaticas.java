@@ -35,6 +35,14 @@ public class Estaticas {
         Estaticas.TM_simulacion = TM_simulacion;
     }
     
+    public static void reiniciar() {
+        probabilidades_tell = new ArrayList<>();
+        probabilidades_ts = new ArrayList<>();
+        probabilidad_acumulada_tell = 0;
+        probabilidad_acumulada_ts = 0;
+        cantidad_tell = 0;
+        cantidad_ts=0;
+    }
     
     
     
