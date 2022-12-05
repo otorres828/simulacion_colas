@@ -1,5 +1,4 @@
 vistas\CargarVariablesEntrada$7.class
-vistas\Configurar_tells$4.class
 vistas\Estadisticas.class
 clases\Ventana.class
 vistas\CargarVariablesEntrada$11.class
@@ -7,15 +6,11 @@ vistas\CargarVariablesEntrada$2.class
 vistas\Configurar_tell$1.class
 vistas\Menu$2.class
 vistas\Configurar_tell$6.class
-vistas\Configurar_tells$1.class
 vistas\Configurar_tell$3.class
-vistas\Configurar_tells$6.class
 vistas\Menu.class
 clases\Cliente.class
 vistas\CargarVariablesEntrada.class
 vistas\CargarVariablesEntrada$5.class
-vistas\Configurar_tells$3.class
-vistas\Configurar_tells.class
 vistas\CargarVariablesEntrada$10.class
 vistas\Menu$3.class
 vistas\CargarVariablesEntrada$1.class
@@ -27,12 +22,10 @@ vistas\CargarVariablesEntrada$12.class
 vistas\Menu$1.class
 clases\Estaticas.class
 vistas\CargarVariablesEntrada$3.class
-vistas\Configurar_tells$5.class
 vistas\CargarVariablesEntrada$4.class
 vistas\Configurar_tell$2.class
 vistas\Configurar_tell.class
 clases\Logica.class
-vistas\Configurar_tells$2.class
 principal\principal.class
 vistas\Configurar_tell$4.class
 vistas\CargarVariablesEntrada$9.class

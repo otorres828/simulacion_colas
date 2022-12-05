@@ -20,7 +20,7 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel8 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
+        Opciones = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
         limpiar_todo = new javax.swing.JButton();
         limpiar_todo1 = new javax.swing.JButton();
@@ -54,8 +54,8 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
         jLabel8.setFont(new java.awt.Font("Segoe UI Light", 1, 24)); // NOI18N
         jLabel8.setText("Cargar Datos de Entrada");
 
-        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones"));
+        Opciones.setBackground(new java.awt.Color(255, 255, 255));
+        Opciones.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones de Entrada"));
 
         jButton3.setText("Continuar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -78,11 +78,11 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
             }
         });
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        javax.swing.GroupLayout OpcionesLayout = new javax.swing.GroupLayout(Opciones);
+        Opciones.setLayout(OpcionesLayout);
+        OpcionesLayout.setHorizontalGroup(
+            OpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(OpcionesLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
@@ -91,11 +91,11 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
                 .addComponent(limpiar_todo1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        OpcionesLayout.setVerticalGroup(
+            OpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(OpcionesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(OpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
                     .addComponent(limpiar_todo)
                     .addComponent(limpiar_todo1))
@@ -129,7 +129,7 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel10.setText("8. Valores del TS y probabilidades ");
 
-        valores_ts.setText("CONFIGURAR VALORES TS Y PROB");
+        valores_ts.setText("CONFIGURAR VALORES TS Y PROBABILIDADES");
         valores_ts.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 valores_tsActionPerformed(evt);
@@ -165,7 +165,7 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
             }
         });
 
-        valores_tell.setText("CONFIGURAR VALORES TELL Y PROB");
+        valores_tell.setText("CONFIGURAR VALORES TELL Y PROBABILIDADES");
         valores_tell.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 valores_tellActionPerformed(evt);
@@ -193,7 +193,7 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
                     .addComponent(jLabel2))
                 .addGap(53, 53, 53)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(valores_ts, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
+                    .addComponent(valores_ts, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cantidad_simulacion)
                     .addComponent(cantidad_tell)
                     .addComponent(cantidad_servidores)
@@ -219,8 +219,8 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
                         .addGap(28, 28, 28)
                         .addComponent(jLabel4))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(cantidad_simulacion, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(16, 16, 16)
+                        .addComponent(cantidad_simulacion, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
@@ -325,7 +325,7 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Opciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(338, 338, 338))
         );
         layout.setVerticalGroup(
@@ -338,9 +338,11 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Opciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        Opciones.getAccessibleContext().setAccessibleName("");
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -388,7 +390,21 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
     }//GEN-LAST:event_costo_tiempo_clienteActionPerformed
 
     private void limpiar_todo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiar_todo1ActionPerformed
-       principal.principal.menu_p();
+         this.unidad_tiempo.setSelectedIndex(0);
+        this.presentar_tabla_eventos.setSelectedIndex(0);
+        this.costo_servicio.setText("");
+        this.costo_servidor.setText("");
+        this.costo_tiempo_cliente.setText("");
+        this.cantidad_tell.setText("");
+        this.cantidad_servidores.setText("");
+        this.cantidad_simulacion.setText("");
+        this.cantidad_ts.setText("");
+        
+        //COLOCAR EN CERO LAS VARIABLES ESTATICAS
+        Estaticas.TM_simulacion=0;
+        Estaticas.cantidad_servidores=0;
+        
+        principal.principal.menu_p();
     }//GEN-LAST:event_limpiar_todo1ActionPerformed
 
     private void valores_tellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_valores_tellActionPerformed
@@ -449,6 +465,7 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel Opciones;
     private javax.swing.JTextField cantidad_servidores;
     private javax.swing.JTextField cantidad_simulacion;
     private javax.swing.JTextField cantidad_tell;
@@ -471,7 +488,6 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JButton limpiar_todo;
     private javax.swing.JButton limpiar_todo1;
     private javax.swing.JComboBox<String> presentar_tabla_eventos;
