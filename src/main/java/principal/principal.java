@@ -52,7 +52,8 @@ public class principal {
         configurar_ts.setVisible(false); configurar_ts.setEnabled(false);
         menu.setVisible(false); menu.setEnabled(false);
         cargarvariablesentrada.setVisible(false); cargarvariablesentrada.setEnabled(false);
-        configurar_tell.setVisible(false); configurar_tell.setEnabled(false);        ventana.add(estadisticas);
+        configurar_tell.setVisible(false); configurar_tell.setEnabled(false);        
+        ventana.add(estadisticas);
         estadisticas.setVisible(true); 
         ventana.validate();
     }

@@ -26,6 +26,16 @@ public class Estaticas {
         probabilidades_ts.add(objeto);
         return objeto;
     }
+
+    public static void setCantidad_servidores(int cantidad_servidores) {
+        Estaticas.cantidad_servidores = cantidad_servidores;
+    }
+
+    public static void setTM_simulacion(int TM_simulacion) {
+        Estaticas.TM_simulacion = TM_simulacion;
+    }
+    
+    
     
     
 }

@@ -21,7 +21,7 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
 
         jLabel8 = new javax.swing.JLabel();
         Opciones = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
+        Calcular = new javax.swing.JButton();
         limpiar_todo = new javax.swing.JButton();
         limpiar_todo1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -57,10 +57,10 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
         Opciones.setBackground(new java.awt.Color(255, 255, 255));
         Opciones.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones de Entrada"));
 
-        jButton3.setText("Continuar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        Calcular.setText("Calcular");
+        Calcular.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                CalcularActionPerformed(evt);
             }
         });
 
@@ -84,7 +84,7 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
             OpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(OpcionesLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Calcular, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addComponent(limpiar_todo, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
@@ -96,7 +96,7 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
             .addGroup(OpcionesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(OpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
+                    .addComponent(Calcular)
                     .addComponent(limpiar_todo)
                     .addComponent(limpiar_todo1))
                 .addContainerGap(23, Short.MAX_VALUE))
@@ -345,10 +345,25 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
         Opciones.getAccessibleContext().setAccessibleName("");
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        Estaticas.TM_simulacion=Integer.parseInt(this.cantidad_simulacion.getText());
-        Estaticas.cantidad_servidores=Integer.parseInt(this.cantidad_servidores.getText());
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void CalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CalcularActionPerformed
+        Estaticas.setCantidad_servidores(15);
+        Estaticas.setTM_simulacion(25);
+        principal.principal.estadisticas();
+
+        if(this.cantidad_simulacion.getText().isEmpty()   
+                || this.cantidad_tell.getText().isEmpty()
+                || this.cantidad_servidores.getText().isEmpty() 
+                || this.cantidad_ts.getText().isEmpty() 
+                || Estaticas.probabilidades_tell.isEmpty()
+                || Estaticas.probabilidades_ts.isEmpty()
+           ){
+            //message("Debes de llenar todos los campos para continuar. Esto incluye la configuracion de las probabilidades", 3);
+        }else{
+            Estaticas.TM_simulacion=Integer.parseInt(this.cantidad_simulacion.getText());
+            Estaticas.cantidad_servidores=Integer.parseInt(this.cantidad_servidores.getText());
+            principal.principal.estadisticas();
+        }
+    }//GEN-LAST:event_CalcularActionPerformed
 
     private void limpiar_todoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiar_todoActionPerformed
      int decision = JOptionPane.showConfirmDialog(null, "¿Estas seguro que deseas limpiar todos los campos?");
@@ -467,6 +482,7 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Calcular;
     private javax.swing.JPanel Opciones;
     private javax.swing.JTextField cantidad_servidores;
     private javax.swing.JTextField cantidad_simulacion;
@@ -475,7 +491,6 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
     private javax.swing.JTextField costo_servicio;
     private javax.swing.JTextField costo_servidor;
     private javax.swing.JTextField costo_tiempo_cliente;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
