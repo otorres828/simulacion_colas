@@ -28,6 +28,7 @@ public class Estadisticas extends javax.swing.JPanel {
     public int simulacion=0;
     public String tipo_evento="";
     public int cant_cliente=0;
+    public int clientes_sistema=0;
     
     public  int[] servidores;
 
@@ -36,17 +37,18 @@ public class Estadisticas extends javax.swing.JPanel {
     
     /*VARIABLES QUE CONTROLAN LA CANTIDAD DE SERVIDORES Y EL TIEMPO DE SIMULACION*/
     public int cantidad_servidores=0;
-    public int cliente_salida_cola=0;
-    public int cliente_salida_no_cola=0;
+    public int cliente_salida_cola=0;                                            //SE UTILIZA PARA OBTENER EL ID DEL CLIENTE QUE ENTRA A LA COLA
+    public int cliente_salida_no_cola=0;                                         //SE UTILIZA PARA OBTENER EL ID DEL CLIENTE QUE SALDRA DE LA COLA
     
-   
+    /*VARIABLES PARA EL CALCULO DE ESTADISTICAS*/
+    public float l=0;
+    
     public Estadisticas() {
         initComponents();
-        //cargar_probabilidades();
     }  
     
-    public void inicializar_datos(){
-              
+    public void inicializar_datos(){  
+        cargar_probabilidades();
         this.label_servidores.setText(Integer.toString(Estaticas.cantidad_servidores));
         this.label_simulacion.setText(Integer.toString(Estaticas.TM_simulacion));
         
@@ -54,11 +56,11 @@ public class Estadisticas extends javax.swing.JPanel {
         this.simulacion=Estaticas.TM_simulacion;
         
         cargar_cabecera_tabla();                                                 //CARGAR CABECERA DE LA TABLA DE EVENTOS
-        llamada_simulacion(cantidad_servidores);                                 //INICIAR LA SIMULACION
-        
+        llamada_simulacion(cantidad_servidores);                                 //INICIAR LA SIMULACION 
     }
+    
     private void cargar_cabecera_tabla() {
-        String[] titulos = new String[10 + (2 * cantidad_servidores)];
+        String[] titulos = new String[11 + (2 * cantidad_servidores)];
         titulos[0] = "Nº Evento";
         titulos[1] = "Tipo Evento";
         titulos[2] = "Id Cliente";
@@ -68,6 +70,7 @@ public class Estadisticas extends javax.swing.JPanel {
             titulos[index = index + 1] = "S" + (i + 1);
         }
         titulos[index = index + 1] = "WL";
+        titulos[index = index + 1] = "Clientes Sistema";
         titulos[index = index + 1] = "AT";
         for (int i = 0; i < cantidad_servidores; i++) {
             titulos[index = index + 1] = "DT" + (i + 1);
@@ -113,7 +116,7 @@ public class Estadisticas extends javax.swing.JPanel {
     }
     
     private void correr_simulacion(){
-        limpiar();
+        limpiar();                                                                //LIMPIAR LAS VARIABLES
         tabla_eventos.addRow((Object[]) obtener_objeto_llegada()); 
         //MIENTRAS TM SEA MENOR AL TIEMPO DE SIMULACION
         while(this.tm<this.simulacion){
@@ -123,6 +126,7 @@ public class Estadisticas extends javax.swing.JPanel {
                 this.tm=this.at;
                 this.tipo_evento="llegada";
                 this.cant_cliente=this.cant_cliente+1;
+                this.clientes_sistema=this.clientes_sistema+1;
                 this.id_cliente.add(cant_cliente);
                 
                 int n_servidor_vacio=hallar_servidor_vacio();
@@ -145,6 +149,7 @@ public class Estadisticas extends javax.swing.JPanel {
                 //tabla_eventos.addRow(new Object[]{n_evento,tipo_evento,cant_cliente,tm,servidores[0],servidores[1],wl.size(),at,dt[0],dt[1],n_tell,tell,n_ts,ts});
             }else{
                 //SALIDA
+                this.clientes_sistema=this.clientes_sistema-1;
                 this.tipo_evento="salida";
                 this.tm=this.dt[hallar_menor_dt()].valor;                          //TM=DT
                 if(!this.wl.isEmpty()){
@@ -173,12 +178,14 @@ public class Estadisticas extends javax.swing.JPanel {
                 else
                    this.id_cliente.remove(id_cliente.indexOf(this.cliente_salida_cola));
             }
-           
+           //CALCULAR L
+           this.l=l+calcular_l();
         }
+        this.l=(this.l/tm); this.valor_l.setText(String.valueOf(this.l));
     }
     
     private Object obtener_objeto_llegada(){
-        Object[] objeto = new Object[10+(2*cantidad_servidores)];
+        Object[] objeto = new Object[11+(2*cantidad_servidores)];
         objeto[0]=n_evento;
         objeto[1]=tipo_evento;
         objeto[2]=cant_cliente;
@@ -191,6 +198,7 @@ public class Estadisticas extends javax.swing.JPanel {
             objeto[index=index+1]=wl.size()+""+wl;
         else
             objeto[index=index+1]="";//wl.size();
+        objeto[index=index+1]=clientes_sistema;
         objeto[index=index+1]=at;
         for (int i = 0; i < cantidad_servidores; i++) {
             if(dt[i].valor!=999999)
@@ -207,7 +215,7 @@ public class Estadisticas extends javax.swing.JPanel {
     }
         
     private Object obtener_objeto_salida(){
-        Object[] objeto = new Object[10+(2*cantidad_servidores)];
+        Object[] objeto = new Object[11+(2*cantidad_servidores)];
         objeto[0]=n_evento;
         objeto[1]=tipo_evento;
         
@@ -226,7 +234,7 @@ public class Estadisticas extends javax.swing.JPanel {
             objeto[index=index+1]=wl.size()+""+wl;
         else
             objeto[index=index+1]=""; //wl.size()
-        
+        objeto[index=index+1]=clientes_sistema;
         objeto[index=index+1]=at;
         for (int i = 0; i < cantidad_servidores; i++) {
             if(dt[i].valor!=999999)
@@ -279,14 +287,14 @@ public class Estadisticas extends javax.swing.JPanel {
            if(n_tell>=Estaticas.probabilidades_tell.get(i).rango_desde && n_tell<=Estaticas.probabilidades_tell.get(i).rango_hasta )
                return Estaticas.probabilidades_tell.get(i).tiempo;
            
-         return ((int)(Math. random()*10+1)); //GENERA CUALQUIER NUMERO ALEATORIO EN CASO DE FALLA
+         return (99999); //GENERA EN CASO DE ERROR
     }
     
     private int calcular_ts(){
         for (int i = 0; i < Estaticas.probabilidades_ts.size(); i++) 
           if(n_ts>=Estaticas.probabilidades_ts.get(i).rango_desde && n_ts<=Estaticas.probabilidades_ts.get(i).rango_hasta )
                return Estaticas.probabilidades_ts.get(i).tiempo;
-         return ((int)(Math. random()*10+1)); //GENERA CUALQUIER NUMERO ALEATORIO EN CASO DE FALLA
+         return (99999); //GENERA EN CASO DE ERROR
     }
     
     private void generar_ts(){
@@ -295,7 +303,6 @@ public class Estadisticas extends javax.swing.JPanel {
     }
     
     private void limpiar(){
-        
         id_cliente.clear();                                                      //LIMPIAMOS EL ARRAY QUE GUARDA EL ID DEL CLIENTE
         wl.clear();                                                              //LIMPIAMOS EL ARRAY QUE GUARDA LA COLA
         this.tm=0;
@@ -307,8 +314,21 @@ public class Estadisticas extends javax.swing.JPanel {
         this.n_ts=0;
         this.tell=0;
         this.ts=0;
+        this.clientes_sistema=0;
     }
+    
+    private int calcular_l(){
+        int calculo;
+        if(at<valor_menor_dt()){
+            calculo=(at-tm)*clientes_sistema;
+        }else{
+            calculo=(valor_menor_dt()-tm)*clientes_sistema;
+        }
+        return calculo;
+    }
+    
     @SuppressWarnings("unchecked")
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -321,6 +341,7 @@ public class Estadisticas extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        valor_l = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
@@ -363,6 +384,9 @@ public class Estadisticas extends javax.swing.JPanel {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel5.setText("ESTADISTICAS");
 
+        valor_l.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        valor_l.setText("valor de l");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -377,8 +401,11 @@ public class Estadisticas extends javax.swing.JPanel {
                         .addGap(10, 10, 10)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))))
-                .addContainerGap(165, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(18, 18, 18)
+                                .addComponent(valor_l)))))
+                .addContainerGap(158, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(53, 53, 53)
@@ -393,7 +420,9 @@ public class Estadisticas extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(valor_l))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
                 .addContainerGap(39, Short.MAX_VALUE))
@@ -536,6 +565,7 @@ public class Estadisticas extends javax.swing.JPanel {
     private javax.swing.JLabel label_simulacion;
     private javax.swing.JButton regresar;
     public javax.swing.JTable table_modelo;
+    private javax.swing.JLabel valor_l;
     // End of variables declaration//GEN-END:variables
 
 }
