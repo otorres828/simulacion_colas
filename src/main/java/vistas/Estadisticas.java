@@ -53,10 +53,10 @@ public class Estadisticas extends javax.swing.JPanel {
         //cargar_probabilidades();
         this.label_servidores.setText(Integer.toString(Estaticas.cantidad_servidores));
         this.label_simulacion.setText(Integer.toString(Estaticas.TM_simulacion));
-        
+        this.unidad_tiempow.setText(Estaticas.unidad_tiempo);
+        this.unidad_tiempowq.setText(Estaticas.unidad_tiempo);
         this.cantidad_servidores=Estaticas.cantidad_servidores;
         this.simulacion=Estaticas.TM_simulacion;
-        
         cargar_cabecera_tabla();                                                 //CARGAR CABECERA DE LA TABLA DE EVENTOS
         llamada_simulacion(cantidad_servidores);                                 //INICIAR LA SIMULACION 
     }
@@ -341,6 +341,13 @@ public class Estadisticas extends javax.swing.JPanel {
         this.l=0;
         this.w_auxiliar.clear();
         this.wq_auxiliar.clear();
+        
+        //MOSTRAR EL PANEL DE EVENTOS
+        if("No".equals(Estaticas.presentar_tabla_eventos)){
+            this.panel_tabla_eventos.setVisible(false);
+        }else{
+           this.panel_tabla_eventos.setVisible(true);
+        }
     }
     
     private int calcular_l(){
@@ -402,8 +409,6 @@ public class Estadisticas extends javax.swing.JPanel {
     private void initComponents() {
 
         guardar = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        table_modelo = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -414,7 +419,8 @@ public class Estadisticas extends javax.swing.JPanel {
         valor_lq = new javax.swing.JLabel();
         valor_w = new javax.swing.JLabel();
         valor_wq = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        unidad_tiempowq = new javax.swing.JLabel();
+        unidad_tiempow = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -422,24 +428,15 @@ public class Estadisticas extends javax.swing.JPanel {
         label_simulacion = new javax.swing.JLabel();
         label_servidores = new javax.swing.JLabel();
         regresar = new javax.swing.JButton();
+        panel_tabla_eventos = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        table_modelo = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(102, 204, 255));
 
         guardar.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         guardar.setText("Guardar Simulacion");
-
-        table_modelo.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2"
-            }
-        ));
-        jScrollPane2.setViewportView(table_modelo);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jLabel2.setText("W:");
@@ -468,6 +465,12 @@ public class Estadisticas extends javax.swing.JPanel {
         valor_wq.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         valor_wq.setText("valor de wq");
 
+        unidad_tiempowq.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        unidad_tiempowq.setText("unidad_tiempo");
+
+        unidad_tiempow.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        unidad_tiempow.setText("unidad_tiempo");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -483,8 +486,15 @@ public class Estadisticas extends javax.swing.JPanel {
                                     .addComponent(jLabel2))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(valor_w)
-                                    .addComponent(valor_wq)))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(valor_w)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(unidad_tiempow))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(valor_wq)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(unidad_tiempowq)
+                                        .addGap(0, 0, Short.MAX_VALUE))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -497,7 +507,7 @@ public class Estadisticas extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(63, 63, 63)
                         .addComponent(jLabel5)))
-                .addContainerGap(81, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -507,11 +517,13 @@ public class Estadisticas extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(valor_w))
+                    .addComponent(valor_w)
+                    .addComponent(unidad_tiempow))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(valor_wq))
+                    .addComponent(valor_wq)
+                    .addComponent(unidad_tiempowq))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -522,9 +534,6 @@ public class Estadisticas extends javax.swing.JPanel {
                     .addComponent(valor_lq))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI Black", 0, 24)); // NOI18N
-        jLabel1.setText("TABLA DE EVENTOS");
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jLabel7.setText("CANT SIMULACION: ");
@@ -582,48 +591,82 @@ public class Estadisticas extends javax.swing.JPanel {
             }
         });
 
+        panel_tabla_eventos.setBackground(new java.awt.Color(102, 204, 255));
+
+        table_modelo.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2"
+            }
+        ));
+        jScrollPane2.setViewportView(table_modelo);
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI Black", 0, 24)); // NOI18N
+        jLabel1.setText("TABLA DE EVENTOS");
+
+        javax.swing.GroupLayout panel_tabla_eventosLayout = new javax.swing.GroupLayout(panel_tabla_eventos);
+        panel_tabla_eventos.setLayout(panel_tabla_eventosLayout);
+        panel_tabla_eventosLayout.setHorizontalGroup(
+            panel_tabla_eventosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_tabla_eventosLayout.createSequentialGroup()
+                .addGroup(panel_tabla_eventosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel_tabla_eventosLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1007, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panel_tabla_eventosLayout.createSequentialGroup()
+                        .addGap(421, 421, 421)
+                        .addComponent(jLabel1)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panel_tabla_eventosLayout.setVerticalGroup(
+            panel_tabla_eventosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_tabla_eventosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(28, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
+                        .addGap(10, 10, 10)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(69, 69, 69)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(151, 151, 151)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(guardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(regresar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1007, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jLabel1)
-                .addGap(386, 386, 386))
+                            .addComponent(regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(panel_tabla_eventos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panel_tabla_eventos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
+                        .addGap(22, 22, 22)
                         .addComponent(guardar)
                         .addGap(18, 18, 18)
                         .addComponent(regresar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(126, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -647,8 +690,11 @@ public class Estadisticas extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel label_servidores;
     private javax.swing.JLabel label_simulacion;
+    private javax.swing.JPanel panel_tabla_eventos;
     private javax.swing.JButton regresar;
     public javax.swing.JTable table_modelo;
+    private javax.swing.JLabel unidad_tiempow;
+    private javax.swing.JLabel unidad_tiempowq;
     private javax.swing.JLabel valor_l;
     private javax.swing.JLabel valor_lq;
     private javax.swing.JLabel valor_w;

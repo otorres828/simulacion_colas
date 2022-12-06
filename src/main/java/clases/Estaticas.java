@@ -15,6 +15,9 @@ public class Estaticas {
     static public int cantidad_tell=0;
     static public int cantidad_ts=0;
     
+    static public String unidad_tiempo="";
+    static public String presentar_tabla_eventos="";
+    
     static public TELL asignar_tell(int tiempo,int probabilidad){
         TELL objeto = new TELL(tiempo,probabilidad);
         probabilidades_tell.add(objeto);

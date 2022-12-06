@@ -358,6 +358,8 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void CalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CalcularActionPerformed
+        //funcion_para_probar();
+        
         if(this.cantidad_simulacion.getText().isEmpty()   
                 || this.cantidad_tell.getText().isEmpty()
                 || this.cantidad_servidores.getText().isEmpty() 
@@ -369,6 +371,8 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
         }else{
             Estaticas.TM_simulacion = Integer.parseInt(this.cantidad_simulacion.getText());
             Estaticas.cantidad_servidores = Integer.parseInt(this.cantidad_servidores.getText());
+            Estaticas.unidad_tiempo = this.unidad_tiempo.getSelectedItem().toString();
+            Estaticas.presentar_tabla_eventos = this.presentar_tabla_eventos.getSelectedItem().toString();
             principal.principal.estadisticas();
         }
     }//GEN-LAST:event_CalcularActionPerformed
@@ -531,7 +535,7 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
     private javax.swing.JButton valores_ts;
     // End of variables declaration//GEN-END:variables
 
-    public void message(String text, int operation) {
+    private void message(String text, int operation) {
         if (operation == 1) {
             JOptionPane.showMessageDialog(null, text, " Operacion exitosa ", JOptionPane.INFORMATION_MESSAGE);
         } else if (operation == 2) {
@@ -550,6 +554,12 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
         return modelCb;
     }
 
-    
+    private void funcion_para_probar() {
+        Estaticas.TM_simulacion = Integer.parseInt(this.cantidad_simulacion.getText());
+        Estaticas.cantidad_servidores = Integer.parseInt(this.cantidad_servidores.getText());
+        Estaticas.unidad_tiempo = this.unidad_tiempo.getSelectedItem().toString();
+        Estaticas.presentar_tabla_eventos = this.presentar_tabla_eventos.getSelectedItem().toString();
+        principal.principal.estadisticas();
+    }
 
 }
