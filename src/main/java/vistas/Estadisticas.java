@@ -41,7 +41,7 @@ public class Estadisticas extends javax.swing.JPanel {
     public int cliente_salida_no_cola=0;                                         //SE UTILIZA PARA OBTENER EL ID DEL CLIENTE QUE SALDRA DE LA COLA
     
     /*VARIABLES PARA EL CALCULO DE ESTADISTICAS*/
-    public float l=0;
+    public float l=0,lq=0;
     
     public Estadisticas() {
         initComponents();
@@ -180,8 +180,11 @@ public class Estadisticas extends javax.swing.JPanel {
             }
            //CALCULAR L
            this.l=l+calcular_l();
+           this.lq=lq+calcular_lq();
         }
+        //IMPRIMIR L y LQ EN PANTALLA
         this.l=(this.l/tm); this.valor_l.setText(String.valueOf(this.l));
+        this.lq=(this.lq/tm); this.valor_lq.setText(String.valueOf(this.lq));
     }
     
     private Object obtener_objeto_llegada(){
@@ -297,8 +300,12 @@ public class Estadisticas extends javax.swing.JPanel {
          return (99999); //GENERA EN CASO DE ERROR
     }
     
+    @SuppressWarnings("empty-statement")
     private void generar_ts(){
-        this.n_ts= (int)(Math. random()*100);   //SE GENERA UN NUMERO ALEATORIO DE TS
+        int numero;
+        while( (numero=(int)(Math. random()*100) )== n_ts);
+        this.n_ts=numero;                                                         //SE GENERA UN NUMERO ALEATORIO DE TS
+        System.out.println(n_ts);
         this.ts=calcular_ts();  
     }
     
@@ -327,6 +334,16 @@ public class Estadisticas extends javax.swing.JPanel {
         return calculo;
     }
     
+    private int calcular_lq(){
+        int calculo;
+        if(at<valor_menor_dt()){
+            calculo=(at-tm)*wl.size();
+        }else{
+            calculo=(valor_menor_dt()-tm)*wl.size();
+        }
+        return calculo;
+    }
+    
     @SuppressWarnings("unchecked")
     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -342,6 +359,7 @@ public class Estadisticas extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         valor_l = new javax.swing.JLabel();
+        valor_lq = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
@@ -387,6 +405,9 @@ public class Estadisticas extends javax.swing.JPanel {
         valor_l.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         valor_l.setText("valor de l");
 
+        valor_lq.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        valor_lq.setText("valor de lq");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -400,17 +421,18 @@ public class Estadisticas extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(18, 18, 18)
-                                .addComponent(valor_l)))))
-                .addContainerGap(158, Short.MAX_VALUE))
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(valor_lq)
+                            .addComponent(valor_l))))
+                .addContainerGap(108, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(53, 53, 53)
                     .addComponent(jLabel5)
-                    .addContainerGap(82, Short.MAX_VALUE)))
+                    .addContainerGap(91, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -424,7 +446,9 @@ public class Estadisticas extends javax.swing.JPanel {
                     .addComponent(jLabel4)
                     .addComponent(valor_l))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel6)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(valor_lq))
                 .addContainerGap(39, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
@@ -507,9 +531,9 @@ public class Estadisticas extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(43, 43, 43)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)
+                        .addGap(69, 69, 69)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(130, 130, 130)
+                        .addGap(151, 151, 151)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(guardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(regresar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -566,6 +590,7 @@ public class Estadisticas extends javax.swing.JPanel {
     private javax.swing.JButton regresar;
     public javax.swing.JTable table_modelo;
     private javax.swing.JLabel valor_l;
+    private javax.swing.JLabel valor_lq;
     // End of variables declaration//GEN-END:variables
 
 }
