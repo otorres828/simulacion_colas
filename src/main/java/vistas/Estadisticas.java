@@ -15,6 +15,7 @@ public class Estadisticas extends javax.swing.JPanel {
     
     public ArrayList<Integer> wl = new ArrayList<>(); 
     public ArrayList<Integer> id_cliente = new ArrayList<>(); 
+    public ArrayList<Cliente> w_auxiliar = new ArrayList<>(); 
     //TIEMPO ENTRE LLEGADAS
     
     public  int n_tell=0;
@@ -31,7 +32,7 @@ public class Estadisticas extends javax.swing.JPanel {
     public int clientes_sistema=0;
     
     public  int[] servidores;
-
+    
     public Cliente dt[];
     public int n_evento=0;
     
@@ -115,6 +116,7 @@ public class Estadisticas extends javax.swing.JPanel {
         correr_simulacion(); //CORREMOS LA SIMULACION
     }
     
+    //ESTE METODO ES EL ENCARGADO DE SACAR TODOS LOS CALCULOS DE LA TABLA DE EVENTOS Y ESTADITICAS
     private void correr_simulacion(){
         limpiar();                                                                //LIMPIAR LAS VARIABLES
         tabla_eventos.addRow((Object[]) obtener_objeto_llegada()); 
@@ -137,6 +139,7 @@ public class Estadisticas extends javax.swing.JPanel {
                     int valor = this.tm+this.ts;
                     this.dt[n_servidor_vacio].valor=valor;                        //ASIGNAMOS EL TS AL CLIENTE QUE ENTRO EN EL SERVIDOR VACIO
                     this.dt[n_servidor_vacio].id=cant_cliente;
+                    añadir_w_dt(cant_cliente,valor);
                 }else{
                     //NO EXISTEN SERVIDORES VACIOS
                     this.wl.add(this.cant_cliente);
@@ -146,7 +149,6 @@ public class Estadisticas extends javax.swing.JPanel {
                 this.at=this.tm+this.tell;   
                 
                 tabla_eventos.addRow((Object[]) obtener_objeto_llegada());
-                //tabla_eventos.addRow(new Object[]{n_evento,tipo_evento,cant_cliente,tm,servidores[0],servidores[1],wl.size(),at,dt[0],dt[1],n_tell,tell,n_ts,ts});
             }else{
                 //SALIDA
                 this.clientes_sistema=this.clientes_sistema-1;
@@ -161,7 +163,6 @@ public class Estadisticas extends javax.swing.JPanel {
                     this.cliente_salida_cola=this.dt[hallar_menor_dt()].id;            //SE OBTIENE EL ID DEL CLIENTE QUE VA A SALIR
                     this.dt[hallar_menor_dt()].id=id_cliente_servidor;            //ASIGNAMOS EL ID DEL CLIENTE QUE SE LE ASIGNARA EL DT QUE VIENE DE LA COLA
                     this.dt[hallar_menor_dt()].valor=valor;                       //ASIGNAMOS EL VALOR A LA SALIDA DEL QUE VIENE DE LA COLA
-                    
                 }else{
                     //CUANDO NO HAY COLA
                     int menor=hallar_menor_dt();
@@ -185,9 +186,14 @@ public class Estadisticas extends javax.swing.JPanel {
         //IMPRIMIR L y LQ EN PANTALLA
         this.l=(this.l/tm); this.valor_l.setText(String.valueOf(this.l));
         this.lq=(this.lq/tm); this.valor_lq.setText(String.valueOf(this.lq));
+        //CALCULAR E IMPRIMIR W
+        this.w=w/cant_cliente;
+        this.valor_w.setText(String.valueOf(this.w));
+        
     }
     
     private Object obtener_objeto_llegada(){
+        añadir_tm_w(cant_cliente,tm);
         Object[] objeto = new Object[11+(2*cantidad_servidores)];
         objeto[0]=n_evento;
         objeto[1]=tipo_evento;
@@ -222,10 +228,14 @@ public class Estadisticas extends javax.swing.JPanel {
         objeto[0]=n_evento;
         objeto[1]=tipo_evento;
         
-        if(cliente_salida_cola!=0)
-            objeto[2]=this.cliente_salida_cola;                                        //CUANDO HAY COLA SE LE ASIGNA EL CLIENTE QUE ESTA SALIENDO DE LA COLA
-        else
-        objeto[2]=this.id_cliente.get(id_cliente.indexOf(cliente_salida_no_cola));                                           //CUANDO NO HAY COLA SE LE ASIGNA EL CLIENTE 0 EN EL ARRAY LIST
+        if(cliente_salida_cola!=0){
+            objeto[2]=this.cliente_salida_cola;                                        //CUANDO HAY COLA SE LE ASIGNA EL CLIENTE QUE ESTA SALIENDO DE LA COLA 
+            añadir_w_dt(this.cliente_salida_cola,tm);                                  //ASIGNAR DT AL CLIENTE QUE ESTA SALIENDO PARA CALCULAR EL W
+        }else{
+            int id_de_cliente=this.id_cliente.get(id_cliente.indexOf(cliente_salida_no_cola));
+            objeto[2]=id_de_cliente;                                                   //CUANDO NO HAY COLA SE LE ASIGNA EL CLIENTE 0 EN EL ARRAY LIST    
+            añadir_w_dt(id_de_cliente,tm);                                             //ASIGNAR DT AL CLIENTE QUE ESTA SALIENDO PARA CALCULAR EL W
+        }
         
         objeto[3]=tm;
         int index=3;
@@ -322,6 +332,11 @@ public class Estadisticas extends javax.swing.JPanel {
         this.tell=0;
         this.ts=0;
         this.clientes_sistema=0;
+        //estadisticas
+        this.w=0;
+        this.lq=0;
+        this.l=0;
+        this.w_auxiliar.clear();
     }
     
     private int calcular_l(){
@@ -344,6 +359,23 @@ public class Estadisticas extends javax.swing.JPanel {
         return calculo;
     }
     
+    private void añadir_tm_w(int ncliente,int valortm){
+        Cliente objeto = new Cliente(ncliente, valortm,0);
+        this.w_auxiliar.add(objeto);
+    }
+    
+    public float w=0;
+    private void añadir_w_dt(int ncliente,int valortm){
+        Cliente obj2;
+        for (Cliente obj : w_auxiliar) {
+            if(obj.id==ncliente){
+                w=(valortm-obj.tm)+w;
+                obj2= new Cliente(obj.id,obj.valor,obj.tm);
+                break;
+            }
+        }
+        //w_auxiliar.remove(obj2);
+    }
     @SuppressWarnings("unchecked")
     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -360,6 +392,7 @@ public class Estadisticas extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         valor_l = new javax.swing.JLabel();
         valor_lq = new javax.swing.JLabel();
+        valor_w = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
@@ -408,37 +441,47 @@ public class Estadisticas extends javax.swing.JPanel {
         valor_lq.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         valor_lq.setText("valor de lq");
 
+        valor_w.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        valor_w.setText("valor de w");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jLabel3)
-                        .addComponent(jLabel2))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
+                        .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(valor_lq)
-                            .addComponent(valor_l))))
-                .addContainerGap(108, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(53, 53, 53)
-                    .addComponent(jLabel5)
-                    .addContainerGap(91, Short.MAX_VALUE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel2))
+                                .addGap(18, 18, 18)
+                                .addComponent(valor_w))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(valor_lq)
+                                    .addComponent(valor_l)))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(63, 63, 63)
+                        .addComponent(jLabel5)))
+                .addContainerGap(81, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(jLabel2)
+                .addContainerGap()
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(valor_w))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -450,11 +493,6 @@ public class Estadisticas extends javax.swing.JPanel {
                     .addComponent(jLabel6)
                     .addComponent(valor_lq))
                 .addContainerGap(39, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(23, 23, 23)
-                    .addComponent(jLabel5)
-                    .addContainerGap(121, Short.MAX_VALUE)))
         );
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Black", 0, 24)); // NOI18N
@@ -481,24 +519,23 @@ public class Estadisticas extends javax.swing.JPanel {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel11)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel7)
+                        .addComponent(jLabel8)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(label_servidores, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
                     .addComponent(label_simulacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(47, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(53, 53, 53)
-                    .addComponent(jLabel11)
-                    .addContainerGap(101, Short.MAX_VALUE)))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(46, 46, 46)
+                .addGap(17, 17, 17)
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(label_simulacion))
@@ -507,11 +544,6 @@ public class Estadisticas extends javax.swing.JPanel {
                     .addComponent(jLabel8)
                     .addComponent(label_servidores))
                 .addContainerGap(75, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(23, 23, 23)
-                    .addComponent(jLabel11)
-                    .addContainerGap(121, Short.MAX_VALUE)))
         );
 
         regresar.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
@@ -591,6 +623,7 @@ public class Estadisticas extends javax.swing.JPanel {
     public javax.swing.JTable table_modelo;
     private javax.swing.JLabel valor_l;
     private javax.swing.JLabel valor_lq;
+    private javax.swing.JLabel valor_w;
     // End of variables declaration//GEN-END:variables
 
 }
