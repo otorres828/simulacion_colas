@@ -15,9 +15,8 @@ public class Estadisticas extends javax.swing.JPanel {
     
     public ArrayList<Integer> wl = new ArrayList<>(); 
     public ArrayList<Integer> id_cliente = new ArrayList<>(); 
-    public ArrayList<Cliente> w_auxiliar = new ArrayList<>(); 
+
     //TIEMPO ENTRE LLEGADAS
-    
     public  int n_tell=0;
     public  int tell=0;
     
@@ -42,14 +41,16 @@ public class Estadisticas extends javax.swing.JPanel {
     public int cliente_salida_no_cola=0;                                         //SE UTILIZA PARA OBTENER EL ID DEL CLIENTE QUE SALDRA DE LA COLA
     
     /*VARIABLES PARA EL CALCULO DE ESTADISTICAS*/
-    public float l=0,lq=0;
-    
+    public float l=0,lq=0, w=0,wq=0;
+    public ArrayList<Cliente> w_auxiliar = new ArrayList<>(); 
+    public ArrayList<Cliente> wq_auxiliar = new ArrayList<>(); 
+
     public Estadisticas() {
         initComponents();
     }  
     
     public void inicializar_datos(){  
-        cargar_probabilidades();
+        //cargar_probabilidades();
         this.label_servidores.setText(Integer.toString(Estaticas.cantidad_servidores));
         this.label_simulacion.setText(Integer.toString(Estaticas.TM_simulacion));
         
@@ -143,6 +144,7 @@ public class Estadisticas extends javax.swing.JPanel {
                 }else{
                     //NO EXISTEN SERVIDORES VACIOS
                     this.wl.add(this.cant_cliente);
+                    añadir_wq_tm(this.cant_cliente,tm);                           //AÑADIMOS EL CLIENTE CON SU TM AL  ARRAY CUANDO INGRESA A LA COLA
                 }
                 this.n_tell= (int)(Math. random()*100);                           //SE GENERA UN NUMERO ALEATORIO DE TS
                 this.tell=calcular_tell();                                        //SE CALCULA EL TS
@@ -157,6 +159,7 @@ public class Estadisticas extends javax.swing.JPanel {
                 if(!this.wl.isEmpty()){
                     //CUANDO HAY COLA
                     int id_cliente_servidor=this.wl.get(0);
+                    añadir_wq_dt(id_cliente_servidor,tm);                         //AÑADIR DT AL CLIENTE QUE SALE DE LA COLA PARA CALCULAR WQ
                     this.wl.remove(0);                                            //SE REMUEVE EL PRIMERO EN COLA
                     generar_ts();                                                 //SE GENERA EL TS
                     int valor = this.tm+this.ts;                                  //SE OBTIENE TM+TS
@@ -186,9 +189,9 @@ public class Estadisticas extends javax.swing.JPanel {
         //IMPRIMIR L y LQ EN PANTALLA
         this.l=(this.l/tm); this.valor_l.setText(String.valueOf(this.l));
         this.lq=(this.lq/tm); this.valor_lq.setText(String.valueOf(this.lq));
-        //CALCULAR E IMPRIMIR W
-        this.w=w/cant_cliente;
-        this.valor_w.setText(String.valueOf(this.w));
+        //CALCULAR E IMPRIMIR W Y WQ
+        this.w=w/cant_cliente; this.valor_w.setText(String.valueOf(this.w));
+        this.wq=wq/cant_cliente; this.valor_wq.setText(String.valueOf(this.wq));
         
     }
     
@@ -337,6 +340,7 @@ public class Estadisticas extends javax.swing.JPanel {
         this.lq=0;
         this.l=0;
         this.w_auxiliar.clear();
+        this.wq_auxiliar.clear();
     }
     
     private int calcular_l(){
@@ -359,23 +363,39 @@ public class Estadisticas extends javax.swing.JPanel {
         return calculo;
     }
     
+    //PARA CALCULAR W
     private void añadir_tm_w(int ncliente,int valortm){
         Cliente objeto = new Cliente(ncliente, valortm,0);
         this.w_auxiliar.add(objeto);
     }
-    
-    public float w=0;
+   
     private void añadir_w_dt(int ncliente,int valortm){
-        Cliente obj2;
+        //Cliente obj2;
         for (Cliente obj : w_auxiliar) {
             if(obj.id==ncliente){
                 w=(valortm-obj.tm)+w;
-                obj2= new Cliente(obj.id,obj.valor,obj.tm);
+                //obj2= new Cliente(obj.id,obj.valor,obj.tm);
                 break;
             }
         }
         //w_auxiliar.remove(obj2);
     }
+    
+    //PARA CALCULAR WQ
+    private void añadir_wq_tm(int ncliente,int valortm){
+        Cliente objeto = new Cliente(ncliente, valortm,0);
+        this.wq_auxiliar.add(objeto);
+    }
+    
+    private void añadir_wq_dt(int ncliente,int valortm){
+        for (Cliente obj : wq_auxiliar) {
+            if(obj.id==ncliente){
+                wq=(valortm-obj.tm)+wq;
+                break;
+            }
+        }
+    }
+
     @SuppressWarnings("unchecked")
     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -393,6 +413,7 @@ public class Estadisticas extends javax.swing.JPanel {
         valor_l = new javax.swing.JLabel();
         valor_lq = new javax.swing.JLabel();
         valor_w = new javax.swing.JLabel();
+        valor_wq = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
@@ -444,6 +465,9 @@ public class Estadisticas extends javax.swing.JPanel {
         valor_w.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         valor_w.setText("valor de w");
 
+        valor_wq.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        valor_wq.setText("valor de wq");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -458,7 +482,9 @@ public class Estadisticas extends javax.swing.JPanel {
                                     .addComponent(jLabel3)
                                     .addComponent(jLabel2))
                                 .addGap(18, 18, 18)
-                                .addComponent(valor_w))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(valor_w)
+                                    .addComponent(valor_wq)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -483,7 +509,9 @@ public class Estadisticas extends javax.swing.JPanel {
                     .addComponent(jLabel2)
                     .addComponent(valor_w))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(valor_wq))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -624,6 +652,7 @@ public class Estadisticas extends javax.swing.JPanel {
     private javax.swing.JLabel valor_l;
     private javax.swing.JLabel valor_lq;
     private javax.swing.JLabel valor_w;
+    private javax.swing.JLabel valor_wq;
     // End of variables declaration//GEN-END:variables
 
 }

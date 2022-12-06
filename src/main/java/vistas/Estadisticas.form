@@ -138,7 +138,10 @@
                                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="valor_w" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="valor_w" min="-2" max="-2" attributes="0"/>
+                                      <Component id="valor_wq" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
@@ -174,7 +177,10 @@
                       <Component id="valor_w" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="valor_wq" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -253,6 +259,14 @@
               <Font name="Segoe UI" size="12" style="3"/>
             </Property>
             <Property name="text" type="java.lang.String" value="valor de w"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="valor_wq">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="12" style="3"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="valor de wq"/>
           </Properties>
         </Component>
       </SubComponents>

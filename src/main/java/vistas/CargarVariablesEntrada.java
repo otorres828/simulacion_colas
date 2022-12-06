@@ -358,9 +358,6 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void CalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CalcularActionPerformed
-         Estaticas.TM_simulacion = Integer.parseInt(this.cantidad_simulacion.getText());
-         Estaticas.cantidad_servidores = Integer.parseInt(this.cantidad_servidores.getText());
-         principal.principal.estadisticas();
         if(this.cantidad_simulacion.getText().isEmpty()   
                 || this.cantidad_tell.getText().isEmpty()
                 || this.cantidad_servidores.getText().isEmpty() 
@@ -368,7 +365,7 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
                 || Estaticas.probabilidades_tell.isEmpty()
                 || Estaticas.probabilidades_ts.isEmpty()
            ){
-            //message("Debes de llenar todos los campos para continuar. Esto incluye la configuracion de las probabilidades", 3);
+            message("Debes de llenar todos los campos para continuar. Esto incluye la configuracion de las probabilidades", 3);
         }else{
             Estaticas.TM_simulacion = Integer.parseInt(this.cantidad_simulacion.getText());
             Estaticas.cantidad_servidores = Integer.parseInt(this.cantidad_servidores.getText());
