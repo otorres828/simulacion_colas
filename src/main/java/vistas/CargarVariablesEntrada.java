@@ -358,7 +358,7 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void CalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CalcularActionPerformed
-        //funcion_para_probar();
+        funcion_para_probar();
         
         if(this.cantidad_simulacion.getText().isEmpty()   
                 || this.cantidad_tell.getText().isEmpty()

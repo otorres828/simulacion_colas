@@ -64,7 +64,6 @@ public class principal {
     }
     
     public void estadisticas(){
-        estadisticas.inicializar_datos();                                        //CARGAR LOS DATOS
         configurar_ts.setVisible(false); configurar_ts.setEnabled(false);
         menu.setVisible(false); menu.setEnabled(false);
         cargarvariablesentrada.setVisible(false); cargarvariablesentrada.setEnabled(false);
@@ -72,6 +71,7 @@ public class principal {
         ventana.add(estadisticas);
         estadisticas.setVisible(true); 
         ventana.validate();
+        estadisticas.inicializar_datos();                                        //CARGAR LOS DATOS
     }
     
     public void configurar_tell(){

@@ -5,6 +5,7 @@ import clases.Cliente;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import clases.Estaticas;
+import java.util.Vector;
 import principal.principal;
 
 public class Estadisticas extends javax.swing.JPanel {
@@ -50,7 +51,7 @@ public class Estadisticas extends javax.swing.JPanel {
     }  
     
     public void inicializar_datos(){  
-        //cargar_probabilidades();
+        cargar_probabilidades();
         this.label_servidores.setText(Integer.toString(Estaticas.cantidad_servidores));
         this.label_simulacion.setText(Integer.toString(Estaticas.TM_simulacion));
         this.unidad_tiempow.setText(Estaticas.unidad_tiempo);
@@ -120,7 +121,7 @@ public class Estadisticas extends javax.swing.JPanel {
     //ESTE METODO ES EL ENCARGADO DE SACAR TODOS LOS CALCULOS DE LA TABLA DE EVENTOS Y ESTADITICAS
     private void correr_simulacion(){
         limpiar();                                                                //LIMPIAR LAS VARIABLES
-        tabla_eventos.addRow((Object[]) obtener_objeto_llegada()); 
+        tabla_eventos.addRow( obtener_objeto_llegada()); 
         //MIENTRAS TM SEA MENOR AL TIEMPO DE SIMULACION
         while(this.tm<this.simulacion){
             n_evento++;
@@ -150,7 +151,7 @@ public class Estadisticas extends javax.swing.JPanel {
                 this.tell=calcular_tell();                                        //SE CALCULA EL TS
                 this.at=this.tm+this.tell;   
                 
-                tabla_eventos.addRow((Object[]) obtener_objeto_llegada());
+                tabla_eventos.addRow( obtener_objeto_llegada()); 
             }else{
                 //SALIDA
                 this.clientes_sistema=this.clientes_sistema-1;
@@ -182,6 +183,7 @@ public class Estadisticas extends javax.swing.JPanel {
                 else
                    this.id_cliente.remove(id_cliente.indexOf(this.cliente_salida_cola));
             }
+            
            //CALCULAR L
            this.l=l+calcular_l();
            this.lq=lq+calcular_lq();
@@ -195,33 +197,33 @@ public class Estadisticas extends javax.swing.JPanel {
         
     }
     
-    private Object obtener_objeto_llegada(){
+    private Object[] obtener_objeto_llegada(){
         añadir_tm_w(cant_cliente,tm);
-        Object[] objeto = new Object[11+(2*cantidad_servidores)];
-        objeto[0]=n_evento;
+        String[] objeto = new String[11+(2*cantidad_servidores)];
+        objeto[0]=String.valueOf(n_evento);
         objeto[1]=tipo_evento;
-        objeto[2]=cant_cliente;
-        objeto[3]=tm;
+        objeto[2]=String.valueOf(cant_cliente);
+        objeto[3]=String.valueOf(tm);
         int index=3;
         for (int i = 0; i < cantidad_servidores; i++) {
-            objeto[index=index+1]=servidores[i];
+            objeto[index=index+1]=String.valueOf(servidores[i]);
         }
         if(!wl.isEmpty())
             objeto[index=index+1]=wl.size()+""+wl;
         else
             objeto[index=index+1]="";//wl.size();
-        objeto[index=index+1]=clientes_sistema;
-        objeto[index=index+1]=at;
+        objeto[index=index+1]=String.valueOf(clientes_sistema);
+        objeto[index=index+1]=String.valueOf(at);
         for (int i = 0; i < cantidad_servidores; i++) {
             if(dt[i].valor!=999999)
                 objeto[index=index+1]=dt[i].valor+"("+dt[i].id+")";
             else
                 objeto[index=index+1]="XXX";
         }
-        objeto[index=index+1]=n_tell;
-        objeto[index=index+1]=tell;
-        objeto[index=index+1]=n_ts;
-        objeto[index=index+1]=ts;
+        objeto[index=index+1]=String.valueOf(n_tell);
+        objeto[index=index+1]=String.valueOf(tell);
+        objeto[index=index+1]=String.valueOf(n_ts);
+        objeto[index=index+1]=String.valueOf(ts);
         
         return objeto;
     }

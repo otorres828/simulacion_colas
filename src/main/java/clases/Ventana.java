@@ -1,5 +1,4 @@
 package clases;
-import java.awt.Color;
 import javax.swing.*;
 
 public class Ventana extends JFrame {
