@@ -3,6 +3,7 @@ package vistas;
 
 import clases.Cliente;
 import clases.DatosEntrada;
+import clases.DatosSalida;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import clases.Estaticas;
@@ -651,11 +652,11 @@ public class Estadisticas extends javax.swing.JPanel {
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
+                        .addGap(77, 77, 77)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(69, 69, 69)
+                        .addGap(70, 70, 70)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(151, 151, 151)
+                        .addGap(83, 83, 83)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(guardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -687,9 +688,20 @@ public class Estadisticas extends javax.swing.JPanel {
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
         JFileChooser jf = new JFileChooser();     
         GestorArchivos gestorarchivos = new GestorArchivos();  
-        DatosEntrada data = null;
-        data = this.LeerCampos();
-        gestorarchivos.guardar_archivo(data, jf);
+        DatosSalida data;
+        
+        //GUARDAMOS LOS DATOS EN UN OBJETO DE SALIDA
+        data = new DatosSalida(
+                this.w, 
+                this.wq, 
+                this.l, 
+                this.lq, 
+                principal.principal.obtener_tabla_configurar_tell(), 
+                principal.principal.obtener_tabla_configurar_ts()
+        );
+        
+       gestorarchivos.guardar_salida(data, jf);
+        
     }//GEN-LAST:event_guardarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
