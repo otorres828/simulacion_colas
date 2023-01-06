@@ -1,10 +1,15 @@
 
 package clases;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.util.StringTokenizer;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class GestorArchivos {
     private final String file;
@@ -21,7 +26,9 @@ public class GestorArchivos {
                 "Unidad de tiempo", 
                 "Tabla de eventos", 
                 "tiempo de simulacion",
-                "Cantidad de servidores", 
+                "Cantidad de servidores",
+                "Cantidad de valores tell",
+                "Cantidad de valores ts",
                 "Costo de tiempo de servidor de cliente",
                 "Costo del tiempo de esèra de cliente", 
                 "Costo de cada servidor"};
@@ -36,9 +43,11 @@ public class GestorArchivos {
             pw.println();
             pw.println(
                     data.getUnidad_tiempo() + " ;" 
-                    + data.isPresentar_tabla_eventos() + " ;" 
+                    + data.getPresentar_tabla_eventos()+ " ;" 
                     + data.getCantidad_simulacion()+ " ;" 
-                    + data.cantidad_servidores + " ;" 
+                    + data.getCantidad_servidores() + " ;" 
+                    + data.getCantidad_tell()+ " ;" 
+                    + data.getCantidad_ts()+ " ;" 
                     + data.getCosto_servicio() + " ;" 
                     + data.getCosto_tiempo_cliente() + " ;"
                     + data.getCosto_servidor() + " ;" 
@@ -72,4 +81,72 @@ public class GestorArchivos {
             System.out.println(ex.getMessage());
         }
     }
+    
+    public DatosEntrada leer_archivo(String file) {
+        DatosEntrada data = new DatosEntrada();
+        String[] titulos_tabla_tell = {"Tiempo de llegada", "Probabilidad"};
+        String[] titulos_tabla_ts = {"Tiempo de servicio", "Probabilidad"};
+        DefaultTableModel tabla_tell = new DefaultTableModel(null, titulos_tabla_tell);
+        DefaultTableModel tabla_ts = new DefaultTableModel(null, titulos_tabla_ts);
+        File ruta = new File(file);
+        try {
+
+            FileReader fi = new FileReader(ruta);
+            BufferedReader bu = new BufferedReader(fi);
+
+            String linea = bu.readLine();
+            StringTokenizer st;
+            while (!(linea = bu.readLine()).contains("Tiempo de llegada")) {
+                st = new StringTokenizer(linea, ";");
+                data.setUnidad_tiempo(st.nextToken().trim());
+                data.setPresentar_tabla_eventos(st.nextToken().trim());
+                data.setCantidad_simulacion(Integer.parseInt(st.nextToken().trim()));
+                data.setCantidad_servidores(Integer.parseInt(st.nextToken().trim()));
+                data.setCantidad_tell(Integer.parseInt(st.nextToken().trim()));
+                data.setCantidad_ts(Integer.parseInt(st.nextToken().trim()));
+                /*COSTOS*/
+                data.setCosto_servicio(Integer.parseInt(st.nextToken().trim()));
+                data.setCosto_tiempo_cliente(Integer.parseInt(st.nextToken().trim()));
+                data.setCosto_servidor(Integer.parseInt(st.nextToken().trim()));
+            }
+            
+            /*PROBABILIDADES TIEMPO DE LLEGADA*/
+            while (!(linea = bu.readLine()).contains("Tiempo de servicio")) {
+                st = new StringTokenizer(linea, ";");
+                String tiempo = st.nextToken().trim();
+                String probabilidad = st.nextToken().trim();
+                tabla_ts.addRow(new Object[]{
+                    tiempo,
+                    probabilidad
+                });
+                 //System.out.print("tiempo: "+tiempo);
+                 //System.out.println("tiempo: "+probabilidad);
+
+            }
+            data.setTabla_ts(tabla_ts);
+            
+            /*PROBABILIDADES TIEMPO DE SERVICIO*/
+            while ((linea = bu.readLine()) != null) {
+                st = new StringTokenizer(linea, ";");
+                String tiempo = st.nextToken().trim();
+                String probabilidad = st.nextToken().trim();
+                tabla_tell.addRow(new Object[]{
+                    tiempo,
+                    probabilidad
+                });
+                //System.out.print("tiempo: "+tiempo);
+                //System.out.println("tiempo: "+probabilidad);
+            }
+            data.setTabla_tell(tabla_tell);
+            
+            bu.close();
+            
+            JOptionPane.showMessageDialog(null, "Archivo cargado exitosamente","Operacion exitosa",JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error al cargar archivo: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println(ex.getMessage());
+        }
+        return data;
+    }
+    
 }

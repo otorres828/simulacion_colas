@@ -5,7 +5,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class DatosEntrada {
     /*1*/ public String unidad_tiempo;
-    /*2*/ public boolean presentar_tabla_eventos;
+    /*2*/ public String presentar_tabla_eventos;
     /*3*/ public int cantidad_simulacion;
     /*4*/ public int cantidad_tell;
     /*5*/ public DefaultTableModel tabla_tell;
@@ -18,7 +18,7 @@ public class DatosEntrada {
 
     public DatosEntrada() {
         this.unidad_tiempo = "horas";
-        this.presentar_tabla_eventos = true;
+        this.presentar_tabla_eventos = "si";
         this.cantidad_simulacion = 0;
         this.cantidad_tell = 0;
         this.tabla_tell = new DefaultTableModel();
@@ -30,7 +30,7 @@ public class DatosEntrada {
         this.costo_servidor = 0;
     }
 
-    public DatosEntrada(String unidad_tiempo, boolean presentar_tabla_eventos, int cantidad_simulacion, int cantidad_tell, DefaultTableModel tabla_tell, int cantidad_servidores, int cantidad_ts, DefaultTableModel tabla_ts, int costo_servicio, int costo_tiempo_cliente, int costo_servidor) {
+    public DatosEntrada(String unidad_tiempo, String presentar_tabla_eventos, int cantidad_simulacion, int cantidad_tell, DefaultTableModel tabla_tell, int cantidad_servidores, int cantidad_ts, DefaultTableModel tabla_ts, int costo_servicio, int costo_tiempo_cliente, int costo_servidor) {
         this.unidad_tiempo = unidad_tiempo;
         this.presentar_tabla_eventos = presentar_tabla_eventos;
         this.cantidad_simulacion = cantidad_simulacion;
@@ -52,13 +52,14 @@ public class DatosEntrada {
         this.unidad_tiempo = unidad_tiempo;
     }
 
-    public boolean isPresentar_tabla_eventos() {
+    public String getPresentar_tabla_eventos() {
         return presentar_tabla_eventos;
     }
 
-    public void setPresentar_tabla_eventos(boolean presentar_tabla_eventos) {
+    public void setPresentar_tabla_eventos(String presentar_tabla_eventos) {
         this.presentar_tabla_eventos = presentar_tabla_eventos;
     }
+
 
     public int getCantidad_simulacion() {
         return cantidad_simulacion;

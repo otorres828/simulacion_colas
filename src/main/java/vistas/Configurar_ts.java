@@ -288,7 +288,7 @@ public class Configurar_ts extends javax.swing.JPanel {
         return text;
     }
 
-    private void deleteAll() {
+    public void deleteAll() {
         String[] titles = {"Tiempo de llegada", "Probabilidad","Probabilidad Acumulada","Rango Desde","Rango Hasta"};
         tabla_nueva = new DefaultTableModel(null, titles);
         this.tabla_ts.setModel(tabla_nueva);

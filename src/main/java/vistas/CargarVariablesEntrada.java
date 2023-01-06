@@ -4,6 +4,8 @@ package vistas;
 import clases.DatosEntrada;
 import clases.Estaticas;
 import clases.GestorArchivos;
+import clases.TELL;
+import clases.TS;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -508,10 +510,13 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
 
     private void cargar_archivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargar_archivoActionPerformed
         JFileChooser archivo = new JFileChooser();
+        GestorArchivos gestorarchivos = new GestorArchivos();
         int open = archivo.showOpenDialog(this);
         String ruta="";
         if (open == JFileChooser.APPROVE_OPTION) {
             ruta=archivo.getSelectedFile().getAbsolutePath();
+            DatosEntrada data = gestorarchivos.leer_archivo(archivo.getSelectedFile().getAbsolutePath());
+            this.escribir_data_variables(data);
         }
     }//GEN-LAST:event_cargar_archivoActionPerformed
 
@@ -522,6 +527,9 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
                 || this.cantidad_ts.getText().isEmpty() 
                 || Estaticas.probabilidades_tell.isEmpty()
                 || Estaticas.probabilidades_ts.isEmpty()
+                || this.costo_servicio.getText().isEmpty()
+                || this.costo_tiempo_cliente.getText().isEmpty()
+                || this.costo_servidor.getText().isEmpty()
            ){
             message("Debes de llenar todos los campos para continuar. Esto incluye la configuracion de las probabilidades", 3);
         }else{
@@ -599,7 +607,7 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
         DatosEntrada data;
         //CAPTURAMOS LOS INPUTOS 
         /*1*/ String aunidad_tiempo = this.unidad_tiempo.getSelectedItem().toString();
-        /*2*/ boolean apresentar_tabla_eventos = this.presentar_tabla_eventos.getSelectedItem().toString().equals("si");
+        /*2*/ String apresentar_tabla_eventos = this.presentar_tabla_eventos.getSelectedItem().toString();
         /*3*/ int acantidad_simulacion = Integer.parseInt(this.cantidad_simulacion.getText());
         /*4*/ int acantidad_tell = Integer.parseInt(this.cantidad_tell.getText());
         /*6*/ int acantidad_servidores = Integer.parseInt(this.cantidad_servidores.getText());
@@ -624,5 +632,55 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
                                 acosto_tiempo_cliente,
                                 acosto_servidor);
         return data;
+    }
+
+    private void escribir_data_variables(DatosEntrada data) {
+        /*1*/ this.unidad_tiempo.setSelectedItem(data.getUnidad_tiempo());
+        /*2*/ this.presentar_tabla_eventos.setSelectedItem(data.getPresentar_tabla_eventos());
+        /*3*/ this.cantidad_simulacion.setText(String.valueOf(data.getCantidad_simulacion()));
+        /*4*/ this.cantidad_tell.setText(String.valueOf(data.getCantidad_tell()));
+        /*6*/ this.cantidad_servidores.setText(String.valueOf(data.getCantidad_servidores()));
+        /*7*/ this.cantidad_ts.setText(String.valueOf(data.getCantidad_ts()));
+
+        /* costs variables*/
+        /*9*/  this.costo_servicio.setText(String.valueOf(data.getCosto_servicio()));
+        /*10*/ this.costo_tiempo_cliente.setText(String.valueOf(data.getCosto_tiempo_cliente()));
+        /*11*/ this.costo_servidor.setText(String.valueOf(data.getCosto_servidor()));
+
+        
+        /*5*/ principal.principal.configurar_tell.deleteAll();
+         for (int i = 0; i < data.getTabla_tell().getRowCount(); i++) {
+             //System.out.print("tiempo: "+data.getTabla_tell().getValueAt(i, 0));
+             //System.out.println("probabilidad: "+data.getTabla_tell().getValueAt(i, 1));
+             int tiempo = Integer.parseInt((String) data.getTabla_tell().getValueAt(i, 0));
+             int probabilidad =Integer.parseInt((String)data.getTabla_tell().getValueAt(i, 1));
+             
+             TELL objeto=Estaticas.asignar_tell(tiempo,probabilidad);
+                principal.principal.configurar_tell.tabla_nueva.addRow(new Object[]{
+                    objeto.tiempo,
+                    objeto.probabilidad,
+                    objeto.probabilidad_acumulada,
+                    objeto.rango_desde,
+                    objeto.rango_hasta
+                });
+         }
+
+        /*8*/ principal.principal.configurar_ts.deleteAll();
+        for (int i = 0; i < data.getTabla_ts().getRowCount(); i++) {
+             //System.out.print("tiempo: "+data.getTabla_ts().getValueAt(i, 0));
+             //System.out.println("probabilidad: "+data.getTabla_ts().getValueAt(i, 1));
+             int tiempo = Integer.parseInt((String) data.getTabla_ts().getValueAt(i, 0));
+             int probabilidad =Integer.parseInt((String)data.getTabla_ts().getValueAt(i, 1));
+             
+             TS objeto=Estaticas.asignar_ts(tiempo,probabilidad);
+                principal.principal.configurar_ts.tabla_nueva.addRow(new Object[]{
+                    objeto.tiempo,
+                    objeto.probabilidad,
+                    objeto.probabilidad_acumulada,
+                    objeto.rango_desde,
+                    objeto.rango_hasta
+                });
+         }
+        
     }
 }

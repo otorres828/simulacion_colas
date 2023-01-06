@@ -15,8 +15,8 @@ public class principal {
     Menu menu = new Menu();
     Estadisticas estadisticas = new Estadisticas();
     CargarVariablesEntrada cargarvariablesentrada = new CargarVariablesEntrada();
-    Configurar_tell configurar_tell = new Configurar_tell();
-    Configurar_ts configurar_ts = new Configurar_ts();
+    public Configurar_tell configurar_tell = new Configurar_tell();
+    public Configurar_ts configurar_ts = new Configurar_ts();
     static public principal principal;
 
     public static void main(String[] args) {       

@@ -289,7 +289,7 @@ public class Configurar_tell extends javax.swing.JPanel {
         return text;
     }
 
-    private void deleteAll() {
+    public void deleteAll() {
         String[] titles = {"Tiempo de llegada", "Probabilidad","Probabilidad Acumulada","Rango Desde","Rango Hasta"};
         tabla_nueva = new DefaultTableModel(null, titles);
         this.tabla_tell.setModel(tabla_nueva);
