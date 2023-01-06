@@ -99,7 +99,7 @@ public class Menu extends javax.swing.JPanel {
                         .addGap(72, 72, 72)
                         .addComponent(salir, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(259, 259, 259)
+                        .addGap(243, 243, 243)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(583, Short.MAX_VALUE))
         );

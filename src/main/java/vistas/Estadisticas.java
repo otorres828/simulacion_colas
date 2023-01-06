@@ -2,10 +2,13 @@
 package vistas;
 
 import clases.Cliente;
+import clases.DatosEntrada;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import clases.Estaticas;
+import clases.GestorArchivos;
 import java.util.Vector;
+import javax.swing.JFileChooser;
 import principal.principal;
 
 public class Estadisticas extends javax.swing.JPanel {
@@ -320,7 +323,7 @@ public class Estadisticas extends javax.swing.JPanel {
         int numero;
         while( (numero=(int)(Math. random()*100) )== n_ts);
         this.n_ts=numero;                                                         //SE GENERA UN NUMERO ALEATORIO DE TS
-        System.out.println(n_ts);
+        //System.out.println(n_ts);
         this.ts=calcular_ts();  
     }
     
@@ -439,6 +442,11 @@ public class Estadisticas extends javax.swing.JPanel {
 
         guardar.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         guardar.setText("Guardar Simulacion");
+        guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                guardarActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jLabel2.setText("W:");
@@ -675,6 +683,14 @@ public class Estadisticas extends javax.swing.JPanel {
     private void regresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regresarActionPerformed
         principal.principal.cargar();
     }//GEN-LAST:event_regresarActionPerformed
+
+    private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
+        JFileChooser jf = new JFileChooser();     
+        GestorArchivos gestorarchivos = new GestorArchivos();  
+        DatosEntrada data = null;
+        data = this.LeerCampos();
+        gestorarchivos.guardar_archivo(data, jf);
+    }//GEN-LAST:event_guardarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton guardar;
