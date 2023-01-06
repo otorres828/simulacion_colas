@@ -4,6 +4,7 @@ import vistas.Menu;
 import clases.Ventana;
 import vistas.Estadisticas;
 import clases.Estaticas;
+import javax.swing.table.DefaultTableModel;
 import vistas.CargarVariablesEntrada;
 import vistas.Configurar_tell;
 import vistas.Configurar_ts;
@@ -92,5 +93,13 @@ public class principal {
          configurar_ts.setVisible(true); 
          ventana.add(configurar_ts);
          ventana.validate();
+    }
+    
+    public DefaultTableModel obtener_tabla_configurar_tell(){
+        return configurar_tell.tabla_nueva;
+    }
+    
+    public DefaultTableModel obtener_tabla_configurar_ts(){
+        return configurar_ts.tabla_nueva;
     }
 }

@@ -8,7 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import  principal.principal;
 
 public class Configurar_ts extends javax.swing.JPanel {
-    DefaultTableModel tabla_nueva = new DefaultTableModel();
+    public DefaultTableModel tabla_nueva = new DefaultTableModel();
     DefaultTableModel tabla_auxiliar = new DefaultTableModel();
 
     public Configurar_ts() {

@@ -1,16 +1,19 @@
 
 package vistas;
 
+import clases.DatosEntrada;
 import clases.Estaticas;
+import clases.GestorArchivos;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import principal.principal;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class CargarVariablesEntrada extends javax.swing.JPanel {
     
     //CONFIGURACION DE VARIABLES ALEATORIAS
-    public Configurar_tell configurar_tell = null;
+    //public Configurar_tell configurar_tell = null;
     
     public CargarVariablesEntrada() {
         initComponents();
@@ -26,6 +29,7 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
         limpiar_todo = new javax.swing.JButton();
         limpiar_todo1 = new javax.swing.JButton();
         cargar_archivo = new javax.swing.JButton();
+        guardar_archivo = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -87,6 +91,13 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
             }
         });
 
+        guardar_archivo.setText("Guardar Archivo");
+        guardar_archivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                guardar_archivoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout OpcionesLayout = new javax.swing.GroupLayout(Opciones);
         Opciones.setLayout(OpcionesLayout);
         OpcionesLayout.setHorizontalGroup(
@@ -98,7 +109,9 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
                 .addComponent(limpiar_todo, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addComponent(cargar_archivo, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
+                .addGap(18, 18, 18)
+                .addComponent(guardar_archivo, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(limpiar_todo1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(30, Short.MAX_VALUE))
         );
@@ -110,7 +123,8 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
                     .addComponent(Calcular)
                     .addComponent(limpiar_todo)
                     .addComponent(limpiar_todo1)
-                    .addComponent(cargar_archivo))
+                    .addComponent(cargar_archivo)
+                    .addComponent(guardar_archivo))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
@@ -259,7 +273,7 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(valores_ts))
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -358,7 +372,7 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void CalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CalcularActionPerformed
-        funcion_para_probar();
+        //funcion_para_probar();
         
         if(this.cantidad_simulacion.getText().isEmpty()   
                 || this.cantidad_tell.getText().isEmpty()
@@ -501,6 +515,24 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_cargar_archivoActionPerformed
 
+    private void guardar_archivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardar_archivoActionPerformed
+              if(this.cantidad_simulacion.getText().isEmpty()   
+                || this.cantidad_tell.getText().isEmpty()
+                || this.cantidad_servidores.getText().isEmpty() 
+                || this.cantidad_ts.getText().isEmpty() 
+                || Estaticas.probabilidades_tell.isEmpty()
+                || Estaticas.probabilidades_ts.isEmpty()
+           ){
+            message("Debes de llenar todos los campos para continuar. Esto incluye la configuracion de las probabilidades", 3);
+        }else{
+            JFileChooser jf = new JFileChooser();     
+            GestorArchivos gestorarchivos = new GestorArchivos();  
+            DatosEntrada data = null;
+            data = this.LeerCampos();
+            gestorarchivos.guardar_archivo(data, jf);
+        }
+    }//GEN-LAST:event_guardar_archivoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Calcular;
@@ -513,6 +545,7 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
     private javax.swing.JTextField costo_servicio;
     private javax.swing.JTextField costo_servidor;
     private javax.swing.JTextField costo_tiempo_cliente;
+    private javax.swing.JButton guardar_archivo;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -561,5 +594,35 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
         Estaticas.presentar_tabla_eventos = this.presentar_tabla_eventos.getSelectedItem().toString();
         principal.principal.estadisticas();
     }
+    
+    public DatosEntrada LeerCampos() {
+        DatosEntrada data;
+        //CAPTURAMOS LOS INPUTOS 
+        /*1*/ String aunidad_tiempo = this.unidad_tiempo.getSelectedItem().toString();
+        /*2*/ boolean apresentar_tabla_eventos = this.presentar_tabla_eventos.getSelectedItem().toString().equals("si");
+        /*3*/ int acantidad_simulacion = Integer.parseInt(this.cantidad_simulacion.getText());
+        /*4*/ int acantidad_tell = Integer.parseInt(this.cantidad_tell.getText());
+        /*6*/ int acantidad_servidores = Integer.parseInt(this.cantidad_servidores.getText());
+        /*7*/ int acantidad_ts = Integer.parseInt(this.cantidad_ts.getText());
 
+        /*
+         COSTOS
+         */
+        /*9*/ int acosto_servicio = Integer.parseInt(this.costo_servicio.getText());
+        /*10*/ int acosto_tiempo_cliente = Integer.parseInt(this.costo_tiempo_cliente.getText());
+        /*11*/ int acosto_servidor = Integer.parseInt(this.costo_servidor.getText());
+       
+        data = new DatosEntrada(aunidad_tiempo, 
+                                apresentar_tabla_eventos, 
+                                acantidad_simulacion, 
+                                acantidad_tell, 
+                                principal.principal.obtener_tabla_configurar_tell(),
+                                acantidad_servidores, 
+                                acantidad_ts,
+                                principal.principal.obtener_tabla_configurar_ts(),
+                                acosto_servicio,
+                                acosto_tiempo_cliente,
+                                acosto_servidor);
+        return data;
+    }
 }

@@ -51,7 +51,7 @@ public class Estadisticas extends javax.swing.JPanel {
     }  
     
     public void inicializar_datos(){  
-        cargar_probabilidades();
+        //cargar_probabilidades();
         this.label_servidores.setText(Integer.toString(Estaticas.cantidad_servidores));
         this.label_simulacion.setText(Integer.toString(Estaticas.TM_simulacion));
         this.unidad_tiempow.setText(Estaticas.unidad_tiempo);
