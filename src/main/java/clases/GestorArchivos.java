@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -151,36 +152,52 @@ public class GestorArchivos {
         return data;
     }
 
-    public void guardar_salida(DatosSalida data, JFileChooser jf) {
+    public void guardar_salida(DatosSalida data, JFileChooser jf, String nombre_archivo_salida, int cantidad_servidores) {
         FileWriter fw;
         PrintWriter pw;
         try {
+            ArrayList<String> titulos_principales= new ArrayList<String>();
+            titulos_principales.add("cantidad promedio de clientes en cola (lq)");
+            titulos_principales.add("cantidad promedio de clientes en el sistema (l)");
+            titulos_principales.add("tiempo promedio de un cliente en cola (wq)");
+            titulos_principales.add("tiempo promedio de un cliente en el sistema (w)");
+            titulos_principales.add("Tiempo promedio adicional que se trabaja después de cerrar (ta)");
+             
+            for(int i=0;i<cantidad_servidores;i++){
+                titulos_principales.add("Porcentaje de utilizacion del servidor: "+(i+1));
+            }
             String[] dataTitles = {
                 "cantidad promedio de clientes en cola (lq)", 
                 "cantidad promedio de clientes en el sistema (l)", 
                 "tiempo promedio de un cliente en cola (wq)",
                 "tiempo promedio de un cliente en el sistema (w)",
+                "Tiempo promedio adicional que se trabaja después de cerrar (ta)"
             };
-            String[] titlesArrivedTable = {"Tiempo de llegada", "Probabilidad"};
-            String[] titlesServiceTable = {"Tiempo de servicio", "Probabilidad"};
-            fw = new FileWriter(jf.getCurrentDirectory() + "/" + salida);
+            
+            String[] titulo_tabla_probabilidad_llegada = {"Tiempo de llegada", "Probabilidad"};
+            String[] titulo_tabla_probabilidad_servicio = {"Tiempo de servicio", "Probabilidad"};
+            fw = new FileWriter(jf.getCurrentDirectory() + "/" + nombre_archivo_salida);
             pw = new PrintWriter(fw);
 
-            for (int i = 0; i < dataTitles.length; i++) {
-                pw.print(dataTitles[i] + ";");
+            for (int i = 0; i < titulos_principales.size(); i++) {
+                pw.print(titulos_principales.get(i) + ";");
             }
             pw.println();
-            pw.println(
+            pw.print(
                     data.getLq()+ " ;" 
                     + data.getL()+ " ;" 
                     + data.getWq()+ " ;" 
                     + data.getW() + " ;" 
-                    
+                    + data.getTa()+ " ;"          
             );
-
-            //Here you can write the customers arrived table
-            for (int i = 0; i < titlesArrivedTable.length; i++) {
-                pw.print(titlesArrivedTable[i] + ";"); //Titles
+             for (int i = 0; i <cantidad_servidores; i++) {
+                pw.print(data.getUtilizacion()[i]+ " ;");
+            }
+            pw.println();
+            
+            //ESCRIBIMOS LA TABLA DE LOS TIEMPOS DE LLEGADA DE LOS CLIENTES
+            for (int i = 0; i < titulo_tabla_probabilidad_llegada.length; i++) {
+                pw.print(titulo_tabla_probabilidad_llegada[i] + ";"); //Titles
             }
             pw.println();
             for (int i = 0; i < data.getTabla_tell().getRowCount(); i++) {
@@ -188,9 +205,9 @@ public class GestorArchivos {
                 pw.println(data.getTabla_tell().getValueAt(i, 0) + ";" + data.getTabla_tell().getValueAt(i, 1) + ";");
             }
 
-            //Here you can read the service time table
-            for (int i = 0; i < titlesServiceTable.length; i++) {
-                pw.print(titlesServiceTable[i] + ";");//Titles
+            //ESCRIBIMOS LA TABLA DE LOS TIEMPOS DE SERVICIO DE LOS CLIENTES
+            for (int i = 0; i < titulo_tabla_probabilidad_servicio.length; i++) {
+                pw.print(titulo_tabla_probabilidad_servicio[i] + ";");//Titles
             }
             pw.println();
             for (int i = 0; i < data.getTabla_ts().getRowCount(); i++) {
@@ -199,7 +216,7 @@ public class GestorArchivos {
             }
 
             pw.close();
-            JOptionPane.showMessageDialog(null, "Se ha creado el archivo Datos_Salida_Simulacion.csv exitosamente en el directorio Documentos", " Operacion exitosa ", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Se ha creado el archivo "+nombre_archivo_salida+" exitosamente en el directorio Documentos", " Operacion exitosa ", JOptionPane.INFORMATION_MESSAGE);
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error al grabar archivo: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

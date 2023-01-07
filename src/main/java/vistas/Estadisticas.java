@@ -2,20 +2,21 @@
 package vistas;
 
 import clases.Cliente;
-import clases.DatosEntrada;
 import clases.DatosSalida;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import clases.Estaticas;
 import clases.GestorArchivos;
-import java.util.Vector;
+import java.text.DecimalFormat;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import principal.principal;
 
 public class Estadisticas extends javax.swing.JPanel {
     DefaultTableModel tabla_eventos = new DefaultTableModel();
     DefaultTableModel tabla_eventos1 = new DefaultTableModel();
-        
+    DecimalFormat formato = new DecimalFormat("#.00");
+    
     public  int at=0;
     
     public ArrayList<Integer> wl = new ArrayList<>(); 
@@ -38,6 +39,7 @@ public class Estadisticas extends javax.swing.JPanel {
     public  int[] servidores;
     
     public Cliente dt[];
+    public float utilizacion[];
     public int n_evento=0;
     
     /*VARIABLES QUE CONTROLAN LA CANTIDAD DE SERVIDORES Y EL TIEMPO DE SIMULACION*/
@@ -50,6 +52,9 @@ public class Estadisticas extends javax.swing.JPanel {
     public ArrayList<Cliente> w_auxiliar = new ArrayList<>(); 
     public ArrayList<Cliente> wq_auxiliar = new ArrayList<>(); 
 
+    /*VARIABLE PARA EL CALCULO DEL TIEMPO ADICIONAL O EXTRA*/
+    public int ta=0;
+    
     public Estadisticas() {
         initComponents();
     }  
@@ -60,10 +65,12 @@ public class Estadisticas extends javax.swing.JPanel {
         this.label_simulacion.setText(Integer.toString(Estaticas.TM_simulacion));
         this.unidad_tiempow.setText(Estaticas.unidad_tiempo);
         this.unidad_tiempowq.setText(Estaticas.unidad_tiempo);
+        this.unidad_tiempota.setText(Estaticas.unidad_tiempo);
         this.cantidad_servidores=Estaticas.cantidad_servidores;
         this.simulacion=Estaticas.TM_simulacion;
         cargar_cabecera_tabla();                                                 //CARGAR CABECERA DE LA TABLA DE EVENTOS
         llamada_simulacion(cantidad_servidores);                                 //INICIAR LA SIMULACION 
+        //dar_formato_salida();                                                    //DAR FORMATO DE DECIMALES A LAS VARIABLES DE SALIDA
     }
     
     private void cargar_cabecera_tabla() {
@@ -112,7 +119,13 @@ public class Estadisticas extends javax.swing.JPanel {
     public final void llamada_simulacion(int servidores) {
         this.servidores = new int[servidores];
         this.dt = new Cliente[servidores];
+        this.utilizacion = new float [servidores];                        //PARA CALCULAR EL PORCENTAJE DE UTILIZACION
         
+        /*INICIALIZAR LA UTILIZACION EN 0*/
+         for (int i = 0; i < this.utilizacion.length; i++) {
+             this.utilizacion[i]=0;
+         }
+         
         //INICIALIZAMOS LOS SERVIDORES EN 0
         for (int i = 0; i < this.servidores.length; i++) {
             this.servidores[i]=0;
@@ -120,6 +133,12 @@ public class Estadisticas extends javax.swing.JPanel {
             this.dt[i]=c;
         }
         correr_simulacion(); //CORREMOS LA SIMULACION
+        
+        //ASIGNAMOS EL PORCENTAJE DE UTILIZACION A CADA SERVIDOR
+        for (int i = 0; i < this.utilizacion.length; i++) {
+             this.utilizacion[i]=(this.utilizacion[i]/this.n_evento)*100;
+        } 
+        
     }
     
     //ESTE METODO ES EL ENCARGADO DE SACAR TODOS LOS CALCULOS DE LA TABLA DE EVENTOS Y ESTADITICAS
@@ -145,6 +164,7 @@ public class Estadisticas extends javax.swing.JPanel {
                     int valor = this.tm+this.ts;
                     this.dt[n_servidor_vacio].valor=valor;                        //ASIGNAMOS EL TS AL CLIENTE QUE ENTRO EN EL SERVIDOR VACIO
                     this.dt[n_servidor_vacio].id=cant_cliente;
+                   
                     añadir_w_dt(cant_cliente,valor);
                 }else{
                     //NO EXISTEN SERVIDORES VACIOS
@@ -169,6 +189,7 @@ public class Estadisticas extends javax.swing.JPanel {
                     generar_ts();                                                 //SE GENERA EL TS
                     int valor = this.tm+this.ts;                                  //SE OBTIENE TM+TS
                     this.cliente_salida_cola=this.dt[hallar_menor_dt()].id;            //SE OBTIENE EL ID DEL CLIENTE QUE VA A SALIR
+                    
                     this.dt[hallar_menor_dt()].id=id_cliente_servidor;            //ASIGNAMOS EL ID DEL CLIENTE QUE SE LE ASIGNARA EL DT QUE VIENE DE LA COLA
                     this.dt[hallar_menor_dt()].valor=valor;                       //ASIGNAMOS EL VALOR A LA SALIDA DEL QUE VIENE DE LA COLA
                 }else{
@@ -191,6 +212,13 @@ public class Estadisticas extends javax.swing.JPanel {
            //CALCULAR L
            this.l=l+calcular_l();
            this.lq=lq+calcular_lq();
+           
+           //AUMENTAR LA UTILIZACION DEL SERVIDOR
+            for (int i = 0; i < this.utilizacion.length; i++) {
+                if(this.dt[i].valor!=999999){
+                    this.utilizacion[i]=this.utilizacion[i]+1;
+                }
+            }
         }
         //IMPRIMIR L y LQ EN PANTALLA
         this.l=(this.l/tm); this.valor_l.setText(String.valueOf(this.l));
@@ -199,6 +227,9 @@ public class Estadisticas extends javax.swing.JPanel {
         this.w=w/cant_cliente; this.valor_w.setText(String.valueOf(this.w));
         this.wq=wq/cant_cliente; this.valor_wq.setText(String.valueOf(this.wq));
         
+        //CALCULAR TIEMPO EXTRA O ADICIONAL 
+        this.ta=calcular_tiempo_adicional();
+        this.valor_ta.setText(String.valueOf(this.ta));
     }
     
     private Object[] obtener_objeto_llegada(){
@@ -408,6 +439,30 @@ public class Estadisticas extends javax.swing.JPanel {
             }
         }
     }
+    
+    private int calcular_tiempo_adicional() { 
+        int mayor=0,posicion=0;                            
+        for (int i = 0; i < this.dt.length; i++) {          
+            if(this.dt[i].valor != 999999) {
+                if(this.dt[i].valor>mayor){
+                    mayor = this.dt[i].valor;
+                    posicion=i; 
+                }
+            }
+        }
+        if(mayor!=0){
+            return this.dt[posicion].valor - this.tm;
+        }
+        return 0;
+    }
+    
+    private void dar_formato_salida() {
+       valor_w.setText(formato.format(this.w)); 
+       valor_wq.setText(formato.format(this.wq)); 
+       valor_l.setText(formato.format(this.l)); 
+       valor_lq.setText(formato.format(this.lq)); 
+    }
+    
 
     @SuppressWarnings("unchecked")
     
@@ -427,6 +482,9 @@ public class Estadisticas extends javax.swing.JPanel {
         valor_wq = new javax.swing.JLabel();
         unidad_tiempowq = new javax.swing.JLabel();
         unidad_tiempow = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        valor_ta = new javax.swing.JLabel();
+        unidad_tiempota = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -482,43 +540,61 @@ public class Estadisticas extends javax.swing.JPanel {
         unidad_tiempow.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         unidad_tiempow.setText("unidad_tiempo");
 
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jLabel9.setText("TA:");
+
+        valor_ta.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        valor_ta.setText("valor de ta");
+
+        unidad_tiempota.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        unidad_tiempota.setText("unidad_tiempo");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel3)
+                                        .addComponent(jLabel2))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addComponent(valor_w)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(unidad_tiempow))
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addComponent(valor_wq)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(unidad_tiempowq)
+                                            .addGap(0, 0, Short.MAX_VALUE))))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addGap(10, 10, 10)
+                                            .addComponent(jLabel4))
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(17, 17, 17)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(valor_lq)
+                                        .addComponent(valor_l)))))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(63, 63, 63)
+                            .addComponent(jLabel5)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel2))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(valor_w)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(unidad_tiempow))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(valor_wq)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(unidad_tiempowq)
-                                        .addGap(0, 0, Short.MAX_VALUE))))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(valor_lq)
-                                    .addComponent(valor_l)))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(63, 63, 63)
-                        .addComponent(jLabel5)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(valor_ta)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(unidad_tiempota)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -543,7 +619,12 @@ public class Estadisticas extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(valor_lq))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(valor_ta)
+                    .addComponent(unidad_tiempota))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
@@ -686,6 +767,10 @@ public class Estadisticas extends javax.swing.JPanel {
     }//GEN-LAST:event_regresarActionPerformed
 
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
+        String nombre_archivo_salida = JOptionPane.showInputDialog("¿Con que nombre quiere guardar el archivo?");
+        nombre_archivo_salida= nombre_archivo_salida.replace(" ","_");
+        nombre_archivo_salida = nombre_archivo_salida.concat(".csv");
+        
         JFileChooser jf = new JFileChooser();     
         GestorArchivos gestorarchivos = new GestorArchivos();  
         DatosSalida data;
@@ -695,12 +780,13 @@ public class Estadisticas extends javax.swing.JPanel {
                 this.w, 
                 this.wq, 
                 this.l, 
-                this.lq, 
+                this.lq,
+                this.ta,
+                this.utilizacion,
                 principal.principal.obtener_tabla_configurar_tell(), 
                 principal.principal.obtener_tabla_configurar_ts()
         );
-        
-       gestorarchivos.guardar_salida(data, jf);
+       gestorarchivos.guardar_salida(data, jf,nombre_archivo_salida,cantidad_servidores);
         
     }//GEN-LAST:event_guardarActionPerformed
 
@@ -715,6 +801,7 @@ public class Estadisticas extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
@@ -723,12 +810,16 @@ public class Estadisticas extends javax.swing.JPanel {
     private javax.swing.JPanel panel_tabla_eventos;
     private javax.swing.JButton regresar;
     public javax.swing.JTable table_modelo;
+    private javax.swing.JLabel unidad_tiempota;
     private javax.swing.JLabel unidad_tiempow;
     private javax.swing.JLabel unidad_tiempowq;
     private javax.swing.JLabel valor_l;
     private javax.swing.JLabel valor_lq;
+    private javax.swing.JLabel valor_ta;
     private javax.swing.JLabel valor_w;
     private javax.swing.JLabel valor_wq;
     // End of variables declaration//GEN-END:variables
+
+
 
 }

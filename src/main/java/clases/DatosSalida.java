@@ -9,6 +9,8 @@ public class DatosSalida {
     public float wq;
     public float l;
     public float lq;
+    public int ta;
+    public float utilizacion[];
     public DefaultTableModel tabla_tell;
     public DefaultTableModel tabla_ts;
 
@@ -17,17 +19,32 @@ public class DatosSalida {
         this.wq = 0;
         this.l = 0;
         this.lq = 0;
+        this.ta = 0;
         this.tabla_tell = new DefaultTableModel();
         this.tabla_ts = new DefaultTableModel();
     }
 
-    public DatosSalida(float w, float wq, float l, float lq, DefaultTableModel tabla_tell, DefaultTableModel tabla_ts) {
+    public DatosSalida(float w, float wq, float l, float lq, int ta, float utilizacion[],DefaultTableModel tabla_tell, DefaultTableModel tabla_ts) {
         this.w = w;
         this.wq = wq;
         this.l = l;
         this.lq = lq;
+        this.ta=ta;
+        this.utilizacion = utilizacion;
         this.tabla_tell = tabla_tell;
         this.tabla_ts = tabla_ts;
+    }
+
+    public float[] getUtilizacion() {
+        return utilizacion;
+    }
+
+    public int getTa() {
+        return ta;
+    }
+
+    public void setTa(int ta) {
+        this.ta = ta;
     }
 
     public float getW() {
