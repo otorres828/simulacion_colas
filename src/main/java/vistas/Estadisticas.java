@@ -14,8 +14,7 @@ import principal.principal;
 
 public class Estadisticas extends javax.swing.JPanel {
     DefaultTableModel tabla_eventos = new DefaultTableModel();
-    DefaultTableModel tabla_eventos1 = new DefaultTableModel();
-    DecimalFormat formato = new DecimalFormat("#.00");
+    DefaultTableModel estadisticas = new DefaultTableModel();
     
     public  int at=0;
     
@@ -96,6 +95,15 @@ public class Estadisticas extends javax.swing.JPanel {
 
         tabla_eventos = new DefaultTableModel(null, titulos);
         table_modelo.setModel(tabla_eventos);
+        
+        //CABECERA DE ESTADISTICAS
+        String[] titulos_estadisticas = new String[cantidad_servidores];
+        for (int i = 0; i < cantidad_servidores; i++) {
+            titulos_estadisticas[i] = "Utilizacion S" + (i + 1);
+        }
+        estadisticas = new DefaultTableModel(null, titulos_estadisticas);
+        table_modelo_estadisticas.setModel(estadisticas);
+        
     }
 
     private void cargar_probabilidades(){
@@ -137,7 +145,10 @@ public class Estadisticas extends javax.swing.JPanel {
         //ASIGNAMOS EL PORCENTAJE DE UTILIZACION A CADA SERVIDOR
         for (int i = 0; i < this.utilizacion.length; i++) {
              this.utilizacion[i]=(this.utilizacion[i]/this.n_evento)*100;
-        } 
+        }
+        
+        //CARGAR ESTADISTICAS DEL PORCENTAJE DE UTILIZACION DE CADA SERVIDOR
+        cargar_estadisticas_porcentaje_utilizacion_servidores();
         
     }
     
@@ -456,20 +467,23 @@ public class Estadisticas extends javax.swing.JPanel {
         return 0;
     }
     
-    private void dar_formato_salida() {
-       valor_w.setText(formato.format(this.w)); 
-       valor_wq.setText(formato.format(this.wq)); 
-       valor_l.setText(formato.format(this.l)); 
-       valor_lq.setText(formato.format(this.lq)); 
+    private void cargar_estadisticas_porcentaje_utilizacion_servidores() {
+        Object [] fila=new Object[this.cantidad_servidores];
+         for(int i=0;i<cantidad_servidores;i++){
+             fila[i]=this.utilizacion[i];
+         }
+         this.estadisticas.addRow(fila);
     }
-    
 
     @SuppressWarnings("unchecked")
     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        guardar = new javax.swing.JButton();
+        panel_tabla_eventos = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        table_modelo = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -491,21 +505,30 @@ public class Estadisticas extends javax.swing.JPanel {
         jLabel11 = new javax.swing.JLabel();
         label_simulacion = new javax.swing.JLabel();
         label_servidores = new javax.swing.JLabel();
+        guardar = new javax.swing.JButton();
         regresar = new javax.swing.JButton();
-        panel_tabla_eventos = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        table_modelo = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        table_modelo_estadisticas = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(102, 204, 255));
 
-        guardar.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
-        guardar.setText("Guardar Simulacion");
-        guardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                guardarActionPerformed(evt);
+        panel_tabla_eventos.setBackground(new java.awt.Color(102, 204, 255));
+
+        table_modelo.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2"
             }
-        });
+        ));
+        jScrollPane2.setViewportView(table_modelo);
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI Black", 0, 24)); // NOI18N
+        jLabel1.setText("TABLA DE EVENTOS");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jLabel2.setText("W:");
@@ -672,8 +695,16 @@ public class Estadisticas extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(label_servidores))
-                .addContainerGap(75, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
+
+        guardar.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
+        guardar.setText("Guardar Simulacion");
+        guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                guardarActionPerformed(evt);
+            }
+        });
 
         regresar.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         regresar.setText("REGRESAR");
@@ -683,9 +714,7 @@ public class Estadisticas extends javax.swing.JPanel {
             }
         });
 
-        panel_tabla_eventos.setBackground(new java.awt.Color(102, 204, 255));
-
-        table_modelo.setModel(new javax.swing.table.DefaultTableModel(
+        table_modelo_estadisticas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -696,15 +725,22 @@ public class Estadisticas extends javax.swing.JPanel {
                 "Title 1", "Title 2"
             }
         ));
-        jScrollPane2.setViewportView(table_modelo);
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI Black", 0, 24)); // NOI18N
-        jLabel1.setText("TABLA DE EVENTOS");
+        jScrollPane3.setViewportView(table_modelo_estadisticas);
 
         javax.swing.GroupLayout panel_tabla_eventosLayout = new javax.swing.GroupLayout(panel_tabla_eventos);
         panel_tabla_eventos.setLayout(panel_tabla_eventosLayout);
         panel_tabla_eventosLayout.setHorizontalGroup(
             panel_tabla_eventosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_tabla_eventosLayout.createSequentialGroup()
+                .addGap(80, 80, 80)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(69, 69, 69)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panel_tabla_eventosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(guardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(73, 73, 73))
             .addGroup(panel_tabla_eventosLayout.createSequentialGroup()
                 .addGroup(panel_tabla_eventosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panel_tabla_eventosLayout.createSequentialGroup()
@@ -712,7 +748,10 @@ public class Estadisticas extends javax.swing.JPanel {
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1007, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panel_tabla_eventosLayout.createSequentialGroup()
                         .addGap(421, 421, 421)
-                        .addComponent(jLabel1)))
+                        .addComponent(jLabel1))
+                    .addGroup(panel_tabla_eventosLayout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panel_tabla_eventosLayout.setVerticalGroup(
@@ -722,7 +761,17 @@ public class Estadisticas extends javax.swing.JPanel {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(panel_tabla_eventosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panel_tabla_eventosLayout.createSequentialGroup()
+                        .addComponent(guardar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(regresar))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -731,17 +780,7 @@ public class Estadisticas extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(77, 77, 77)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(70, 70, 70)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(83, 83, 83)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(guardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(panel_tabla_eventos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(panel_tabla_eventos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(24, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -749,16 +788,7 @@ public class Estadisticas extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(panel_tabla_eventos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(guardar)
-                        .addGap(18, 18, 18)
-                        .addComponent(regresar))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -805,11 +835,13 @@ public class Estadisticas extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel label_servidores;
     private javax.swing.JLabel label_simulacion;
     private javax.swing.JPanel panel_tabla_eventos;
     private javax.swing.JButton regresar;
     public javax.swing.JTable table_modelo;
+    public javax.swing.JTable table_modelo_estadisticas;
     private javax.swing.JLabel unidad_tiempota;
     private javax.swing.JLabel unidad_tiempow;
     private javax.swing.JLabel unidad_tiempowq;
@@ -819,6 +851,8 @@ public class Estadisticas extends javax.swing.JPanel {
     private javax.swing.JLabel valor_w;
     private javax.swing.JLabel valor_wq;
     // End of variables declaration//GEN-END:variables
+
+
 
 
 
