@@ -825,31 +825,32 @@ public class Estadisticas extends javax.swing.JPanel {
 
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
         String nombre_archivo_salida = JOptionPane.showInputDialog("¿Con que nombre quiere guardar el archivo?");
-        nombre_archivo_salida= nombre_archivo_salida.replace(" ","_");
-        nombre_archivo_salida = nombre_archivo_salida.concat(".csv");
-        
-        JFileChooser jf = new JFileChooser();     
-        GestorArchivos gestorarchivos = new GestorArchivos();  
-        DatosSalida data;
-        
-        //GUARDAMOS LOS DATOS EN UN OBJETO DE SALIDA
-        data = new DatosSalida(
-                this.w, 
-                this.wq, 
-                this.l, 
-                this.lq,
-                this.ta,
-                this.utilizacion,
-                this.costo_servidores,
-                this.costo_espera_cliente,
-                this.costo_atencion_cliente,
-                this.costo_cliente,
-                this.costo_general,
-                principal.principal.obtener_tabla_configurar_tell(), 
-                principal.principal.obtener_tabla_configurar_ts()
-        );
-       gestorarchivos.guardar_salida(data, jf,nombre_archivo_salida,cantidad_servidores);
-        
+        if(nombre_archivo_salida!=null){
+          nombre_archivo_salida= nombre_archivo_salida.replace(" ","_");
+            nombre_archivo_salida = nombre_archivo_salida.concat(".csv");
+
+            JFileChooser jf = new JFileChooser();     
+            GestorArchivos gestorarchivos = new GestorArchivos();  
+            DatosSalida data;
+
+            //GUARDAMOS LOS DATOS EN UN OBJETO DE SALIDA
+            data = new DatosSalida(
+                    this.w, 
+                    this.wq, 
+                    this.l, 
+                    this.lq,
+                    this.ta,
+                    this.utilizacion,
+                    this.costo_servidores,
+                    this.costo_espera_cliente,
+                    this.costo_atencion_cliente,
+                    this.costo_cliente,
+                    this.costo_general,
+                    principal.principal.obtener_tabla_configurar_tell(), 
+                    principal.principal.obtener_tabla_configurar_ts()
+            );
+           gestorarchivos.guardar_salida(data, jf,nombre_archivo_salida,cantidad_servidores);
+        }
     }//GEN-LAST:event_guardarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

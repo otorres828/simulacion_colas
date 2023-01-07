@@ -526,7 +526,7 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
     }//GEN-LAST:event_cargar_archivoActionPerformed
 
     private void guardar_archivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardar_archivoActionPerformed
-              if(this.cantidad_simulacion.getText().isEmpty()   
+        if(this.cantidad_simulacion.getText().isEmpty()   
                 || this.cantidad_tell.getText().isEmpty()
                 || this.cantidad_servidores.getText().isEmpty() 
                 || this.cantidad_ts.getText().isEmpty() 
@@ -538,11 +538,16 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
            ){
             message("Debes de llenar todos los campos para continuar. Esto incluye la configuracion de las probabilidades", 3);
         }else{
-            JFileChooser jf = new JFileChooser();     
-            GestorArchivos gestorarchivos = new GestorArchivos();  
-            DatosEntrada data = null;
-            data = this.LeerCampos();
-            gestorarchivos.guardar_archivo(data, jf);
+            String nombre_archivo_entrada = JOptionPane.showInputDialog("¿Con que nombre quiere guardar el archivo?");
+            if(nombre_archivo_entrada!=null){
+               nombre_archivo_entrada= nombre_archivo_entrada.replace(" ","_");
+                nombre_archivo_entrada = nombre_archivo_entrada.concat(".csv");
+                JFileChooser jf = new JFileChooser();     
+                GestorArchivos gestorarchivos = new GestorArchivos();  
+                DatosEntrada data = null;
+                data = this.LeerCampos();
+                gestorarchivos.guardar_archivo(data, jf,nombre_archivo_entrada); 
+            }  
         }
     }//GEN-LAST:event_guardar_archivoActionPerformed
 

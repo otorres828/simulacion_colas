@@ -21,7 +21,7 @@ public class GestorArchivos {
         this.salida="Datos_Salida_Simulacion.csv";
     }
 
-    public void guardar_archivo(DatosEntrada data, JFileChooser jf) {
+    public void guardar_archivo(DatosEntrada data, JFileChooser jf, String nombre_archivo_entrada) {
         FileWriter fw;
         PrintWriter pw;
         try {
@@ -37,7 +37,7 @@ public class GestorArchivos {
                 "Costo de cada servidor"};
             String[] titlesArrivedTable = {"Tiempo de llegada", "Probabilidad"};
             String[] titlesServiceTable = {"Tiempo de servicio", "Probabilidad"};
-            fw = new FileWriter(jf.getCurrentDirectory() + "/" + file);
+            fw = new FileWriter(jf.getCurrentDirectory() + "/" + nombre_archivo_entrada);
             pw = new PrintWriter(fw);
 
             for (int i = 0; i < dataTitles.length; i++) {
@@ -77,7 +77,7 @@ public class GestorArchivos {
             }
 
             pw.close();
-            JOptionPane.showMessageDialog(null, "Se ha creado el archivo Datos_Entrada_Simulacion.csv exitosamente en el directorio Documentos", " Operacion exitosa ", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Se ha creado el archivo "+nombre_archivo_entrada+" exitosamente en el directorio Documentos", " Operacion exitosa ", JOptionPane.INFORMATION_MESSAGE);
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error al grabar archivo: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
