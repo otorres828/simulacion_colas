@@ -840,6 +840,11 @@ public class Estadisticas extends javax.swing.JPanel {
                 this.lq,
                 this.ta,
                 this.utilizacion,
+                this.costo_servidores,
+                this.costo_espera_cliente,
+                this.costo_atencion_cliente,
+                this.costo_cliente,
+                this.costo_general,
                 principal.principal.obtener_tabla_configurar_tell(), 
                 principal.principal.obtener_tabla_configurar_ts()
         );

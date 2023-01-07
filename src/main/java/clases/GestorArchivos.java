@@ -166,13 +166,11 @@ public class GestorArchivos {
             for(int i=0;i<cantidad_servidores;i++){
                 titulos_principales.add("Porcentaje de utilizacion del servidor: "+(i+1));
             }
-            String[] dataTitles = {
-                "cantidad promedio de clientes en cola (lq)", 
-                "cantidad promedio de clientes en el sistema (l)", 
-                "tiempo promedio de un cliente en cola (wq)",
-                "tiempo promedio de un cliente en el sistema (w)",
-                "Tiempo promedio adicional que se trabaja después de cerrar (ta)"
-            };
+            titulos_principales.add("Costo de servidores");
+            titulos_principales.add("Costo de espera de cliente");
+            titulos_principales.add("Costo de atencion de cliente");
+            titulos_principales.add("Costo de cliente");
+            titulos_principales.add("Costo general");
             
             String[] titulo_tabla_probabilidad_llegada = {"Tiempo de llegada", "Probabilidad"};
             String[] titulo_tabla_probabilidad_servicio = {"Tiempo de servicio", "Probabilidad"};
@@ -193,11 +191,18 @@ public class GestorArchivos {
              for (int i = 0; i <cantidad_servidores; i++) {
                 pw.print(data.getUtilizacion()[i]+ " ;");
             }
+            pw.print(
+                    data.getCosto_servidores()+ " ;" 
+                    + data.getCosto_espera_cliente()+ " ;" 
+                    + data.getCosto_atencion_cliente()+ " ;" 
+                    + data.getCosto_cliente()+ " ;" 
+                    + data.getCosto_general()+ " ;"          
+            );
             pw.println();
             
             //ESCRIBIMOS LA TABLA DE LOS TIEMPOS DE LLEGADA DE LOS CLIENTES
-            for (int i = 0; i < titulo_tabla_probabilidad_llegada.length; i++) {
-                pw.print(titulo_tabla_probabilidad_llegada[i] + ";"); //Titles
+            for (String titulo_tabla_probabilidad_llegada1 : titulo_tabla_probabilidad_llegada) {
+                pw.print(titulo_tabla_probabilidad_llegada1 + ";"); //Titles
             }
             pw.println();
             for (int i = 0; i < data.getTabla_tell().getRowCount(); i++) {
