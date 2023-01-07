@@ -66,7 +66,6 @@ public class Estadisticas extends javax.swing.JPanel {
     }  
     
     public void inicializar_datos(){  
-        //cargar_probabilidades();
         this.label_servidores.setText(Integer.toString(Estaticas.cantidad_servidores));
         this.label_simulacion.setText(Integer.toString(Estaticas.TM_simulacion));
         this.unidad_tiempow.setText(Estaticas.unidad_tiempo);
@@ -116,23 +115,6 @@ public class Estadisticas extends javax.swing.JPanel {
         estadisticas = new DefaultTableModel(null, titulos_estadisticas);
         table_modelo_estadisticas.setModel(estadisticas);
      
-    }
-
-    private void cargar_probabilidades(){
-        Estaticas.asignar_tell(1, 30);
-        Estaticas.asignar_tell(2, 20);
-        Estaticas.asignar_tell(3, 15);
-        Estaticas.asignar_tell(5, 15);
-        Estaticas.asignar_tell(6, 10);
-        Estaticas.asignar_tell(8, 10);
-        Estaticas.asignar_ts(1, 15);
-        Estaticas.asignar_ts(2, 5);
-        Estaticas.asignar_ts(3, 10);
-        Estaticas.asignar_ts(4, 20);
-        Estaticas.asignar_ts(5, 15);
-        Estaticas.asignar_ts(6, 15);
-        Estaticas.asignar_ts(7, 10);
-        Estaticas.asignar_ts(9, 10);
     }
     
     //INICIALIZAR SIMULACION
