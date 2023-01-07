@@ -18,6 +18,11 @@ public class Estaticas {
     static public String unidad_tiempo="";
     static public String presentar_tabla_eventos="";
     
+    //VARIABLES PARA LOS COSTOS
+    static public float costo_servicio=0;
+    static public float costo_tiempo_cliente=0;
+    static public float costo_servidor=0;
+    
     static public TELL asignar_tell(int tiempo,int probabilidad){
         TELL objeto = new TELL(tiempo,probabilidad);
         probabilidades_tell.add(objeto);

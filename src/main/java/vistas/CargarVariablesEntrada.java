@@ -389,6 +389,11 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
             Estaticas.cantidad_servidores = Integer.parseInt(this.cantidad_servidores.getText());
             Estaticas.unidad_tiempo = this.unidad_tiempo.getSelectedItem().toString();
             Estaticas.presentar_tabla_eventos = this.presentar_tabla_eventos.getSelectedItem().toString();
+            /*COSTOS*/
+            Estaticas.costo_servicio = Integer.parseInt(this.costo_servicio.getText());
+            Estaticas.costo_servidor = Integer.parseInt(this.costo_servidor.getText());
+            Estaticas.costo_tiempo_cliente = Integer.parseInt(this.costo_tiempo_cliente.getText());
+            
             principal.principal.estadisticas();
         }
     }//GEN-LAST:event_CalcularActionPerformed
