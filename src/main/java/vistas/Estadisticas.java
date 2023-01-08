@@ -174,7 +174,7 @@ public class Estadisticas extends javax.swing.JPanel {
           //SALIDA
           salida();
         }
-
+        
         //CALCULAR L
         this.l = l + calcular_l();
         this.lq = lq + calcular_lq();
@@ -186,6 +186,14 @@ public class Estadisticas extends javax.swing.JPanel {
           }
         }
       } //TERMINO EL DIA
+      
+      //SACAR A LOS QUE ESTAN EN COLA
+      while(hallar_servidor_vacio()==999999){  //SE EJECUTA MIENTRAS TODOS LOS SERVIDORES NO ESTEN VACIOS
+        n_evento_totales++;
+        n_eventos_diarios++;
+        salida();
+      }
+
       this.l = (this.l / tm);
       this.lq = (this.lq / tm);
       this.w = w / cant_cliente;
