@@ -118,7 +118,7 @@ public class GestorArchivos {
                 st = new StringTokenizer(linea, ";");
                 String tiempo = st.nextToken().trim();
                 String probabilidad = st.nextToken().trim();
-                tabla_ts.addRow(new Object[]{
+                tabla_tell.addRow(new Object[]{
                     tiempo,
                     probabilidad
                 });
@@ -126,21 +126,21 @@ public class GestorArchivos {
                  //System.out.println("tiempo: "+probabilidad);
 
             }
-            data.setTabla_ts(tabla_ts);
+            data.setTabla_tell(tabla_tell);
             
             /*PROBABILIDADES TIEMPO DE SERVICIO*/
             while ((linea = bu.readLine()) != null) {
                 st = new StringTokenizer(linea, ";");
                 String tiempo = st.nextToken().trim();
                 String probabilidad = st.nextToken().trim();
-                tabla_tell.addRow(new Object[]{
+                tabla_ts.addRow(new Object[]{
                     tiempo,
                     probabilidad
                 });
                 //System.out.print("tiempo: "+tiempo);
                 //System.out.println("tiempo: "+probabilidad);
             }
-            data.setTabla_tell(tabla_tell);
+            data.setTabla_ts(tabla_ts);
             
             bu.close();
             

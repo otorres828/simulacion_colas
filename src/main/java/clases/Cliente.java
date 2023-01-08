@@ -8,8 +8,8 @@ public class Cliente {
     public int dt=0;
     
     public Cliente(int id, int valor) {
-        this.id = id;
-        this.valor = valor;
+        this.id = id;                   //ID DE CLIENTE
+        this.valor = valor;             // TIEMPO EN QUE SALDRA
     }
     
     public Cliente(int id,int tm,int dt){

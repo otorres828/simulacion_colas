@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import clases.Estaticas;
 import clases.GestorArchivos;
-import java.text.DecimalFormat;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import principal.principal;
@@ -19,7 +18,7 @@ public class Estadisticas extends javax.swing.JPanel {
     public  int at=0;
     
     public ArrayList<Integer> wl = new ArrayList<>(); 
-    public ArrayList<Integer> id_cliente = new ArrayList<>(); 
+    public ArrayList<Integer> id_cliente = new ArrayList<>();                    //CUENTA LA CANTIDAD DE CLIENTES QUE VAN LLEGANDO 
 
     //TIEMPO ENTRE LLEGADAS
     public  int n_tell=0;
@@ -39,21 +38,27 @@ public class Estadisticas extends javax.swing.JPanel {
     
     public Cliente dt[];
     public float utilizacion[];
-    public int n_evento=0;
+    public float acumulador_utilizacion[];
+    public int n_evento_totales=0,n_eventos_diarios=0;
     
     /*VARIABLES QUE CONTROLAN LA CANTIDAD DE SERVIDORES Y EL TIEMPO DE SIMULACION*/
     public int cantidad_servidores=0;
     public int cliente_salida_cola=0;                                            //SE UTILIZA PARA OBTENER EL ID DEL CLIENTE QUE ENTRA A LA COLA
     public int cliente_salida_no_cola=0;                                         //SE UTILIZA PARA OBTENER EL ID DEL CLIENTE QUE SALDRA DE LA COLA
     
-    /*VARIABLES PARA EL CALCULO DE ESTADISTICAS*/
+    /*VARIABLES PARA EL CALCULO DE ESTADISTICAS DIARIAS*/
     public float l=0,lq=0, w=0,wq=0;
+   /*VARIABLES PARA EL CALCULO DE ESTADISTICAS TOTALES PROMEDIALES*/
+    public float acumulador_l=0,acumulador_lq=0, acumulador_w=0,acumulador_wq=0;
+
     public ArrayList<Cliente> w_auxiliar = new ArrayList<>(); 
     public ArrayList<Cliente> wq_auxiliar = new ArrayList<>(); 
 
-    /*VARIABLE PARA EL CALCULO DEL TIEMPO ADICIONAL O EXTRA*/
+    /*VARIABLE PARA EL CALCULO DEL TIEMPO ADICIONAL O EXTRA DIARIO*/
     public int ta=0;
-    
+    /*VARIABLE PARA EL CALCULO DEL TIEMPO ADICIONAL O EXTRA TOTAL PROMEDIAL*/
+    public int acumulador_ta=0;
+
     /*VARIABLES PARA EL CALCULO DE COSTOS*/
     public float costo_espera_cliente=0;
     public float costo_atencion_cliente=0;
@@ -61,13 +66,15 @@ public class Estadisticas extends javax.swing.JPanel {
     public float costo_cliente=0;
     public float costo_general=0;
     
+    /*VARIABLES NUEVAS PARA EL CASO DE USO*/
+    public int dia=0;
+    
     public Estadisticas() {
         initComponents();
     }  
     
     public void inicializar_datos(){  
         this.label_servidores.setText(Integer.toString(Estaticas.cantidad_servidores));
-        this.label_simulacion.setText(Integer.toString(Estaticas.TM_simulacion));
         this.unidad_tiempow.setText(Estaticas.unidad_tiempo);
         this.unidad_tiempowq.setText(Estaticas.unidad_tiempo);
         this.unidad_tiempota.setText(Estaticas.unidad_tiempo);
@@ -78,7 +85,7 @@ public class Estadisticas extends javax.swing.JPanel {
     }
     
     private void cargar_cabecera_tabla() {
-        String[] titulos = new String[11 + (2 * cantidad_servidores)];
+        String[] titulos = new String[12 + (2 * cantidad_servidores)];
         titulos[0] = "Nº Evento";
         titulos[1] = "Tipo Evento";
         titulos[2] = "Id Cliente";
@@ -97,6 +104,7 @@ public class Estadisticas extends javax.swing.JPanel {
         titulos[index = index + 1] = "TELL";
         titulos[index = index + 1] = "Np/TS";
         titulos[index = index + 1] = "TS";
+        titulos[index = index + 1] = "Dia";
 
         tabla_eventos = new DefaultTableModel(null, titulos);
         table_modelo.setModel(tabla_eventos);
@@ -121,11 +129,12 @@ public class Estadisticas extends javax.swing.JPanel {
     public final void llamada_simulacion(int servidores) {
         this.servidores = new int[servidores];
         this.dt = new Cliente[servidores];
-        this.utilizacion = new float [servidores];                        //PARA CALCULAR EL PORCENTAJE DE UTILIZACION
+        this.utilizacion = new float [servidores];                              //PARA CALCULAR EL PORCENTAJE DE UTILIZACION DIARIO
+        this.acumulador_utilizacion = new float [servidores];                   //PARA CALCULAR EL PORCENTAJE DE UTILIZACION TOTAL PROMEDIAL
         
         /*INICIALIZAR LA UTILIZACION EN 0*/
          for (int i = 0; i < this.utilizacion.length; i++) {
-             this.utilizacion[i]=0;
+             this.utilizacion[i]=0;this.acumulador_utilizacion[i]=0;
          }
          
         //INICIALIZAMOS LOS SERVIDORES EN 0
@@ -134,29 +143,26 @@ public class Estadisticas extends javax.swing.JPanel {
             Cliente c = new Cliente(0, 999999);
             this.dt[i]=c;
         }
+        this.n_evento_totales=0;                                                        //INICIALIZAMOS EL EVENTO EN 0
         correr_simulacion(); //CORREMOS LA SIMULACION
-        
-        //ASIGNAMOS EL PORCENTAJE DE UTILIZACION A CADA SERVIDOR
-        for (int i = 0; i < this.utilizacion.length; i++) {
-             this.utilizacion[i]=(this.utilizacion[i]/this.n_evento)*100;
-        }
-        
+              
         //CALCULAR COSTOS
         calcular_costos();
         
         //CARGAR ESTADISTICAS DEL PORCENTAJE DE UTILIZACION DE CADA SERVIDOR
         cargar_estadisticas();
         
-
     }
     
     //ESTE METODO ES EL ENCARGADO DE SACAR TODOS LOS CALCULOS DE LA TABLA DE EVENTOS Y ESTADITICAS
     private void correr_simulacion(){
-        limpiar();                                                                //LIMPIAR LAS VARIABLES
-        tabla_eventos.addRow( obtener_objeto_llegada()); 
-        //MIENTRAS TM SEA MENOR AL TIEMPO DE SIMULACION
-        while(this.tm<this.simulacion){
-            n_evento++;
+        limpiar(); this.dia=1;                                                               //LIMPIAR LAS VARIABLES
+        tabla_eventos.addRow(obtener_objeto_llegada()); 
+        //MIENTRAS DIA MENOR TIEMPO_SIMULACION
+        
+        while(this.dia<=1800){ //1800 DIAS EQUIVALEN A 5 AÑOS
+         while(this.tm<540){  //540 MINUTOS EQUIVALEN A 1 DIA
+            n_evento_totales++;n_eventos_diarios++;
             if(this.at<valor_menor_dt()){  //compara AT con el valor menor de DT
                 //LLEGADA
                 this.tm=this.at;
@@ -228,23 +234,66 @@ public class Estadisticas extends javax.swing.JPanel {
                     this.utilizacion[i]=this.utilizacion[i]+1;
                 }
             }
-        }
-        //IMPRIMIR L y LQ EN PANTALLA
-        this.l=(this.l/tm); this.valor_l.setText(String.valueOf(this.l));
-        this.lq=(this.lq/tm); this.valor_lq.setText(String.valueOf(this.lq));
-        //CALCULAR E IMPRIMIR W Y WQ
-        this.w=w/cant_cliente; this.valor_w.setText(String.valueOf(this.w));
-        this.wq=wq/cant_cliente; this.valor_wq.setText(String.valueOf(this.wq));
+        } //TERMINO EL DIA
+            this.l=(this.l/tm); 
+            this.lq=(this.lq/tm); 
+            this.w=w/cant_cliente;
+            this.wq=wq/cant_cliente;
+            //CALCULAR TIEMPO EXTRA O ADICIONAL 
+            this.ta=calcular_tiempo_adicional();
+
+            reiniciar_dia();
+
+        } //aqui termino toda la simulacion
         
-        //CALCULAR TIEMPO EXTRA O ADICIONAL 
-        this.ta=calcular_tiempo_adicional();
-        this.valor_ta.setText(String.valueOf(this.ta));
+        calculo_estadisticas_finales();
     }
     
+    private void calculo_estadisticas_finales(){
+        // PORCENTAJE DE UTILIZACION
+        for (int i = 0; i < this.acumulador_utilizacion.length; i++) {
+             this.acumulador_utilizacion[i]=(this.acumulador_utilizacion[i]/this.dia);
+        }
+        this.acumulador_l=this.acumulador_l/this.dia;
+        this.acumulador_lq=this.acumulador_lq/this.dia;
+        this.acumulador_w=this.acumulador_w/this.dia;
+        this.acumulador_wq=this.acumulador_wq/this.dia;
+        this.acumulador_ta=this.acumulador_ta/this.dia;
+        this.label_simulacion.setText(Integer.toString(Estaticas.TM_simulacion));
+
+    }
+    
+    private void reiniciar_dia(){    
+        acumuladores();
+        limpiar();
+        this.dia=this.dia+1;
+        //REINICIAMOS LOS SERVIDORES EN 0
+        for (int i = 0; i < this.servidores.length; i++) {
+            this.servidores[i]=0;
+            Cliente c = new Cliente(0, 999999);
+            this.dt[i]=c;
+        }
+    }
+    
+    private void acumuladores(){
+        //ASIGNAMOS EL PORCENTAJE DE UTILIZACION AL ACUMULADOR
+        for (int i = 0; i < this.utilizacion.length; i++) {
+             this.utilizacion[i]=(this.utilizacion[i]/this.n_eventos_diarios)*100;
+        }
+        //ASIGNAMOS EL PORCENTAJE AL ACUMULADOR
+        for (int i = 0; i < this.utilizacion.length; i++) {
+             this.acumulador_utilizacion[i]=this.acumulador_utilizacion[i]+this.utilizacion[i];
+        }
+        this.acumulador_l=this.acumulador_l+this.l;
+        this.acumulador_lq=this.acumulador_lq+this.lq;
+        this.acumulador_w=this.acumulador_lq+this.w;
+        this.acumulador_wq=this.acumulador_wq+this.wq;
+        this.acumulador_ta=this.acumulador_ta+this.ta;
+    }
     private Object[] obtener_objeto_llegada(){
         añadir_tm_w(cant_cliente,tm);
-        String[] objeto = new String[11+(2*cantidad_servidores)];
-        objeto[0]=String.valueOf(n_evento);
+        String[] objeto = new String[12+(2*cantidad_servidores)];
+        objeto[0]=String.valueOf(n_evento_totales);
         objeto[1]=tipo_evento;
         objeto[2]=String.valueOf(cant_cliente);
         objeto[3]=String.valueOf(tm);
@@ -268,13 +317,14 @@ public class Estadisticas extends javax.swing.JPanel {
         objeto[index=index+1]=String.valueOf(tell);
         objeto[index=index+1]=String.valueOf(n_ts);
         objeto[index=index+1]=String.valueOf(ts);
+        objeto[index=index+1]=String.valueOf(dia);
         
         return objeto;
     }
         
     private Object obtener_objeto_salida(){
-        Object[] objeto = new Object[11+(2*cantidad_servidores)];
-        objeto[0]=n_evento;
+        Object[] objeto = new Object[12+(2*cantidad_servidores)];
+        objeto[0]=n_evento_totales;
         objeto[1]=tipo_evento;
         
         if(cliente_salida_cola!=0){
@@ -308,6 +358,7 @@ public class Estadisticas extends javax.swing.JPanel {
         objeto[index=index+1]=tell;
         objeto[index=index+1]=n_ts;
         objeto[index=index+1]=ts;
+        objeto[index=index+1]=dia;
         
         return objeto;
     }
@@ -375,7 +426,7 @@ public class Estadisticas extends javax.swing.JPanel {
         this.at=0;
         this.tipo_evento="";
         this.cant_cliente=0;
-        this.n_evento=0;
+        this.n_eventos_diarios=0;
         this.n_tell=0;
         this.n_ts=0;
         this.tell=0;
@@ -385,8 +436,20 @@ public class Estadisticas extends javax.swing.JPanel {
         this.w=0;
         this.lq=0;
         this.l=0;
+        this.lq=0;
+        this.ta=0;
         this.w_auxiliar.clear();
         this.wq_auxiliar.clear();
+        //PORCENTAJE DE UTILIZACION DE LOS SERVIDORES
+        for (int i = 0; i < this.utilizacion.length; i++) {
+             this.utilizacion[i]=0;
+        }
+        //COSTOS
+        this.costo_atencion_cliente=0;
+        this.costo_cliente=0;
+        this.costo_espera_cliente=0;
+        this.costo_general=0;
+        this.costo_servidores=0;
         
         //MOSTRAR EL PANEL DE EVENTOS
         if("No".equals(Estaticas.presentar_tabla_eventos)){
@@ -468,7 +531,7 @@ public class Estadisticas extends javax.swing.JPanel {
     private void cargar_estadisticas() {
         Object [] fila=new Object[this.cantidad_servidores+5];
          for(int i=0;i<cantidad_servidores;i++){
-             fila[i]=this.utilizacion[i];
+             fila[i]=this.acumulador_utilizacion[i];
          }
          fila[cantidad_servidores]=this.costo_servidores;
          fila[cantidad_servidores+1]=this.costo_espera_cliente;
@@ -476,6 +539,12 @@ public class Estadisticas extends javax.swing.JPanel {
          fila[cantidad_servidores+3]=this.costo_cliente;
          fila[cantidad_servidores+4]=this.costo_general;
          this.estadisticas.addRow(fila);
+         
+         this.valor_l.setText(String.valueOf(this.acumulador_l));
+         this.valor_lq.setText(String.valueOf(this.acumulador_lq));
+         this.valor_w.setText(String.valueOf(this.acumulador_w));
+         this.valor_wq.setText(String.valueOf(this.acumulador_wq));
+         this.valor_ta.setText(String.valueOf(this.acumulador_ta));
     }
 
     private void calcular_costos() {

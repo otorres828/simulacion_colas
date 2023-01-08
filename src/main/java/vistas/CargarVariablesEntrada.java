@@ -14,9 +14,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class CargarVariablesEntrada extends javax.swing.JPanel {
     
-    //CONFIGURACION DE VARIABLES ALEATORIAS
-    //public Configurar_tell configurar_tell = null;
-    
+    public int cantidad_tiempo_simulacion=0;
     public CargarVariablesEntrada() {
         initComponents();
     }
@@ -56,6 +54,9 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
         costo_servicio = new javax.swing.JTextField();
         costo_servidor = new javax.swing.JTextField();
         costo_tiempo_cliente = new javax.swing.JTextField();
+        ud2 = new javax.swing.JLabel();
+        ud1 = new javax.swing.JLabel();
+        ud3 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(102, 204, 255));
 
@@ -201,6 +202,11 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
         });
 
         unidad_tiempo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Segundos", "Minutos", "Horas", "Dias", "Semanas", "Meses", "Años" }));
+        unidad_tiempo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                unidad_tiempoItemStateChanged(evt);
+            }
+        });
 
         presentar_tabla_eventos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Si", "No" }));
 
@@ -275,7 +281,7 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(valores_ts))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -302,6 +308,15 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
             }
         });
 
+        ud2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        ud2.setText("ud");
+
+        ud1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        ud1.setText("ud");
+
+        ud3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        ud3.setText("ud");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -312,12 +327,17 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
                     .addComponent(jLabel11)
                     .addComponent(jLabel13)
                     .addComponent(jLabel12))
-                .addGap(42, 42, 42)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(costo_tiempo_cliente, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
-                    .addComponent(costo_servicio, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(costo_servidor))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(costo_tiempo_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(costo_servicio, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(costo_servidor, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(ud1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ud2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ud3, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -325,16 +345,19 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
                 .addGap(35, 35, 35)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(costo_servicio, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(costo_servicio, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ud1))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
-                    .addComponent(costo_tiempo_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(15, 15, 15)
+                    .addComponent(costo_tiempo_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ud2))
+                .addGap(14, 14, 14)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
-                    .addComponent(costo_servidor, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(costo_servidor, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ud3))
+                .addContainerGap(230, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -346,13 +369,13 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(447, 447, 447)
                 .addComponent(jLabel8)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(259, Short.MAX_VALUE)
                 .addComponent(Opciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(253, 253, 253))
         );
@@ -374,7 +397,6 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void CalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CalcularActionPerformed
-        //funcion_para_probar();
         
         if(this.cantidad_simulacion.getText().isEmpty()   
                 || this.cantidad_tell.getText().isEmpty()
@@ -385,7 +407,7 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
            ){
             message("Debes de llenar todos los campos para continuar. Esto incluye la configuracion de las probabilidades", 3);
         }else{
-            Estaticas.TM_simulacion = Integer.parseInt(this.cantidad_simulacion.getText());
+            Estaticas.TM_simulacion = 60*9*360*Integer.parseInt(this.cantidad_simulacion.getText());
             Estaticas.cantidad_servidores = Integer.parseInt(this.cantidad_servidores.getText());
             Estaticas.unidad_tiempo = this.unidad_tiempo.getSelectedItem().toString();
             Estaticas.presentar_tabla_eventos = this.presentar_tabla_eventos.getSelectedItem().toString();
@@ -551,7 +573,43 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_guardar_archivoActionPerformed
 
+    private void unidad_tiempoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_unidad_tiempoItemStateChanged
+        switch (this.unidad_tiempo.getSelectedIndex()) {
+                   case 1:
+                       this.setlabels(this.unidad_tiempo.getSelectedItem().toString());
+                       break;
+                   case 2:
+                       this.setlabels(this.unidad_tiempo.getSelectedItem().toString());
+                       break;
+                   case 3:
+                       this.setlabels(this.unidad_tiempo.getSelectedItem().toString());
+                       break;
+                   case 4:
+                       this.setlabels(this.unidad_tiempo.getSelectedItem().toString());
+                       break;
+                   case 5:
+                       this.setlabels(this.unidad_tiempo.getSelectedItem().toString());
+                       break;
+                   case 6:
+                       this.setlabels(this.unidad_tiempo.getSelectedItem().toString());
+                       break;
+                   default:
+                       this.setlabels("Seg");
+                       break;
+        }        
+        // TODO add your handling code here:
+    }//GEN-LAST:event_unidad_tiempoItemStateChanged
 
+    private void setlabels(String word) {
+        String text = "$/";
+        if (!word.isEmpty()) {
+            text += word.substring(0, 3);
+        }
+        this.ud1.setText(text);
+        this.ud2.setText(text);
+        this.ud3.setText(text);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Calcular;
     private javax.swing.JPanel Opciones;
@@ -581,6 +639,9 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
     private javax.swing.JButton limpiar_todo;
     private javax.swing.JButton limpiar_todo1;
     private javax.swing.JComboBox<String> presentar_tabla_eventos;
+    private javax.swing.JLabel ud1;
+    private javax.swing.JLabel ud2;
+    private javax.swing.JLabel ud3;
     private javax.swing.JComboBox<String> unidad_tiempo;
     private javax.swing.JButton valores_tell;
     private javax.swing.JButton valores_ts;
