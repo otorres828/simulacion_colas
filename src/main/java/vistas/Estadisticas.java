@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import clases.Estaticas;
 import clases.GestorArchivos;
-import java.text.DecimalFormat;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import principal.principal;
@@ -452,7 +451,7 @@ public class Estadisticas extends javax.swing.JPanel {
         //w_auxiliar.remove(obj2);
     }
     
-    //PARA CALCULAR WQ
+    //PARA CALCULAR WQ                                                           //SE CREA EL CLIENTE CON EL VALOR TM DE LLEGADA
     private void añadir_wq_tm(int ncliente,int valortm){
         Cliente objeto = new Cliente(ncliente, valortm,0);
         this.wq_auxiliar.add(objeto);
