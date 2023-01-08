@@ -192,6 +192,9 @@ public class Estadisticas extends javax.swing.JPanel {
       while(hallar_servidor_vacio()==999999){  //SE EJECUTA MIENTRAS TODOS LOS SERVIDORES NO ESTEN VACIOS
         n_evento_totales++;
         n_eventos_diarios++;
+        //CALCULAR L CUANDO
+        //this.l = l + calcular_l();
+        //this.lq = lq + calcular_lq();
         salida();
       }
       //CALCULAR TIEMPO EXTRA O ADICIONAL
