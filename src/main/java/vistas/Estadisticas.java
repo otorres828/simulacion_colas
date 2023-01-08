@@ -59,7 +59,7 @@ public class Estadisticas extends javax.swing.JPanel {
   public int ta = 0;
   /*VARIABLE PARA EL CALCULO DEL TIEMPO ADICIONAL O EXTRA TOTAL PROMEDIAL*/
   public int acumulador_ta = 0;
-
+  public int tiempo_extra=540;
   /*VARIABLES PARA EL CALCULO DE COSTOS*/
   public float costo_espera_cliente = 0;
   public float costo_atencion_cliente = 0;
@@ -188,18 +188,19 @@ public class Estadisticas extends javax.swing.JPanel {
       } //TERMINO EL DIA
       
       //SACAR A LOS QUE ESTAN EN COLA
+     
       while(hallar_servidor_vacio()==999999){  //SE EJECUTA MIENTRAS TODOS LOS SERVIDORES NO ESTEN VACIOS
         n_evento_totales++;
         n_eventos_diarios++;
         salida();
       }
+      //CALCULAR TIEMPO EXTRA O ADICIONAL
+      this.ta=this.tm-this.tiempo_extra;
 
       this.l = (this.l / tm);
       this.lq = (this.lq / tm);
       this.w = w / cant_cliente;
       this.wq = wq / cant_cliente;
-      //CALCULAR TIEMPO EXTRA O ADICIONAL
-      this.ta = calcular_tiempo_adicional();
 
       reiniciar_dia();
     } //aqui termino toda la simulacion
@@ -1093,11 +1094,11 @@ public class Estadisticas extends javax.swing.JPanel {
     );
   } // </editor-fold>//GEN-END:initComponents
 
-  private void regresarActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_regresarActionPerformed
+  private void regresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regresarActionPerformed
     principal.principal.cargar();
-  } //GEN-LAST:event_regresarActionPerformed
+  }//GEN-LAST:event_regresarActionPerformed
 
-  private void guardarActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_guardarActionPerformed
+  private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
     String nombre_archivo_salida = JOptionPane.showInputDialog(
       "¿Con que nombre quiere guardar el archivo?"
     );
@@ -1133,7 +1134,7 @@ public class Estadisticas extends javax.swing.JPanel {
         cantidad_servidores
       );
     }
-  } //GEN-LAST:event_guardarActionPerformed
+  }//GEN-LAST:event_guardarActionPerformed
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JButton guardar;
