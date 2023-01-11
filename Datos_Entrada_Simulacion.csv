@@ -1,13 +1,13 @@
-Unidad de tiempo;Tabla de eventos;tiempo de simulacion;Cantidad de servidores;Cantidad de valores tell;Cantidad de valores ts;Costo de tiempo de servidor de cliente;Costo del tiempo de esèra de cliente;Costo de cada servidor
-Minutos;Si ;5;1;5;4;10;20;4
-Tiempo de llegada;Probabilidad;;;;;;;
-3;15;;;;;;;
-5;30;;;;;;;
-7;35;;;;;;;
-8;10;;;;;;;
-9;10;;;;;;;
-Tiempo de servicio;Probabilidad;;;;;;;
-15;10;;;;;;;
-17;30;;;;;;;
-20;25;;;;;;;
-25;35;;;;;;;
+Unidad de tiempo;Tabla de eventos;tiempo de simulacion total;tiempo de simulacion interno;Cantidad de servidores;Cantidad de valores tell;Cantidad de valores ts;Costo de tiempo de servidor de cliente;Costo del tiempo de esèra de cliente;Costo de cada servidor
+Minutos;Si ;1800;540;1;5;4;10;20;4
+Tiempo de llegada;Probabilidad;;;;;;;;
+3;15;;;;;;;;
+5;30;;;;;;;;
+7;35;;;;;;;;
+8;10;;;;;;;;
+9;10;;;;;;;;
+Tiempo de servicio;Probabilidad;;;;;;;;
+15;10;;;;;;;;
+17;30;;;;;;;;
+20;25;;;;;;;;
+25;35;;;;;;;;

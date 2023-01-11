@@ -28,7 +28,8 @@ public class GestorArchivos {
             String[] dataTitles = {
                 "Unidad de tiempo", 
                 "Tabla de eventos", 
-                "tiempo de simulacion",
+                "tiempo de simulacion total",
+                "tiempo de simulacion interno",
                 "Cantidad de servidores",
                 "Cantidad de valores tell",
                 "Cantidad de valores ts",
@@ -48,6 +49,7 @@ public class GestorArchivos {
                     data.getUnidad_tiempo() + " ;" 
                     + data.getPresentar_tabla_eventos()+ " ;" 
                     + data.getCantidad_simulacion()+ " ;" 
+                    + data.getCantidad_simulacion_interna()+ " ;" 
                     + data.getCantidad_servidores() + " ;" 
                     + data.getCantidad_tell()+ " ;" 
                     + data.getCantidad_ts()+ " ;" 
@@ -104,6 +106,7 @@ public class GestorArchivos {
                 data.setUnidad_tiempo(st.nextToken().trim());
                 data.setPresentar_tabla_eventos(st.nextToken().trim());
                 data.setCantidad_simulacion(Integer.parseInt(st.nextToken().trim()));
+                data.setCantidad_simulacion_interna(Integer.parseInt(st.nextToken().trim()));
                 data.setCantidad_servidores(Integer.parseInt(st.nextToken().trim()));
                 data.setCantidad_tell(Integer.parseInt(st.nextToken().trim()));
                 data.setCantidad_ts(Integer.parseInt(st.nextToken().trim()));

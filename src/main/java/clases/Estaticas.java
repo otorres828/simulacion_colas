@@ -9,6 +9,7 @@ public class Estaticas {
     static public ArrayList<TS> probabilidades_ts = new ArrayList<>(); 
     static public int cantidad_servidores=0; 
     static public int TM_simulacion=0; 
+    static public int TM_interno=0; 
     static public int probabilidad_acumulada_tell=0; 
     static public int probabilidad_acumulada_ts=0; 
     

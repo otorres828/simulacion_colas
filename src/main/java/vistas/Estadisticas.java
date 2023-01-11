@@ -171,8 +171,8 @@ public class Estadisticas extends javax.swing.JPanel {
     tabla_eventos.addRow(obtener_objeto_llegada());
     //MIENTRAS DIA MENOR TIEMPO_SIMULACION
 
-    while (this.dia <= 1800) { //1800 DIAS EQUIVALEN A 5 AÑOS
-      while (this.tm < 540) { //540 MINUTOS EQUIVALEN A 1 DIA
+    while (this.dia <= Estaticas.TM_simulacion) { //1800 DIAS EQUIVALEN A 5 AÑOS
+      while (this.tm < Estaticas.TM_interno) { //540 MINUTOS EQUIVALEN A 1 DIA
         n_evento_totales++;
         n_eventos_diarios++;
         if (this.at < valor_menor_dt()) { //compara AT con el valor menor de DT
@@ -191,9 +191,7 @@ public class Estadisticas extends javax.swing.JPanel {
         aumentar_utilizacion();
       } //TERMINO EL DIA
 
-      //CALCULAR L CUANDO TERMINA EL DIA (SIN SACAR A LA GENTE DE LA TIENDA
-      this.l = (this.l / this.tm); 
-      this.lq = (this.lq / this.tm);
+
       
       //SACAR A LOS QUE ESTAN EN COLA
       while(hallar_servidor_vacio()==999999){  //SE EJECUTA MIENTRAS TODOS LOS SERVIDORES NO ESTEN VACIOS
@@ -201,7 +199,9 @@ public class Estadisticas extends javax.swing.JPanel {
         n_eventos_diarios++;
 
         salida();
-        
+         //CALCULAR L
+        this.l = l + ((valor_menor_dt() - tm) * clientes_sistema);
+        this.lq = lq + ((valor_menor_dt() - tm) *  wl.size());
         //AUMENTAR LA UTILIZACION DEL SERVIDOR
         aumentar_utilizacion();
       }
@@ -210,7 +210,10 @@ public class Estadisticas extends javax.swing.JPanel {
       //CALCULAR W Y WQ
       this.w = w / cant_cliente; 
       this.wq = wq / cant_cliente; 
-
+      
+      //CALCULAR L CUANDO TERMINA EL DIA (SIN SACAR A LA GENTE DE LA TIENDA
+      this.l = (this.l / this.tm); 
+      this.lq = (this.lq / this.tm);
       reiniciar_dia();
     } //aqui termino toda la simulacion
 
@@ -431,6 +434,8 @@ public class Estadisticas extends javax.swing.JPanel {
     }
     return calculo;
   }
+
+
 
   private int calcular_lq() {
     int calculo;

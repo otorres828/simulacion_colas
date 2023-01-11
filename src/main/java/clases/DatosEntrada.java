@@ -7,6 +7,7 @@ public class DatosEntrada {
     /*1*/ public String unidad_tiempo;
     /*2*/ public String presentar_tabla_eventos;
     /*3*/ public int cantidad_simulacion;
+    /**/ public int cantidad_simulacion_interna;
     /*4*/ public int cantidad_tell;
     /*5*/ public DefaultTableModel tabla_tell;
     /*6*/ public int cantidad_servidores;
@@ -28,12 +29,14 @@ public class DatosEntrada {
         this.costo_servicio = 0;
         this.costo_tiempo_cliente = 0;
         this.costo_servidor = 0;
+        this.cantidad_simulacion_interna=0;
     }
 
-    public DatosEntrada(String unidad_tiempo, String presentar_tabla_eventos, int cantidad_simulacion, int cantidad_tell, DefaultTableModel tabla_tell, int cantidad_servidores, int cantidad_ts, DefaultTableModel tabla_ts, int costo_servicio, int costo_tiempo_cliente, int costo_servidor) {
+    public DatosEntrada(String unidad_tiempo, String presentar_tabla_eventos, int cantidad_simulacion, int cantidad_simulacion_interna, int cantidad_tell, DefaultTableModel tabla_tell, int cantidad_servidores, int cantidad_ts, DefaultTableModel tabla_ts, int costo_servicio, int costo_tiempo_cliente, int costo_servidor) {
         this.unidad_tiempo = unidad_tiempo;
         this.presentar_tabla_eventos = presentar_tabla_eventos;
         this.cantidad_simulacion = cantidad_simulacion;
+        this.cantidad_simulacion_interna = cantidad_simulacion_interna;
         this.cantidad_tell = cantidad_tell;
         this.tabla_tell = tabla_tell;
         this.cantidad_servidores = cantidad_servidores;
@@ -43,6 +46,16 @@ public class DatosEntrada {
         this.costo_tiempo_cliente = costo_tiempo_cliente;
         this.costo_servidor = costo_servidor;
     }
+
+    public int getCantidad_simulacion_interna() {
+        return cantidad_simulacion_interna;
+    }
+
+    public void setCantidad_simulacion_interna(int cantidad_simulacion_interna) {
+        this.cantidad_simulacion_interna = cantidad_simulacion_interna;
+    }
+
+
 
     public String getUnidad_tiempo() {
         return unidad_tiempo;
