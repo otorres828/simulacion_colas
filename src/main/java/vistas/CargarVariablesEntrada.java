@@ -452,9 +452,9 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
            ){
             message("Debes de llenar todos los campos para continuar. Esto incluye la configuracion de las probabilidades", 3);
         }else{
-            if(Integer.parseInt(this.cantidad_simulacion.getText())<Integer.parseInt(this.cantidad_simulacion_interno.getText())){
-                   message("El tiempo de simulacion interno no puede ser mayor al tiempo de simulacion total", 3);
-            }else{
+         //   if(Integer.parseInt(this.cantidad_simulacion.getText())<Integer.parseInt(this.cantidad_simulacion_interno.getText())){
+             //      message("El tiempo de simulacion interno no puede ser mayor al tiempo de simulacion total", 3);
+          //  }else{
                 Estaticas.TM_simulacion = Integer.parseInt(this.cantidad_simulacion.getText());
                 Estaticas.TM_interno = Integer.parseInt(this.cantidad_simulacion_interno.getText());
                 Estaticas.cantidad_servidores = Integer.parseInt(this.cantidad_servidores.getText());
@@ -466,7 +466,7 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
                 Estaticas.costo_tiempo_cliente = Integer.parseInt(this.costo_tiempo_cliente.getText());
 
                 principal.principal.estadisticas();                
-            }
+         //   }
 
         }
     }//GEN-LAST:event_CalcularActionPerformed
