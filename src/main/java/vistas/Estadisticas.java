@@ -91,6 +91,11 @@ public class Estadisticas extends javax.swing.JPanel {
     this.unidad_tiempow.setText(Estaticas.unidad_tiempo);
     this.unidad_tiempowq.setText(Estaticas.unidad_tiempo);
     this.unidad_tiempota.setText(Estaticas.unidad_tiempo);
+    this.time.setText(Estaticas.unidad_tiempo);
+    this.time1.setText(Estaticas.unidad_tiempo);
+    this.time2.setText(Estaticas.unidad_tiempo);
+    this.time3.setText(Estaticas.unidad_tiempo);
+    this.time4.setText(Estaticas.unidad_tiempo);
     this.cantidad_servidores = Estaticas.cantidad_servidores;
     this.simulacion = Estaticas.TM_simulacion;
     cargar_cabecera_tabla(); //CARGAR CABECERA DE LA TABLA DE EVENTOS
@@ -609,6 +614,16 @@ public class Estadisticas extends javax.swing.JPanel {
         costo_servicio = new javax.swing.JLabel();
         costo_co = new javax.swing.JLabel();
         costo_cli = new javax.swing.JLabel();
+        dolar = new javax.swing.JLabel();
+        dolar1 = new javax.swing.JLabel();
+        dolar2 = new javax.swing.JLabel();
+        dolar3 = new javax.swing.JLabel();
+        dolar4 = new javax.swing.JLabel();
+        time = new javax.swing.JLabel();
+        time1 = new javax.swing.JLabel();
+        time2 = new javax.swing.JLabel();
+        time3 = new javax.swing.JLabel();
+        time4 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -735,19 +750,49 @@ public class Estadisticas extends javax.swing.JPanel {
         jLabel16.setText("Costo promedio general (clientes + servidores):");
 
         costo_ser.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        costo_ser.setText("costo_servidores");
+        costo_ser.setText("c_s");
 
         costo_ge.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        costo_ge.setText("costo general");
+        costo_ge.setText("c_g");
 
         costo_servicio.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        costo_servicio.setText("costo clientes en servicio");
+        costo_servicio.setText("c_c_s");
 
         costo_co.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        costo_co.setText("costo clientes en cola");
+        costo_co.setText("c_c");
 
         costo_cli.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        costo_cli.setText("costo cliente");
+        costo_cli.setText("c_cl");
+
+        dolar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        dolar.setText("$/");
+
+        dolar1.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        dolar1.setText("$/");
+
+        dolar2.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        dolar2.setText("$/");
+
+        dolar3.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        dolar3.setText("$/");
+
+        dolar4.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        dolar4.setText("$/");
+
+        time.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        time.setText("time");
+
+        time1.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        time1.setText("time");
+
+        time2.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        time2.setText("time");
+
+        time3.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        time3.setText("time");
+
+        time4.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        time4.setText("time");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -765,17 +810,42 @@ public class Estadisticas extends javax.swing.JPanel {
                                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(costo_ser)
-                                    .addComponent(costo_ge)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(costo_ge)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(dolar4)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(time4))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(valor_lq)
                                             .addComponent(valor_ta))
                                         .addGap(27, 27, 27)
                                         .addComponent(unidad_tiempota))
-                                    .addComponent(costo_servicio)
-                                    .addComponent(costo_co)
-                                    .addComponent(costo_cli)))))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(costo_servicio)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(dolar1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(time1))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(costo_co)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(dolar2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(time2))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(costo_cli)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(dolar3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(time3))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(costo_ser)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(dolar)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(time))))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -813,7 +883,7 @@ public class Estadisticas extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel16)))
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -848,23 +918,33 @@ public class Estadisticas extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(costo_ser))
+                    .addComponent(costo_ser)
+                    .addComponent(dolar)
+                    .addComponent(time))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
-                    .addComponent(costo_servicio))
+                    .addComponent(costo_servicio)
+                    .addComponent(dolar1)
+                    .addComponent(time1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
-                    .addComponent(costo_co))
+                    .addComponent(costo_co)
+                    .addComponent(dolar2)
+                    .addComponent(time2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
-                    .addComponent(costo_cli))
+                    .addComponent(costo_cli)
+                    .addComponent(dolar3)
+                    .addComponent(time3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
-                    .addComponent(costo_ge))
+                    .addComponent(costo_ge)
+                    .addComponent(dolar4)
+                    .addComponent(time4))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
@@ -954,7 +1034,7 @@ public class Estadisticas extends javax.swing.JPanel {
                                     .addComponent(regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 555, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(12, 12, 12)))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -982,6 +1062,15 @@ public class Estadisticas extends javax.swing.JPanel {
   private void regresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regresarActionPerformed
       this.limpiar();
       this.dia=1;
+      this.costo_cliente=0;
+      this.costo_clientes_servicio=0;
+      this.acosto_clientes_servicio=0;
+      this.costo_espera_cliente=0;
+      this.costo_general=0;
+      this.costo_general_servidores=0;
+      this.at=0;
+      this.acosto_clientes_servicio=0;
+      this.acosto_espera_cliente=0;
       principal.principal.cargar();
   }//GEN-LAST:event_regresarActionPerformed
 
@@ -1000,12 +1089,12 @@ public class Estadisticas extends javax.swing.JPanel {
       //GUARDAMOS LOS DATOS EN UN OBJETO DE SALIDA
       data =
         new DatosSalida(
-          this.w,
-          this.wq,
-          this.l,
-          this.lq,
-          this.ta,
-          this.utilizacion,
+          this.acumulador_w,
+          this.acumulador_wq,
+          this.acumulador_l,
+          this.acumulador_lq,
+          this.acumulador_ta,
+          this.acumulador_utilizacion,
           this.costo_general_servidores,
           this.costo_espera_cliente,
           this.costo_clientes_servicio,
@@ -1029,6 +1118,11 @@ public class Estadisticas extends javax.swing.JPanel {
     private javax.swing.JLabel costo_ge;
     private javax.swing.JLabel costo_ser;
     private javax.swing.JLabel costo_servicio;
+    private javax.swing.JLabel dolar;
+    private javax.swing.JLabel dolar1;
+    private javax.swing.JLabel dolar2;
+    private javax.swing.JLabel dolar3;
+    private javax.swing.JLabel dolar4;
     private javax.swing.JButton guardar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1056,6 +1150,11 @@ public class Estadisticas extends javax.swing.JPanel {
     private javax.swing.JButton regresar;
     public javax.swing.JTable table_modelo;
     public javax.swing.JTable table_modelo_estadisticas;
+    private javax.swing.JLabel time;
+    private javax.swing.JLabel time1;
+    private javax.swing.JLabel time2;
+    private javax.swing.JLabel time3;
+    private javax.swing.JLabel time4;
     private javax.swing.JLabel unidad_tiempota;
     private javax.swing.JLabel unidad_tiempow;
     private javax.swing.JLabel unidad_tiempowq;
