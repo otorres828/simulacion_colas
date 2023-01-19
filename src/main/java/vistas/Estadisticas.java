@@ -226,7 +226,7 @@ public class Estadisticas extends javax.swing.JPanel {
         aumentar_utilizacion();
       }
       //CALCULAR TIEMPO EXTRA O ADICIONAL 
-      this.ta=this.tm-this.tiempo_extra;   System.err.println("tm: "+this.tm + "tiempo extra: "+this.tiempo_extra);
+      this.ta=this.tm-this.tiempo_extra;   
       //CALCULAR W Y WQ
       this.w = w / cant_cliente; 
       this.wq = wq / cant_cliente;
