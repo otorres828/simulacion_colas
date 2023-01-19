@@ -228,15 +228,15 @@ public class Estadisticas extends javax.swing.JPanel {
       this.ta=this.tm-this.tiempo_extra;  
       //CALCULAR W Y WQ
       this.w = w / cant_cliente; 
-      this.wq = wq / cant_cliente; 
+      this.wq = wq / cant_cliente;
       
       //CALCULAR L CUANDO TERMINA EL DIA (SIN SACAR A LA GENTE DE LA TIENDA
       this.l = (this.l / this.tm); 
       this.lq = (this.lq / this.tm);
       
       //CALCULAR COSTO CLIENTE
-      this.costo_clientes_servicio=(this.w-this.wq)*Estaticas.costo_servicio;
-      this.costo_espera_cliente=this.wq*Estaticas.costo_tiempo_cliente;;
+      this.costo_clientes_servicio=(this.l-this.lq)*Estaticas.costo_servicio;
+      this.costo_espera_cliente=this.lq*Estaticas.costo_tiempo_cliente;;
       reiniciar_dia();
     } //aqui termino toda la simulacion
 
@@ -1071,6 +1071,19 @@ public class Estadisticas extends javax.swing.JPanel {
       this.at=0;
       this.acosto_clientes_servicio=0;
       this.acosto_espera_cliente=0;
+      //ACUMULADORES DE W/WQ/L/LQ/UTILIZACION
+      this.acumulador_wq=0;
+      this.acumulador_w=0;
+      this.acumulador_l=0;
+      this.acumulador_lq=0;
+      this.acumulador_l=0;
+      
+      for (int i = 0; i < this.utilizacion.length; i++) {
+          this.utilizacion[i]=0;
+      }
+
+
+      
       principal.principal.cargar();
   }//GEN-LAST:event_regresarActionPerformed
 
