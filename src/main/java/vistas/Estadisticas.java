@@ -67,7 +67,7 @@ public class Estadisticas extends javax.swing.JPanel {
   public int ta = 0;
   /*VARIABLE PARA EL CALCULO DEL TIEMPO ADICIONAL O EXTRA TOTAL PROMEDIAL*/
   public int acumulador_ta = 0;
-  public int tiempo_extra=540;
+  public int tiempo_extra=0;
   
   /*VARIABLES PARA EL CALCULO DE COSTOS*/
   public float costo_espera_cliente = 0;
@@ -187,13 +187,14 @@ public class Estadisticas extends javax.swing.JPanel {
 
   //ESTE METODO ES EL ENCARGADO DE SACAR TODOS LOS CALCULOS DE LA TABLA DE EVENTOS Y ESTADITICAS
   private void correr_simulacion() {
-    limpiar();
-    this.dia = 1; //LIMPIAR LAS VARIABLES
+    limpiar(); //LIMPIAR VARIABLES
+    this.dia = 1; 
+    this.tiempo_extra=Estaticas.TM_interno;
     tabla_eventos.addRow(obtener_objeto_llegada());
     //MIENTRAS DIA MENOR TIEMPO_SIMULACION
 
-    while (this.dia <= Estaticas.TM_simulacion) { //1800 DIAS EQUIVALEN A 5 AÑOS
-      while (this.tm < Estaticas.TM_interno) { //540 MINUTOS EQUIVALEN A 1 DIA
+    while (this.dia <= Estaticas.TM_simulacion) {
+      while (this.tm < Estaticas.TM_interno) {
         n_evento_totales++;
         n_eventos_diarios++;
         if (this.at < valor_menor_dt()) { //compara AT con el valor menor de DT
@@ -213,24 +214,24 @@ public class Estadisticas extends javax.swing.JPanel {
       } //TERMINO EL DIA
 
       //SACAR A LOS QUE ESTAN EN COLA
-      while(verificar_servidor_vacio()!=0){  //SE EJECUTA MIENTRAS TODOS LOS SERVIDORES NO ESTEN VACIOS
+      while(verificar_servidor_vacio()!=0 && this.tm>Estaticas.TM_interno){  //SE EJECUTA MIENTRAS TODOS LOS SERVIDORES NO ESTEN VACIOS
         n_evento_totales++;
         n_eventos_diarios++;
 
         salida();
          //CALCULAR L
-        this.l = l + ((valor_menor_dt() - tm) * clientes_sistema);
+        this.l = l + ((valor_menor_dt() - tm) * clientes_sistema); 
         this.lq = lq + ((valor_menor_dt() - tm) *  wl.size());
         //AUMENTAR LA UTILIZACION DEL SERVIDOR
         aumentar_utilizacion();
       }
       //CALCULAR TIEMPO EXTRA O ADICIONAL 
-      this.ta=this.tm-this.tiempo_extra;  
+      this.ta=this.tm-this.tiempo_extra;   System.err.println("tm: "+this.tm + "tiempo extra: "+this.tiempo_extra);
       //CALCULAR W Y WQ
       this.w = w / cant_cliente; 
       this.wq = wq / cant_cliente;
       
-      //CALCULAR L CUANDO TERMINA EL DIA (SIN SACAR A LA GENTE DE LA TIENDA
+      //CALCULAR L Y LQ
       this.l = (this.l / this.tm); 
       this.lq = (this.lq / this.tm);
       
