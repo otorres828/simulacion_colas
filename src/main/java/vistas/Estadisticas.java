@@ -1204,8 +1204,9 @@ public class Estadisticas extends javax.swing.JPanel {
     this.tell = calcular_tell(); //SE CALCULA EL TS
     this.at = this.tm + this.tell;
 
-     if ("Si".equals(Estaticas.presentar_tabla_eventos)) {
-        tabla_eventos.addRow(obtener_objeto_llegada());
+     tabla_eventos.addRow(obtener_objeto_llegada());
+     if ("No".equals(Estaticas.presentar_tabla_eventos)) {
+        tabla_eventos.removeRow(0);
      }
   }
 
@@ -1234,8 +1235,9 @@ public class Estadisticas extends javax.swing.JPanel {
 
       this.cliente_salida_cola = 0; //BANDERA, CUANDO NO HAY HAY COLA
     }
-    if ("Si".equals(Estaticas.presentar_tabla_eventos)) {
-        tabla_eventos.addRow((Object[]) obtener_objeto_salida()); 
+    tabla_eventos.addRow((Object[]) obtener_objeto_salida());
+    if ("No".equals(Estaticas.presentar_tabla_eventos)) {
+        tabla_eventos.removeRow(0);
     }
     if (this.cliente_salida_cola == 0) this.id_cliente.remove(
         id_cliente.indexOf(cliente_salida_no_cola)
