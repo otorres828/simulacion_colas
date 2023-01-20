@@ -9,6 +9,7 @@ vistas\Configurar_tell$1.class
 vistas\Menu$2.class
 clases\DatosEntrada.class
 clases\DatosSalida.class
+vistas\CargarVariablesEntrada$16.class
 vistas\Configurar_tell$3.class
 vistas\Menu.class
 vistas\Configurar_ts$2.class
@@ -26,6 +27,7 @@ clases\TS.class
 vistas\Configurar_tell$5.class
 vistas\CargarVariablesEntrada$6.class
 vistas\CargarVariablesEntrada$12.class
+vistas\CargarVariablesEntrada$15.class
 vistas\Configurar_ts$5.class
 vistas\Menu$1.class
 clases\Estaticas.class
