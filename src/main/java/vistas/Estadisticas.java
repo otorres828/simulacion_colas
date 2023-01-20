@@ -204,7 +204,6 @@ public class Estadisticas extends javax.swing.JPanel {
           //SALIDA
           salida();
         }
-        
         //CALCULAR L
         this.l = l + calcular_l();
         this.lq = lq + calcular_lq();

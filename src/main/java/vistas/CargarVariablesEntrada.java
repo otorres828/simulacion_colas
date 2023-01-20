@@ -449,6 +449,9 @@ public class CargarVariablesEntrada extends javax.swing.JPanel {
                 || this.cantidad_ts.getText().isEmpty() 
                 || Estaticas.probabilidades_tell.isEmpty()
                 || Estaticas.probabilidades_ts.isEmpty()
+                || this.costo_servicio.getText().isEmpty()
+                || this.costo_tiempo_cliente.getText().isEmpty()
+                || this.costo_servidor.getText().isEmpty()
            ){
             message("Debes de llenar todos los campos para continuar. Esto incluye la configuracion de las probabilidades", 3);
         }else{
