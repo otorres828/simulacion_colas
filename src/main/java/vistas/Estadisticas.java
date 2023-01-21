@@ -259,7 +259,6 @@ public class Estadisticas extends javax.swing.JPanel {
     //ASIGNAMOS EL PORCENTAJE DE UTILIZACION AL ACUMULADOR
     for (int i = 0; i < this.utilizacion.length; i++) {
       this.costo_servidores[i]=this.utilizacion[i]*Estaticas.costo_servidor;
-      System.err.println("dia:"+this.dia+"- utilizacion:" +this.utilizacion[i] + "- tm: "+this.tm + "ut:"+this.utilizacion[i]/this.tm);
       this.utilizacion[i] =(this.utilizacion[i]/this.tm)*100; 
     }
     //ASIGNAMOS EL PORCENTAJE AL ACUMULADOR
