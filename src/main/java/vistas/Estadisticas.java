@@ -213,7 +213,7 @@ public class Estadisticas extends javax.swing.JPanel {
       } //TERMINO EL DIA
 
       //SACAR A LOS QUE ESTAN EN COLA
-      while(verificar_servidor_vacio()!=0 && this.tm>Estaticas.TM_interno){  //SE EJECUTA MIENTRAS TODOS LOS SERVIDORES NO ESTEN VACIOS
+      while(verificar_servidor_vacio()!=0 && this.tm>=Estaticas.TM_interno){  //SE EJECUTA MIENTRAS TODOS LOS SERVIDORES NO ESTEN VACIOS
         n_evento_totales++;
         n_eventos_diarios++;
 
@@ -237,12 +237,6 @@ public class Estadisticas extends javax.swing.JPanel {
       //CALCULAR COSTO CLIENTE
       this.costo_clientes_servicio=(this.l-this.lq)*Estaticas.costo_servicio;
       this.costo_espera_cliente=this.lq*Estaticas.costo_tiempo_cliente;;
-      
-      if(this.tm==Estaticas.TM_interno){
-          for (int i = 0; i < this.utilizacion.length; i++) {
-              this.utilizacion[i]=this.utilizacion[i]+Estaticas.TM_interno;
-          }
-      }
       reiniciar_dia();
     } //aqui termino toda la simulacion
 
@@ -265,6 +259,7 @@ public class Estadisticas extends javax.swing.JPanel {
     //ASIGNAMOS EL PORCENTAJE DE UTILIZACION AL ACUMULADOR
     for (int i = 0; i < this.utilizacion.length; i++) {
       this.costo_servidores[i]=this.utilizacion[i]*Estaticas.costo_servidor;
+      System.err.println("dia:"+this.dia+"- utilizacion:" +this.utilizacion[i] + "- tm: "+this.tm + "ut:"+this.utilizacion[i]/this.tm);
       this.utilizacion[i] =(this.utilizacion[i]/this.tm)*100; 
     }
     //ASIGNAMOS EL PORCENTAJE AL ACUMULADOR
@@ -1249,17 +1244,18 @@ public class Estadisticas extends javax.swing.JPanel {
   }
 
   private void aumentar_utilizacion() {
-    for (int i = 0; i < this.utilizacion.length; i++) {
-        if(this.servidores[i]==0 && this.bandera[i]==1){
-            this.utilizacion[i]=this.tm - this.TM_ANTERIOR[i] +this.utilizacion[i];
-        }
-        if(this.servidores[i]==1 && this.bandera[i]==0)
-            this.TM_ANTERIOR[i] = this.tm;
+        for (int i = 0; i < this.utilizacion.length; i++) {
+             if(this.servidores[i]==0 && this.bandera[i]==1){
+              this.utilizacion[i]=this.tm - this.TM_ANTERIOR[i] +this.utilizacion[i];
+             }
 
-        if(this.servidores[i]==1)                      
-            this.bandera[i]=  1;
-        else
-            this.bandera[i]=  0;
-    }    
-  }
+             if(this.servidores[i]==1 && this.bandera[i]==0)
+                this.TM_ANTERIOR[i] = this.tm;
+
+             if(this.servidores[i]==1)                      
+                this.bandera[i]=  1;
+             else
+                this.bandera[i]=  0;
+        }    
+    }
 }
