@@ -237,6 +237,12 @@ public class Estadisticas extends javax.swing.JPanel {
       //CALCULAR COSTO CLIENTE
       this.costo_clientes_servicio=(this.l-this.lq)*Estaticas.costo_servicio;
       this.costo_espera_cliente=this.lq*Estaticas.costo_tiempo_cliente;;
+      
+      if(this.tm==Estaticas.TM_interno){
+          for (int i = 0; i < this.utilizacion.length; i++) {
+              this.utilizacion[i]=this.utilizacion[i]+Estaticas.TM_interno;
+          }
+      }
       reiniciar_dia();
     } //aqui termino toda la simulacion
 
@@ -259,14 +265,12 @@ public class Estadisticas extends javax.swing.JPanel {
     //ASIGNAMOS EL PORCENTAJE DE UTILIZACION AL ACUMULADOR
     for (int i = 0; i < this.utilizacion.length; i++) {
       this.costo_servidores[i]=this.utilizacion[i]*Estaticas.costo_servidor;
-      this.utilizacion[i] =(this.utilizacion[i]/this.tm)*100;
-      
+      this.utilizacion[i] =(this.utilizacion[i]/this.tm)*100; 
     }
     //ASIGNAMOS EL PORCENTAJE AL ACUMULADOR
     for (int i = 0; i < this.utilizacion.length; i++) {
       this.acumulador_utilizacion[i] =this.acumulador_utilizacion[i] + this.utilizacion[i];
       this.acosto_servidores[i] =this.acosto_servidores[i] + this.costo_servidores[i];
-      
     }
     this.acumulador_l = this.acumulador_l + this.l;
     this.acumulador_lq = this.acumulador_lq + this.lq;
@@ -282,8 +286,8 @@ public class Estadisticas extends javax.swing.JPanel {
   private void calculo_estadisticas_finales() {
     // PORCENTAJE DE UTILIZACION
     this.dia=this.dia-1;
-    for (int i = 0; i < this.acumulador_utilizacion.length; i++) {
-      this.acumulador_utilizacion[i] =(this.acumulador_utilizacion[i] / this.dia);
+    for (int i = 0; i < this.acumulador_utilizacion.length; i++) { 
+      this.acumulador_utilizacion[i] =(this.acumulador_utilizacion[i] / this.dia); 
       this.acosto_servidores[i] =(this.acosto_servidores[i] / this.dia);
     }
     this.acumulador_l = this.acumulador_l / this.dia;
@@ -1080,9 +1084,8 @@ public class Estadisticas extends javax.swing.JPanel {
       
       for (int i = 0; i < this.utilizacion.length; i++) {
           this.utilizacion[i]=0;
+          this.acumulador_utilizacion[i]=0;
       }
-
-
       
       principal.principal.cargar();
   }//GEN-LAST:event_regresarActionPerformed
@@ -1245,19 +1248,18 @@ public class Estadisticas extends javax.swing.JPanel {
     else this.id_cliente.remove(id_cliente.indexOf(this.cliente_salida_cola));
   }
 
-    private void aumentar_utilizacion() {
-        for (int i = 0; i < this.utilizacion.length; i++) {
-             if(this.servidores[i]==0 && this.bandera[i]==1){
-              this.utilizacion[i]=this.tm - this.TM_ANTERIOR[i] +this.utilizacion[i];
-             }
+  private void aumentar_utilizacion() {
+    for (int i = 0; i < this.utilizacion.length; i++) {
+        if(this.servidores[i]==0 && this.bandera[i]==1){
+            this.utilizacion[i]=this.tm - this.TM_ANTERIOR[i] +this.utilizacion[i];
+        }
+        if(this.servidores[i]==1 && this.bandera[i]==0)
+            this.TM_ANTERIOR[i] = this.tm;
 
-             if(this.servidores[i]==1 && this.bandera[i]==0)
-                this.TM_ANTERIOR[i] = this.tm;
-
-             if(this.servidores[i]==1)                      
-                this.bandera[i]=  1;
-             else
-                this.bandera[i]=  0;
-        }    
-    }
+        if(this.servidores[i]==1)                      
+            this.bandera[i]=  1;
+        else
+            this.bandera[i]=  0;
+    }    
+  }
 }
